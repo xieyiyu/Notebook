@@ -6,7 +6,7 @@ Gensim 是一个开源的 Python 库，用于从原始的非结构化的文本�
 * [基本概念](#基本概念)
 * [训练语料的预处理](#训练语料的预处理)
     * [预处理过程](#预处理过程)
-    * [Corpus Streaming 流式处理](#corpus-streaming-流式处理)
+    * [Corpus Streaming 流式处理](#corpus-streaming-流式处理)
 * [主题向量的变换](#主题向量的变换)
 * [LDA 实现](#lda-实现)
 * [文档相似性](#文档相似性)
