@@ -8,6 +8,8 @@ Gensim 是一个开源的 Python 库，用于从原始的非结构化的文本�
     * [预处理过程](#预处理过程)
     * [Corpus Streaming 流式处理](#Corpus Streaming 流式处理)
 * [主题向量的变换](#主题向量的变换)
+* [LDA 实现 ——models.LdaModel](#LDA 实现 ——models.LdaModel)
+* [文档相似性](#文档相似性)
 <!-- GFM-TOC -->
 
 ## 基本概念
@@ -126,15 +128,13 @@ lda = models.LdaModel(corpus=None, num_topics=100, id2word=None, distributed=Fal
 ```
 
 参数含义：
-```python
-corpus：bow 向量或 tfidf 向量的语料
-num_topics：需要从训练语料库中提取的潜在主题的数量
-id2word：word ids 到 words 的映射，即 dictionary，用于确定词汇大小、调试和主题打印
-alpha 和 eta：影响文档-主题（theta）和主题-词（lambda）分布的稀疏性的超参数，默认值为symmetric：1.0/num_topics ；也可设置为 auto，用于自动学习对称先验
-alpha：
-eta：作为主题/词分布的对称先验的标量，可以将用户定义的非对称先验强加于词分布
-minimum_probability：用于筛选主题
-```
+>corpus：bow 向量或 tfidf 向量的语料  
+num_topics：需要从训练语料库中提取的潜在主题的数量  
+id2word：word ids 到 words 的映射，即 dictionary，用于确定词汇大小、调试和主题打印  
+alpha 和 eta：影响文档-主题（theta）和主题-词（lambda）分布的稀疏性的超参数，默认值为symmetric：1.0/num_topics ；也可设置为 auto，用于自动学习对称先验  
+alpha：  
+eta：作为主题/词分布的对称先验的标量，可以将用户定义的非对称先验强加于词分布  
+minimum_probability：用于筛选主题  
 
 推断潜在主题：
 ```python
