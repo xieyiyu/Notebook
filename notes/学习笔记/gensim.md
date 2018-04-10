@@ -6,9 +6,9 @@ Gensim 是一个开源的 Python 库，用于从原始的非结构化的文本�
 * [基本概念](#基本概念)
 * [训练语料的预处理](#训练语料的预处理)
     * [预处理过程](#预处理过程)
-    * [Corpus Streaming 流式处理](#Corpus Streaming 流式处理)
+    * [Corpus Streaming 流式处理](#corpus-streaming-流式处理)
 * [主题向量的变换](#主题向量的变换)
-* [LDA 实现 ——models.LdaModel](#LDA 实现 ——models.LdaModel)
+* [LDA 实现](#lda-实现)
 * [文档相似性](#文档相似性)
 <!-- GFM-TOC -->
 
@@ -120,7 +120,7 @@ tfidf = models.TfidfModel.load("./model.tfidf")
   
 Gensim 内置多种主题模型的向量变换，包括 LDA，LSI，RP，HDP 等。这些模型通常以 bow 向量或 tfidf 向量的语料为输入，生成相应的主题向量。  
   
-## LDA 实现 ——models.LdaModel
+## LDA 实现
 LDA API 详见：[models.LdaModel](https://radimrehurek.com/gensim/models/ldamodel.html)  
 训练 LDA 模型：
 ```python
