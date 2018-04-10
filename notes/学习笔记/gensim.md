@@ -118,8 +118,66 @@ tfidf = models.TfidfModel.load("./model.tfidf")
   
 Gensim 内置多种主题模型的向量变换，包括 LDA，LSI，RP，HDP 等。这些模型通常以 bow 向量或 tfidf 向量的语料为输入，生成相应的主题向量。  
   
-## LDA 实现 ————models.LdaModel
+## LDA 实现 ——models.LdaModel
+LDA API 详见：[models.LdaModel](https://radimrehurek.com/gensim/models/ldamodel.html)  
+训练 LDA 模型：
+```python
+lda = models.LdaModel(corpus=None, num_topics=100, id2word=None, distributed=False, chunksize=2000, passes=1, update_every=1, alpha='symmetric', eta=None, decay=0.5, offset=1.0, eval_every=10, iterations=50, gamma_threshold=0.001, minimum_probability=0.01, random_state=None, ns_conf=None, minimum_phi_value=0.01, per_word_topics=False, callbacks=None, dtype=<type 'numpy.float32'>)
+```
 
+参数含义：
+```python
+corpus：bow 向量或 tfidf 向量的语料
+num_topics：需要从训练语料库中提取的潜在主题的数量
+id2word：word ids 到 words 的映射，即 dictionary，用于确定词汇大小、调试和主题打印
+alpha 和 eta：影响文档-主题（theta）和主题-词（lambda）分布的稀疏性的超参数，默认值为symmetric：1.0/num_topics ；也可设置为 auto，用于自动学习对称先验
+alpha：
+eta：作为主题/词分布的对称先验的标量，可以将用户定义的非对称先验强加于词分布
+minimum_probability：用于筛选主题
+```
 
+推断潜在主题：
+```python
+doc_topic = lda(corpus)
+```
 
+添加新文档到模型中：
+```python
+lda.update(other_corpus)
+```
+
+获取所有文档的主题分布：
+```python
+doc_topics = lda.get_document_topics(bow, minimum_probability=None, minimum_phi_value=None, per_word_topics=False)
+
+bow: 语料向量
+per_word_topics：true 的话对最可能的主题进行降序排序
+```
+
+打印主题：
+```python
+lda.print_topic(topic_id, topn=10)
+
+Returns:    
+String representation of topic, like ‘-0.340 * “category” + 0.298 * “$M$” + 0.183 * “algebra” + … ‘.
+```
+
+获取某 word 可能的主题：
+```python
+get_term_topics(word_id, minimum_probability=None)
+
+Returns: 
+The most likely topics for the given word. Each topic is represented as a tuple of (topic_id, term_probability).
+```
+
+获取某主题的 word：
+```python
+get_topic_terms(topicid, topn=10)
+
+Returns:
+(word_id, probability) 2-tuples for the most probable words in topic with id topicid.
+```
+
+## 文档相似性
+在得到每篇文档对应的主题向量后，可以计算文档之间的相似度，进而完成如文本聚类、信息检索等任务。参考：[Similarity Queries](#https://radimrehurek.com/gensim/tut3.html)
 
