@@ -10,4 +10,5 @@
 * 学习笔记
 	* [Gensim介绍](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/gensim.md)
 	* [本体与OWL语言](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/本体.md)
+	* [python](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/python.md)
 <!-- GFM-TOC -->
