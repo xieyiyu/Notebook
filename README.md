@@ -7,6 +7,7 @@
 	* [动态规划](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/动态规划.md)
 	* [数据结构](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/数据结构.md)
 	* [数学](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/数学.md)
+	* [其他](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/其他.md)
 * 学习笔记
 	* [Gensim介绍](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/gensim.md)
 	* [本体与OWL语言](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/本体.md)
