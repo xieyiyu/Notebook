@@ -24,3 +24,6 @@ List index()
 ```python
 list.index(obj) # 用于从列表中找出某个值第一个匹配项的索引位置，没有找到对象则抛出异常。
 ```
+
+### 正则表达式
+<div align="center"><img src="../../pics/python/re.jpg"></div>
