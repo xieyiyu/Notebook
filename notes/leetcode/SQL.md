@@ -7,7 +7,7 @@ right join(右联接) 返回包括右表中的所有记录和左表中联结字�
 inner join(等值连接) 只返回两个表中联结字段相等的行
 
 [Leetcode : 175. Combine Two Tables (Easy)](https://leetcode.com/problems/combine-two-tables/description/)
-```
+```sql
 select FirstName, LastName, City, State 
 from Person 
 left join Address on Person.PersonId = Address.PersonId
@@ -22,7 +22,7 @@ left join Address on Person.PersonId = Address.PersonId
 mysql 中不能在同一表中查询的数据作为同一表的更新数据,  
 需要在 select 外边套一层，让数据库认为你不是查同一表的数据作为同一表的更新数据。
 
-```
+```sql
 delete from Person where Id not in 
 (select a.Id from 
  (select min(Id) as Id from Person group by Email) a)
