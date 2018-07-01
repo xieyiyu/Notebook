@@ -13,6 +13,15 @@ from Person
 left join Address on Person.PersonId = Address.PersonId
 ```
 
+### DATEDIFF日期差
+[Leetcode : 197. Rising Temperature (Easy)](https://leetcode.com/problems/rising-temperature/description/)
+>Given a Weather table, write a SQL query to find all dates' Ids with higher temperature compared to its previous (yesterday's) dates.
+
+```sql
+select w1.Id from Weather w1, Weather w2 
+where w1.Temperature > w2.Temperature and datediff(w1.RecordDate, w2.RecordDate) = 1 
+```
+
 ## 更新表
 ### 删除重复记录
 [Leetcode : 196. Delete Duplicate Emails (Easy)](https://leetcode.com/problems/delete-duplicate-emails/description/)
@@ -27,3 +36,25 @@ delete from Person where Id not in
 (select a.Id from 
  (select min(Id) as Id from Person group by Email) a)
 ```
+
+### SQL-IF用法
+当数据表中的某个字段只有两种情况时：  
+IF(expr1,expr2,expr3)  
+expr1是判断条件，expr2和expr3是符合expr1的自定义的返回结果。  
+  
+当数据表中的某个字段只有两种情况时：  
+case when then用法  
+```sql
+case sex
+    when 'm' then '男'
+    when 'f' then '女’
+    else '其他' end
+```
+
+[Leetcode : 627. Swap Salary (Easy)](https://leetcode.com/problems/swap-salary/description/)
+>Given a table salary, such as the one below, that has m=male and f=female values. Swap all f and m values (i.e., change all f values to m and vice versa) with a single update query and no intermediate temp table.
+
+```sql
+update salary set sex = if(sex = 'm', 'f', 'm')
+```
+
