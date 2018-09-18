@@ -8,6 +8,9 @@ python 判断字符属于数字、字母还是空格：
 空格：c.isspace()
 ```
 
+python 保留小数位    
+float('%.2f' % a)
+
 ### 列表
 extend 和 append  
 ```python
