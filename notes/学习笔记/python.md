@@ -9,7 +9,16 @@ python 判断字符属于数字、字母还是空格：
 ```
 
 python 保留小数位    
-float('%.2f' % a)
+float('%.2f' % a)  
+  
+Python join()方法  
+```
+str.join(sequence)用于将序列中的元素以指定的字符连接生成一个新的字符串。经常见到''.join()将列表字典等转化为字符串。
+
+str = "-";
+seq = ("a", "b", "c"); # 字符串序列
+print str.join( seq ); # a-b-c
+```
 
 ### 列表
 extend 和 append  
