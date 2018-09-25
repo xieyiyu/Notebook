@@ -1,11 +1,21 @@
 # python学习笔记
 <!-- GFM-TOC -->
+* [字符串](#字符串)
 * [列表](#列表)
 * [python初始化问题](#python初始化问题)
+* [python数据规范化问题](#python数据规范化问题)
 * [正则表达式](#正则表达式)
 <!-- GFM-TOC -->
 
-- python 判断字符属于数字、字母还是空格：  
+## 字符串
+### python str  
+```
+python 中的 str 类型不能修改，但可以通过切片操作来实现插入、删除和修改操作。
+如 a = '12045'，需要把 '0' 修改为 '3'，
+可以 a = a[:2] + '3' + a[3:]
+```
+
+### python 判断字符属于数字、字母还是空格：  
 ```
 数字：c.isdigit()
 字母：c.isalpha()
@@ -13,15 +23,8 @@
 空格：c.isspace()
 ```
 
-- python str  
-```
-python 中的 str 类型不能修改，但可以通过切片操作来实现插入、删除和修改操作。
-如 a = '12045'，需要把 '0' 修改为 '3'，
-可以 a = a[:2] + '3' + a[3:]
-```
-
 ## 列表
-- extend 和 append  
+### extend 和 append  
 ```python
 list.append(object) # 向列表中添加一个对象 object, 整体打包添加进去
 list.extend(sequence) # 把一个序列 seq 的内容添加到列表中
@@ -33,22 +36,23 @@ a.append(b) # a = [1, 2, 3, [4, 5, 6]]
 a.extend(b) # a = [1, 2, 3, 4, 5, 6]
 ```
 
-- List index()
+### List index()
 ```python
 list.index(obj) # 用于从列表中找出某个值第一个匹配项的索引位置，没有找到对象则抛出异常。
 ```
 
+### 反转
 反转List: list.reverse()  
 反转字符串: str[::-1]
 
 ## python初始化问题
 
-- 一维数组初始化
+### 一维数组初始化
 ```python
 nums = [0 for i in range(n)]
 ```
 
-- 二维数组初始化
+### 二维数组初始化
 初始化 m 行 n 列的二维数组, 以嵌套循环的方式
 ```python
 nums = [[0 for j in range(n)] for i in range(m)] # 列在前，行在后
@@ -59,14 +63,14 @@ import numpy
 nums = numpy.zeros([m, n])
 ```
 
-- 无穷大和无穷小
+### 无穷大和无穷小
 ```python
 float('inf') #无穷大
 -float('inf') #无穷小
 ```
 
 ## python数据规范化问题
-- python 保留小数位    
+### python 保留小数位    
 float('%.2f' % a)  
   
 Python join()方法  
