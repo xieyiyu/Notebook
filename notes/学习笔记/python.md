@@ -7,7 +7,7 @@
 * [正则表达式](#正则表达式)
 <!-- GFM-TOC -->
 
-### 字符串
+## 字符串
 #### python str  
 python 中的 str 类型不能修改，但可以通过切片操作来实现插入、删除和修改操作。  
 如 a = '12045'，需要把 '0' 修改为 '3'
@@ -31,7 +31,7 @@ c.isalnum() # 数字和字母
 c.isspace() # 空格
 ```
 
-### 列表
+## 列表
 #### extend 和 append  
 ```python
 list.append(object) # 向列表中添加一个对象 object, 整体打包添加进去
@@ -53,7 +53,7 @@ list.index(obj) # 用于从列表中找出某个值第一个匹配项的索引�
 反转List: list.reverse()  
 反转字符串: str[::-1]
 
-### python初始化问题
+## python初始化问题
 
 #### 一维数组初始化
 ```python
@@ -77,10 +77,10 @@ float('inf') #无穷大
 -float('inf') #无穷小
 ```
 
-### python数据规范化问题
+## python数据规范化问题
 #### python 保留小数位    
 float('%.2f' % a)  
 
 
-### 正则表达式
+## 正则表达式
 <div align="center"><img src="../../pics/python/re.jpg"></div>
