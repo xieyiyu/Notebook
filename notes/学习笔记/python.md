@@ -20,6 +20,13 @@ seq = ("a", "b", "c"); # 字符串序列
 print str.join( seq ); # a-b-c
 ```
 
+python str  
+```
+python 中的 str 类型不能修改，但可以通过切片操作来实现插入、删除和修改操作。
+如 a = '12045'，需要把 '0' 修改为 '3'，
+可以 a = a[:2] + '3' + a[3:]
+```
+
 ### 列表
 extend 和 append  
 ```python
