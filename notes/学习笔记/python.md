@@ -8,19 +8,19 @@
 <!-- GFM-TOC -->
 
 ## 字符串
-### python str  
-```
-python 中的 str 类型不能修改，但可以通过切片操作来实现插入、删除和修改操作。
-如 a = '12045'，需要把 '0' 修改为 '3'，
-可以 a = a[:2] + '3' + a[3:]
+#### python str  
+python 中的 str 类型不能修改，但可以通过切片操作来实现插入、删除和修改操作。  
+如 a = '12045'，需要把 '0' 修改为 '3'
+```python
+a = a[:2] + '3' + a[3:]
 ```
 
 ### python 判断字符属于数字、字母还是空格：  
-```
-数字：c.isdigit()
-字母：c.isalpha()
-数字和字母：c.isalnum()
-空格：c.isspace()
+```python
+c.isdigit() # 数字
+c.isalpha() # 字母
+c.isalnum() # 数字和字母
+c.isspace() # 空格
 ```
 
 ## 列表
