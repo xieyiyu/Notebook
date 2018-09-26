@@ -10,7 +10,7 @@
 	* [其他](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/其他.md)
 	* [SQL](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/SQL.md)
 * 学习笔记
-	* [Gensim介绍](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/gensim.md)
-	* [本体与OWL语言](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/本体.md)
 	* [python](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/python.md)
+	* [Gensim](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/gensim.md)
+	* [本体与OWL语言](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/本体.md)
 <!-- GFM-TOC -->
