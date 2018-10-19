@@ -55,6 +55,25 @@ a.extend(b) # a = [1, 2, 3, 4, 5, 6]
 list.index(obj) # 用于从列表中找出某个值第一个匹配项的索引位置，没有找到对象则抛出异常。
 ```
 
+#### sort()和sorted()
+[sort()和sorted的区别](https://www.cnblogs.com/jonm/p/8281228.html)
+- 内置函数 sort()
+sort（fun，key，reverse=False），可以对列表中的元素进行排序，会改变当前对象。
+1. fun： 表明此 sort 函数是基于何种算法进行排序的，一般默认情况下 python 中用的是归并排序，并且一般情况下我们是不会重写此参数的，所以基本可以忽略；
+2. key： 用来指定一个函数，此函数在每次元素比较时被调用，此函数代表排序的规则，也就是你按照什么规则对你的序列进行排序；
+3. reverse： 用来表明是否逆序，默认的 False 情况下是按照升序的规则进行排序的，当 reverse=True 时，便会按照降序进行排序。
+
+- 全局函数 sorted()
+与 sorted 参数一直，对所有可迭代的序列都是适用的，只会返回一个排序后的当前对象的副本，而不会改变当前对象。
+
+如果要自己写比较函数的话，python3 中需要 import functools.cmp_to_key() 方法。
+```python
+from functools import cmp_to_key
+
+nums = [1, 3, 2, 4]
+nums.sort(key=cmp_to_key(lambda a, b: a - b)) # nums = [1, 2, 3, 4]
+```
+
 #### 反转
 反转List: list.reverse()  
 反转字符串: str[::-1]
