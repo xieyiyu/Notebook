@@ -98,7 +98,7 @@ a|b = 0011 1101
 a^b = 0011 0001
 ~a  = 1100 0011
 ```
-<div align="center"><img src="../../pics/python/bit.jpg"></div>
+<div align="center"><img src="../../pics/python/bit.jpg" weight='50%'></div>
 
 ## 正则表达式
 <div align="center"><img src="../../pics/python/re.jpg"></div>
