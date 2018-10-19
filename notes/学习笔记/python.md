@@ -86,6 +86,18 @@ float('inf') #无穷大
 #### python 保留小数位    
 float('%.2f' % a)  
 
+## 位运算
+python的位运算符是把数字看作二进制来进行计算的。
+```
+a = 0011 1100
+b = 0000 1101
+-----------------
+a&b = 0000 1100
+a|b = 0011 1101
+a^b = 0011 0001
+~a  = 1100 0011
+```
+<div align="center"><img src="../../pics/python/bit.jpg"></div>
 
 ## 正则表达式
 <div align="center"><img src="../../pics/python/re.jpg"></div>
