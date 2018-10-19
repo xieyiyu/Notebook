@@ -31,6 +31,11 @@ c.isalnum() # 数字和字母
 c.isspace() # 空格
 ```
 
+#### ord()和chr()
+chr(i) 返回整数 i 对应的 ascii 字符。
+ord(c) 返回字符 c 对应的 ascii 数值。
+'A' 的 ascii 为 65， 'a' 的 ascii 为 97，小写字母比大写字母 **大 32**
+
 ## 列表
 #### extend 和 append  
 ```python
