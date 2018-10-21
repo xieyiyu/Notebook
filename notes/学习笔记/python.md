@@ -2,6 +2,7 @@
 <!-- GFM-TOC -->
 * [字符串](#字符串)
 * [列表](#列表)
+* [python内置函数]
 * [python初始化问题](#python初始化问题)
 * [python数据规范化问题](#python数据规范化问题)
 * [正则表达式](#正则表达式)
@@ -31,11 +32,6 @@ c.isalpha() # 字母
 c.isalnum() # 数字和字母
 c.isspace() # 空格
 ```
-
-#### ord()和chr()
-chr(i) 返回整数 i 对应的 ascii 字符。
-ord(c) 返回字符 c 对应的 ascii 数值。
-'A' 的 ascii 为 65， 'a' 的 ascii 为 97，小写字母比大写字母 **大 32**
 
 ## 列表
 #### extend 和 append  
@@ -73,13 +69,24 @@ from functools import cmp_to_key
 nums = [1, 3, 2, 4]
 nums.sort(key=cmp_to_key(lambda a, b: a - b)) # nums = [1, 2, 3, 4]
 ```
-
 #### 反转
 反转List: list.reverse()  
 反转字符串: str[::-1]
 
-## python初始化问题
 
+## python内置函数
+#### int()和bin()
+int() 函数用于将一个字符串或数字转换为整型。 
+用法：int(x, base=10)，x 为字符串或数字，base为x进制数，默认十进制。
+
+bin() 返回一个整数 int 或者长整数 long int 的二进制表示。
+
+#### ord()和chr()
+chr(i) 返回整数 i 对应的 ascii 字符。
+ord(c) 返回字符 c 对应的 ascii 数值。
+'A' 的 ascii 为 65， 'a' 的 ascii 为 97，小写字母比大写字母 **大 32**
+
+## python初始化问题
 #### 一维数组初始化
 ```python
 nums = [0 for i in range(n)]
