@@ -5,6 +5,7 @@
 * [python内置函数]
 * [python初始化问题](#python初始化问题)
 * [python数据规范化问题](#python数据规范化问题)
+* [python浅拷贝和深拷贝](#python浅拷贝和深拷贝)
 * [正则表达式](#正则表达式)
 * [位运算](#位运算)
 <!-- GFM-TOC -->
@@ -112,6 +113,9 @@ float('inf') #无穷大
 ## python数据规范化问题
 #### python 保留小数位    
 float('%.2f' % a)  
+
+## python浅拷贝和深拷贝
+
 
 ## 位运算
 python的位运算符是把数字看作二进制来进行计算的。
