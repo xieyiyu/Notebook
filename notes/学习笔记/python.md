@@ -34,6 +34,11 @@ c.isalnum() # 数字和字母
 c.isspace() # 空格
 ```
 
+#### python strip()
+str.strip(c) 用于移除字符串首尾指定的字符，不指定 c 则默认为空格或换行符，只要首尾包含有 c 的序列就删除，不管具体的顺序。  
+str.lstrip(c) 移除左端指定字符。  
+str.rstrip(c) 移除末端指定字符。
+
 ## 列表
 #### extend 和 append  
 ```python
