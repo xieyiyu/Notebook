@@ -5,7 +5,9 @@
 * [2. Add Two Numbers](#add-two-numbers)
 * [3. Longest Substring Without Repeating Characters](#longest-substring-without-repeating-characters)
 * [** 4. Median of Two Sorted Arrays](#median-of-two-sorted-arrays)
-* [Longest Palindromic Substring](#longest-palindromic-substring)
+* [5. Longest Palindromic Substring](#longest-palindromic-substring)
+* [6. ZigZag Conversion](#zigZag-conversion)
+* [9. Palindrome Number](#palindrome-number)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -55,6 +57,12 @@ def addTwoNumbers(self, l1, l2):
 可以改进的地方是：如果有相同字母连在一起的情况，则先找到这一串连在一起的字母，再向两边扩展。
 
 ### ZigZag Conversion
-[Leetcode : 6. ZigZag Conversion(Medium)](https://leetcode.com/problems/zigzag-conversion/description/)
+[Leetcode : 6. ZigZag Conversion (Medium)](https://leetcode.com/problems/zigzag-conversion/description/)
 
 找规律型题，画出图来，然后看每一行到下一个字符的步长，注意第一行和最后一行的步长是相同的，而中间的行会出现两种不同的步长。
+
+### Palindrome Number
+[Leetcode : 9. Palindrome Number (Easy)](https://leetcode.com/problems/palindrome-number/description/)
+
+不允许将 int 转为 str，因此可以用除法和取模来判断。  
+加快速度：只判断一半的数字即可，同时要注意字符长度为奇数和偶数的不同情况。并且可以直接排除掉能够整除 10 的数字。
