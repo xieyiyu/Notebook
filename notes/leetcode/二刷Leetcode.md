@@ -3,6 +3,7 @@
 
 <!-- GFM-TOC -->
 * [2. Add Two Numbers](#add-two-numbers)
+* [3. Longest Substring Without Repeating Characters](#longest-substring-without-repeating-characters)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -33,3 +34,9 @@ def addTwoNumbers(self, l1, l2):
         cur = cur.next
     return dummy.next
 ```
+
+### Longest Substring Without Repeating Characters
+[Leetcode : 3. Longest Substring Without Repeating Characters(Medium)](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
+
+可以用字典来存储某个字符，在之前的子串中，最后一次出现的位置。
+
