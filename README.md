@@ -9,6 +9,7 @@
 	* [数学](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/数学.md)
 	* [其他](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/其他.md)
 	* [SQL](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/SQL.md)
+	* [二刷Leetcode](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/二刷Leetcode.md)
 * 学习笔记
 	* [python](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/python.md)
 	* [Gensim](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/gensim.md)
