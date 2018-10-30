@@ -2,7 +2,7 @@
 <!-- GFM-TOC -->
 * [字符串](#字符串)
 * [列表](#列表)
-* [python内置函数]
+* [python内置函数](#python内置函数)
 * [python初始化问题](#python初始化问题)
 * [python数据规范化问题](#python数据规范化问题)
 * [python浅拷贝和深拷贝](#python浅拷贝和深拷贝)
