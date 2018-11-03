@@ -8,6 +8,7 @@
 * [5. Longest Palindromic Substring](#longest-palindromic-substring)
 * [6. ZigZag Conversion](#zigZag-conversion)
 * [9. Palindrome Number](#palindrome-number)
+* [12. 13. Integer and Roman](#integer-to-roman)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -58,11 +59,17 @@ def addTwoNumbers(self, l1, l2):
 
 ### ZigZag Conversion
 [Leetcode : 6. ZigZag Conversion (Medium)](https://leetcode.com/problems/zigzag-conversion/description/)
-
 找规律型题，画出图来，然后看每一行到下一个字符的步长，注意第一行和最后一行的步长是相同的，而中间的行会出现两种不同的步长。
 
 ### Palindrome Number
 [Leetcode : 9. Palindrome Number (Easy)](https://leetcode.com/problems/palindrome-number/description/)
-
 不允许将 int 转为 str，因此可以用除法和取模来判断。  
 加快速度：只判断一半的数字即可，同时要注意字符长度为奇数和偶数的不同情况。并且可以直接排除掉能够整除 10 的数字。
+
+### Integer to Roman
+[Leetcode : 12. Integer to Roman (Medium)](https://leetcode.com/problems/integer-to-roman/description/)
+枚举数字，再用除法和取模计算即可。
+
+### Roman to Integer
+[Leetcode : 13. Roman to Integer (Easy)](https://leetcode.com/problems/roman-to-integer/description/)
+利用字典存储罗马字符对应的数值，遍历一遍字符串，直接相加对应的数值，当遇到某个数比前一个数更大的情况时，需要将 sum 减去两倍的前一个数。
