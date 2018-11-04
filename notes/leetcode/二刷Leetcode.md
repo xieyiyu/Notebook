@@ -9,6 +9,9 @@
 * [6. ZigZag Conversion](#zigZag-conversion)
 * [9. Palindrome Number](#palindrome-number)
 * [12. 13. Integer and Roman](#integer-to-roman)
+* [17. Letter Combinations of a Phone Number](#letter-combinations-of-a-phone-number)
+* [19. Remove Nth Node From End of List](#remove-nth-node-from-end-of-list)
+* [22. Generate Parentheses](#generate-parentheses)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -73,3 +76,16 @@ def addTwoNumbers(self, l1, l2):
 ### Roman to Integer
 [Leetcode : 13. Roman to Integer (Easy)](https://leetcode.com/problems/roman-to-integer/description/)
 利用字典存储罗马字符对应的数值，遍历一遍字符串，直接相加对应的数值，当遇到某个数比前一个数更大的情况时，需要将 sum 减去两倍的前一个数。
+
+### Letter Combinations of a Phone Number
+[Leetcode : 17. Letter Combinations of a Phone Number(Medium)](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
+一般组合问题，用回溯法，套路都基本类似
+
+### ### Remove Nth Node From End of List
+[Leetcode : 19. Remove Nth Node From End of List (Medium)](https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/)
+快慢指针法： fast 先走 n 步，然后 slow 与 fast 同步走，当 fast 走到底时， slow.next 就是要删除的节点。
+
+### Generate Parentheses
+[Leetcode : 22. Generate Parentheses(Medium)](https://leetcode.com/problems/generate-parentheses/description/)
+组合问题：回溯法。  
+注意 dfs 函数的输入，是左括号和右括号的数量，并且当左括号剩余数量大于有括号剩余数量时，是不可能生成的。
