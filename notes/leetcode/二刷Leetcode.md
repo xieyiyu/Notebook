@@ -12,6 +12,7 @@
 * [17. Letter Combinations of a Phone Number](#letter-combinations-of-a-phone-number)
 * [19. Remove Nth Node From End of List](#remove-nth-node-from-end-of-list)
 * [22. Generate Parentheses](#generate-parentheses)
+* [29. Divide Two Integers](#divide-two-integers)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -89,3 +90,7 @@ def addTwoNumbers(self, l1, l2):
 [Leetcode : 22. Generate Parentheses(Medium)](https://leetcode.com/problems/generate-parentheses/description/)
 组合问题：回溯法。  
 注意 dfs 函数的输入，是左括号和右括号的数量，并且当左括号剩余数量大于有括号剩余数量时，是不可能生成的。
+
+### Divide Two Integers
+[Leetcode : 29. Divide Two Integers (Medium)](https://leetcode.com/problems/divide-two-integers/description/)
+利用位操作来加快速度，左移一位相当于将某个数 * 2， 当被除数比除数小时，则需要重置除数为 divisor
