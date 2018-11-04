@@ -13,6 +13,8 @@
 * [19. Remove Nth Node From End of List](#remove-nth-node-from-end-of-list)
 * [22. Generate Parentheses](#generate-parentheses)
 * [29. Divide Two Integers](#divide-two-integers)
+* [31. Next Permutation](#next-permutation)
+* [33. Search in Rotated Sorted Array](#search-in-rotated-sorted-array)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -94,3 +96,15 @@ def addTwoNumbers(self, l1, l2):
 ### Divide Two Integers
 [Leetcode : 29. Divide Two Integers (Medium)](https://leetcode.com/problems/divide-two-integers/description/)
 利用位操作来加快速度，左移一位相当于将某个数 * 2， 当被除数比除数小时，则需要重置除数为 divisor
+
+### Next Permutation
+[Leetcode : 31. Next Permutation (Medium)](https://leetcode.com/problems/next-permutation/description/)
+记住该题的解法：分三步走  
+1. 从后往前，找到第一对前一个数比后一个数小的， nums[i] < nums[i+1]
+2. 从后往前，找到第一个比 nums[i] 更大的数 nums[j]， 交换两个数的位置
+3. 对 i 之后的数进行升序排序
+
+### Search in Rotated Sorted Array
+[Leetcode : 33. Search in Rotated Sorted Array (Medium)](https://leetcode.com/problems/search-in-rotated-sorted-array/description/)
+要求时间复杂度为 O(logn)，必是二分查找。有三种情况，先要知道左右哪个部分是有序的，才能知道 target 会落在哪。  
+利用 nums[mid] 与 左右两边 进行比较来判断哪一个部分是有序的，再利用有序的那部分判断 target 是否会在有序的这边，从而移动 left 和 right。
