@@ -15,6 +15,7 @@
 * [29. Divide Two Integers](#divide-two-integers)
 * [31. Next Permutation](#next-permutation)
 * [33. Search in Rotated Sorted Array](#search-in-rotated-sorted-array)
+* [38. Count and Say](#count-and-say)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -108,3 +109,8 @@ def addTwoNumbers(self, l1, l2):
 [Leetcode : 33. Search in Rotated Sorted Array (Medium)](https://leetcode.com/problems/search-in-rotated-sorted-array/description/)
 要求时间复杂度为 O(logn)，必是二分查找。有三种情况，先要知道左右哪个部分是有序的，才能知道 target 会落在哪。  
 利用 nums[mid] 与 左右两边 进行比较来判断哪一个部分是有序的，再利用有序的那部分判断 target 是否会在有序的这边，从而移动 left 和 right。
+
+### Count and Say
+[Leetcode : 38. Count and Say (Easy)](https://leetcode.com/problems/count-and-say/description/)
+设计一个函数，输入一个字符串，得到规则的下一个字符串。然后主函数循环遍历即可。  
+遍历字符串，相同字符则 cnt+1, 不同字符则将其 计数和该字符 加到 res 中，并重置比较字符和 cnt。
