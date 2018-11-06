@@ -16,6 +16,7 @@
 * [31. Next Permutation](#next-permutation)
 * [33. Search in Rotated Sorted Array](#search-in-rotated-sorted-array)
 * [38. Count and Say](#count-and-say)
+* [** 43. Multiply Strings](#multiply-strings)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -114,3 +115,30 @@ def addTwoNumbers(self, l1, l2):
 [Leetcode : 38. Count and Say (Easy)](https://leetcode.com/problems/count-and-say/description/)
 设计一个函数，输入一个字符串，得到规则的下一个字符串。然后主函数循环遍历即可。  
 遍历字符串，相同字符则 cnt+1, 不同字符则将其 计数和该字符 加到 res 中，并重置比较字符和 cnt。
+
+### Multiply Strings
+[Leetcode : 43. Multiply Strings (Medium)](https://leetcode.com/problems/multiply-strings/description/)
+
+字符串相乘，实际上是大数相乘。 **记住该方法**  
+1. 将两个字符串反转
+2. 按位进行相乘，存储到一个数组中，最后相乘的数，位数最多会是 len(num1) + len(num2) - 1
+3. 对数组中的数，对 10 取模即该位的数，除 10 即为进位的数，最后将相乘后得到的字符串前面的 0  去掉
+
+```python
+def multiply(self, num1, num2):
+    num1 = num1[::-1]
+    num2 = num2[::-1]
+    arr = [0 for i in range(len(num1)+len(num2))]
+    for i in range(len(num1)):
+        for j in range(len(num2)):
+            arr[i+j] += int(num1[i]) * int(num2[j])
+    res = ""
+    for i in range(len(arr)):
+        n = arr[i] % 10
+        carry = arr[i] // 10
+        if i < len(arr)-1:
+            arr[i+1] += carry
+        res += str(n)
+    res = res[::-1]
+    return '0' if res == '0'*(len(num1)+len(num2)) else res.lstrip('0')
+```
