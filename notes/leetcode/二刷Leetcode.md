@@ -17,6 +17,12 @@
 * [33. Search in Rotated Sorted Array](#search-in-rotated-sorted-array)
 * [38. Count and Say](#count-and-say)
 * [** 43. Multiply Strings](#multiply-strings)
+* [49. Group Anagrams](#group-anagrams)
+* [50. Pow(x, n)](#powx-n)
+* [51. N-Queens](#n-queens)
+* [53. Maximum Subarray](#maximum-subarray)
+* [54. Spiral Matrix](#spiral-matrix)
+* [55. Jump Game](#jump-game)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -142,3 +148,42 @@ def multiply(self, num1, num2):
     res = res[::-1]
     return '0' if res == '0'*(len(num1)+len(num2)) else res.lstrip('0')
 ```
+
+### Group Anagrams
+[Leetcode : 49. Group Anagrams (Medium)](https://leetcode.com/problems/group-anagrams/description/)
+
+将字典作为结果存储格式，最后返回字典的 values，再将其转为 list。  
+用字典存储每个 word 排序后的结果， anagrams 排序后会是一样的 key。
+
+```python
+def groupAnagrams(self, strs):
+    res = {}
+    for word in strs:
+        key = ''.join(sorted(word))
+        if key in res:
+            res[key].append(word)
+        else:
+            res[key] = [word]
+    return list(res.values())
+```
+
+### Pow(x, n)
+[Leetcode : 50. Pow(x, n) (Medium)](https://leetcode.com/problems/powx-n/description/)
+直接 o(n) 解法超时，需要将幂不断除2，将时间复杂度降到 o(logn)。注意要分奇偶情况。
+
+### N-Queens
+[Leetcode : 51. N-Queens(Hard)](https://leetcode.com/problems/n-queens/description/)
+N 皇后问题：使用一个一维数组 board[i] = j 来存储第 i 行的第 j 列是否可以放置棋子，这样就不需要判断棋子是否会在同一行。然后构建一个 check(i, j) 函数来判断第 i 行的第 j 列是否能够放置，需要与前 n-1 行数据作比较，比较棋子是否会在同一列或者同一斜线上。
+
+### Maximum Subarray
+[Leetcode : 53. Maximum Subarray (Easy)](https://leetcode.com/problems/maximum-subarray/description/)
+动态规划，用 dp[i] 存储以 nums[i] 结尾的子数组的最大和， 则 dp[i] = max(dp[i-1]+nums[i], nums[i])，由于只用到 dp[i-1], 可以直接降维，简化为 dp；  
+用 max_sum 存储全局的子数组的最大和，则 max_sum = max(max_sum, dp)
+
+### Spiral Matrix
+[Leetcode : 54. Spiral Matrix(Medium)](https://leetcode.com/problems/spiral-matrix/description/)
+设置四个方向，依次输出，但需要注意终止条件，输出数组大小等于原矩阵大小即停止，否则可能会输出重复的数字。
+
+### Jump Game
+[Leetcode : 55. Jump Game(Medium)](https://leetcode.com/problems/jump-game/description/)
+每次只往前面走一步，用 step 来记录剩余还能走的最大步数，当 step==0 时，则不能继续往前，return False
