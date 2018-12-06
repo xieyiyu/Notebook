@@ -23,6 +23,9 @@
 * [53. Maximum Subarray](#maximum-subarray)
 * [54. Spiral Matrix](#spiral-matrix)
 * [55. Jump Game](#jump-game)
+* [60. Permutation Sequence](#permutation-sequence)
+* [注意优化 61. Rotate List](#rotate-ist)
+* [71. Simplify Path](#simplify-path)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -187,3 +190,32 @@ N 皇后问题：使用一个一维数组 board[i] = j 来存储第 i 行的第 
 ### Jump Game
 [Leetcode : 55. Jump Game(Medium)](https://leetcode.com/problems/jump-game/description/)
 每次只往前面走一步，用 step 来记录剩余还能走的最大步数，当 step==0 时，则不能继续往前，return False
+
+### Permutation Sequence
+[Leetcode : 60. Permutation Sequence (Medium)](https://leetcode.com/problems/permutation-sequence/description/)
+数学上的技巧性比较大，主要是排列组合问题。 以某一个数字开头的组合有 (n-1)! 种，根据数字的大小，可以一位一位来判断下一个数是什么，比如 n=4，k=9 时，必定是以 2 开头的组合 2+[1,3,4] 然后再找下一位数字是什么，注意每次选定一个数后就在原数组中将其删除，当 nums 中没有数字时，则找到第 k 个排列的数字。
+
+```python
+def getPermutation(self, n, k):
+    res = ''
+    nums = [i for i in range(1, n+1)]
+    k = k - 1
+    while nums:
+        n -= 1
+        index, k = divmod(k, math.factorial(n))
+        res += str(nums[index])
+        nums.pop(index)
+    return res
+```
+
+### Rotate List
+[Leetcode : 61. Rotate List (Medium)](https://leetcode.com/problems/rotate-list/description/)
+自己做出来了，但最后翻转的时候用快慢指针法进行改进，fast 先走 k 步，然后 fast 和 slow 同步走，当 fast 走到最后时， slow.next 就是翻转后的头部，此时将 fast.next = head, head = slow.next, slow.next = None
+
+### Simplify Path
+[Leetcode : 71. Simplify Path (Medium)](https://leetcode.com/problems/simplify-path/description/)
+利用堆栈实现，注意出现 '...' ，将其当做普通字符，因此需要判断的情况有三种：  
+1. char == '.' or not char  不管，继续
+2. char == '..'，若此时 stack 非空，则出栈
+3. 其他字符： 进栈  
+注意最后的输出格式。
