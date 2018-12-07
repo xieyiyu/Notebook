@@ -22,8 +22,8 @@ a = a[:2] + '3' + a[3:]
 str.join(sequence)用于将序列中的元素以指定的字符连接生成一个新的字符串。经常见到''.join()将列表字典等转化为字符串。  
 ```python
 str = "-";
-seq = ("a", "b", "c"); # 字符串序列
-print str.join( seq ); # a-b-c
+seq = ("a", "b", "c") # 字符串序列
+print(str.join(seq)) # a-b-c
 ```
 
 #### python 判断字符属于数字、字母还是空格：  
@@ -60,13 +60,13 @@ list.index(obj) # 用于从列表中找出某个值第一个匹配项的索引�
 #### sort()和sorted()
 [sort()和sorted的区别](https://www.cnblogs.com/jonm/p/8281228.html)
 - 内置函数 sort()
-sort（fun，key，reverse=False），可以对列表中的元素进行排序，会改变当前对象。
+sort(fun，key，reverse=False)，可以对列表中的元素进行排序，会改变当前对象。
 1. fun： 表明此 sort 函数是基于何种算法进行排序的，一般默认情况下 python 中用的是归并排序，并且一般情况下我们是不会重写此参数的，所以基本可以忽略；
 2. key： 用来指定一个函数，此函数在每次元素比较时被调用，此函数代表排序的规则，也就是你按照什么规则对你的序列进行排序；
 3. reverse： 用来表明是否逆序，默认的 False 情况下是按照升序的规则进行排序的，当 reverse=True 时，便会按照降序进行排序。
 
 - 全局函数 sorted()
-与 sorted 参数一直，对所有可迭代的序列都是适用的，只会返回一个排序后的当前对象的副本，而不会改变当前对象。
+与 sorted 参数一致，对所有可迭代的序列都是适用的，只会返回一个排序后的当前对象的副本，而不会改变当前对象。
 
 如果要自己写比较函数的话，python3 中需要 import functools.cmp_to_key() 方法。
 ```python

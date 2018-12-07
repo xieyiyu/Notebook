@@ -71,7 +71,7 @@ def addTwoNumbers(self, l1, l2):
 ### Longest Palindromic Substring
 [Leetcode : 5. Longest Palindromic Substring (Medium)](https://leetcode.com/problems/longest-palindromic-substring/description/)
 
-通过枚举每个回文子串的中心，然后往左右两边扩展，来得到最长回文子串。  
+通过枚举每个回文子串的中心，然后往左右两边扩展，来得到最长回文子串。用 left 和 right 表示边界。  
 可以改进的地方是：如果有相同字母连在一起的情况，则先找到这一串连在一起的字母，再向两边扩展。
 
 ### ZigZag Conversion
