@@ -80,23 +80,28 @@ def addTwoNumbers(self, l1, l2):
 
 ### ZigZag Conversion
 [Leetcode : 6. ZigZag Conversion (Medium)](https://leetcode.com/problems/zigzag-conversion/description/)
+
 找规律型题，画出图来，然后看每一行到下一个字符的步长，注意第一行和最后一行的步长是相同的，而中间的行会出现两种不同的步长。
 
 ### Palindrome Number
 [Leetcode : 9. Palindrome Number (Easy)](https://leetcode.com/problems/palindrome-number/description/)
+
 不允许将 int 转为 str，因此可以用除法和取模来判断。  
 加快速度：只判断一半的数字即可，同时要注意字符长度为奇数和偶数的不同情况。并且可以直接排除掉能够整除 10 的数字。
 
 ### Integer to Roman
 [Leetcode : 12. Integer to Roman (Medium)](https://leetcode.com/problems/integer-to-roman/description/)
+
 枚举数字，再用除法和取模计算即可。
 
 ### Roman to Integer
 [Leetcode : 13. Roman to Integer (Easy)](https://leetcode.com/problems/roman-to-integer/description/)
+
 利用字典存储罗马字符对应的数值，遍历一遍字符串，直接相加对应的数值，当遇到某个数比前一个数更大的情况时，需要将 sum 减去两倍的前一个数。
 
 ### Letter Combinations of a Phone Number
 [Leetcode : 17. Letter Combinations of a Phone Number(Medium)](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
+
 一般组合问题，用回溯法，套路都基本类似
 
 ### ### Remove Nth Node From End of List
@@ -105,15 +110,18 @@ def addTwoNumbers(self, l1, l2):
 
 ### Generate Parentheses
 [Leetcode : 22. Generate Parentheses(Medium)](https://leetcode.com/problems/generate-parentheses/description/)
+
 组合问题：回溯法。  
 注意 dfs 函数的输入，是左括号和右括号的数量，并且当左括号剩余数量大于有括号剩余数量时，是不可能生成的。
 
 ### Divide Two Integers
 [Leetcode : 29. Divide Two Integers (Medium)](https://leetcode.com/problems/divide-two-integers/description/)
+
 利用位操作来加快速度，左移一位相当于将某个数 * 2， 当被除数比除数小时，则需要重置除数为 divisor
 
 ### Next Permutation
 [Leetcode : 31. Next Permutation (Medium)](https://leetcode.com/problems/next-permutation/description/)
+
 记住该题的解法：分三步走  
 1. 从后往前，找到第一对前一个数比后一个数小的， nums[i] < nums[i+1]
 2. 从后往前，找到第一个比 nums[i] 更大的数 nums[j]， 交换两个数的位置
@@ -121,11 +129,13 @@ def addTwoNumbers(self, l1, l2):
 
 ### Search in Rotated Sorted Array
 [Leetcode : 33. Search in Rotated Sorted Array (Medium)](https://leetcode.com/problems/search-in-rotated-sorted-array/description/)
+
 要求时间复杂度为 O(logn)，必是二分查找。有三种情况，先要知道左右哪个部分是有序的，才能知道 target 会落在哪。  
 利用 nums[mid] 与 左右两边 进行比较来判断哪一个部分是有序的，再利用有序的那部分判断 target 是否会在有序的这边，从而移动 left 和 right。
 
 ### Count and Say
 [Leetcode : 38. Count and Say (Easy)](https://leetcode.com/problems/count-and-say/description/)
+
 设计一个函数，输入一个字符串，得到规则的下一个字符串。然后主函数循环遍历即可。  
 遍历字符串，相同字符则 cnt+1, 不同字符则将其 计数和该字符 加到 res 中，并重置比较字符和 cnt。
 
@@ -176,27 +186,33 @@ def groupAnagrams(self, strs):
 
 ### Pow(x, n)
 [Leetcode : 50. Pow(x, n) (Medium)](https://leetcode.com/problems/powx-n/description/)
+
 直接 o(n) 解法超时，需要将幂不断除2，将时间复杂度降到 o(logn)。注意要分奇偶情况。
 
 ### N-Queens
 [Leetcode : 51. N-Queens(Hard)](https://leetcode.com/problems/n-queens/description/)
+
 N 皇后问题：使用一个一维数组 board[i] = j 来存储第 i 行的第 j 列是否可以放置棋子，这样就不需要判断棋子是否会在同一行。然后构建一个 check(i, j) 函数来判断第 i 行的第 j 列是否能够放置，需要与前 n-1 行数据作比较，比较棋子是否会在同一列或者同一斜线上。
 
 ### Maximum Subarray
 [Leetcode : 53. Maximum Subarray (Easy)](https://leetcode.com/problems/maximum-subarray/description/)
+
 动态规划，用 dp[i] 存储以 nums[i] 结尾的子数组的最大和， 则 dp[i] = max(dp[i-1]+nums[i], nums[i])，由于只用到 dp[i-1], 可以直接降维，简化为 dp；  
 用 max_sum 存储全局的子数组的最大和，则 max_sum = max(max_sum, dp)
 
 ### Spiral Matrix
 [Leetcode : 54. Spiral Matrix(Medium)](https://leetcode.com/problems/spiral-matrix/description/)
+
 设置四个方向，依次输出，但需要注意终止条件，输出数组大小等于原矩阵大小即停止，否则可能会输出重复的数字。
 
 ### Jump Game
 [Leetcode : 55. Jump Game(Medium)](https://leetcode.com/problems/jump-game/description/)
+
 每次只往前面走一步，用 step 来记录剩余还能走的最大步数，当 step==0 时，则不能继续往前，return False
 
 ### Permutation Sequence
 [Leetcode : 60. Permutation Sequence (Medium)](https://leetcode.com/problems/permutation-sequence/description/)
+
 数学上的技巧性比较大，主要是排列组合问题。 以某一个数字开头的组合有 (n-1)! 种，根据数字的大小，可以一位一位来判断下一个数是什么，比如 n=4，k=9 时，必定是以 2 开头的组合 2+[1,3,4] 然后再找下一位数字是什么，注意每次选定一个数后就在原数组中将其删除，当 nums 中没有数字时，则找到第 k 个排列的数字。
 
 ```python
@@ -214,10 +230,12 @@ def getPermutation(self, n, k):
 
 ### Rotate List
 [Leetcode : 61. Rotate List (Medium)](https://leetcode.com/problems/rotate-list/description/)
+
 自己做出来了，但最后翻转的时候用快慢指针法进行改进，fast 先走 k 步，然后 fast 和 slow 同步走，当 fast 走到最后时， slow.next 就是翻转后的头部，此时将 fast.next = head, head = slow.next, slow.next = None
 
 ### Simplify Path
 [Leetcode : 71. Simplify Path (Medium)](https://leetcode.com/problems/simplify-path/description/)
+
 利用堆栈实现，注意出现 '...' ，将其当做普通字符，因此需要判断的情况有三种：  
 1. char == '.' or not char  不管，继续
 2. char == '..'，若此时 stack 非空，则出栈
@@ -226,16 +244,19 @@ def getPermutation(self, n, k):
 
 ### Set Matrix Zeroes
 [Leetocde : 73. Set Matrix Zeroes (Medium)](https://leetcode.com/problems/set-matrix-zeroes/description/)
+
 要求空间复杂度为 O(1)，可以将需要置为 0 的行号和列号记录在第 0 行和第 1 列，并记下第 0 列的原始数据是否本来就含有 0。
 
 ### Search a 2D Matrix
 [Leetocde : 74. Search a 2D Matrix (Medium)](https://leetcode.com/problems/search-a-2d-matrix/description/)
+
 使用分治法，比较右上角的数字与 target 的值，将原矩阵不断缩小。  
 由于 matrix 是按行递增也按列递增的, 若 target>右上角，则肯定在下面的行中， row+1；  
 若 targte<右上角，则肯定在左边的列中， col-1。
 
 ### Sort Colors
 [Leetcode : 75. Sort Colors (Medium)](https://leetcode.com/problems/sort-colors/description/)
+
 要求时间复杂度为 O(1)，因此可以用双指针，p0 指向 0 要存储的位置，p2 指向 2 要存储的位置，遍历一次数组，遇到 0 就将其与 p0 位置交换，遇到 2 就将其与 p2位置交换，遇到 1 则跳过。需要注意的是，交换 p2 后不需要 i+1，因此 i 位置可能会变为 1。
 
 ### Word Search
