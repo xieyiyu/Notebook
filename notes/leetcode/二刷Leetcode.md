@@ -26,6 +26,10 @@
 * [60. Permutation Sequence](#permutation-sequence)
 * [注意优化 61. Rotate List](#rotate-ist)
 * [71. Simplify Path](#simplify-path)
+* [** 73. Set Matrix Zeroes](#set-matrix-zeroes)
+* [74. Search a 2D Matrix](#search-a-2d-matrix)
+* [75. Sort Colors](#sort-colors)
+* [79. Word Search](#word-search)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -219,3 +223,20 @@ def getPermutation(self, n, k):
 2. char == '..'，若此时 stack 非空，则出栈
 3. 其他字符： 进栈  
 注意最后的输出格式。
+
+### Set Matrix Zeroes
+[Leetocde : 73. Set Matrix Zeroes (Medium)](https://leetcode.com/problems/set-matrix-zeroes/description/)
+要求空间复杂度为 O(1)，可以将需要置为 0 的行号和列号记录在第 0 行和第 1 列，并记下第 0 列的原始数据是否本来就含有 0。
+
+### Search a 2D Matrix
+[Leetocde : 74. Search a 2D Matrix (Medium)](https://leetcode.com/problems/search-a-2d-matrix/description/)
+使用分治法，比较右上角的数字与 target 的值，将原矩阵不断缩小。  
+由于 matrix 是按行递增也按列递增的, 若 target>右上角，则肯定在下面的行中， row+1；  
+若 targte<右上角，则肯定在左边的列中， col-1。
+
+### Sort Colors
+[Leetcode : 75. Sort Colors (Medium)](https://leetcode.com/problems/sort-colors/description/)
+要求时间复杂度为 O(1)，因此可以用双指针，p0 指向 0 要存储的位置，p2 指向 2 要存储的位置，遍历一次数组，遇到 0 就将其与 p0 位置交换，遇到 2 就将其与 p2位置交换，遇到 1 则跳过。需要注意的是，交换 p2 后不需要 i+1，因此 i 位置可能会变为 1。
+
+### Word Search
+[Leetcode : 79. Word Search (Medium)](https://leetcode.com/problems/word-search/description/)
