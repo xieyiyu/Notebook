@@ -29,7 +29,7 @@
 * [** 73. Set Matrix Zeroes](#set-matrix-zeroes)
 * [74. Search a 2D Matrix](#search-a-2d-matrix)
 * [75. Sort Colors](#sort-colors)
-* [79. Word Search](#word-search)
+* [** 79. Word Search](#word-search)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -261,3 +261,6 @@ def getPermutation(self, n, k):
 
 ### Word Search
 [Leetcode : 79. Word Search (Medium)](https://leetcode.com/problems/word-search/description/)
+
+回溯，先在 board 中找到 word 的第一个字母，再根据该位置从“上下左右”四个方向去 DFS 后面的字母。  
+用二维数组 visit 来记录 board[i][j] 是否被访问过，由于是递归，因此一次递归完成后，该节点应再标记为未访问。
