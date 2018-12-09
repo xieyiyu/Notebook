@@ -30,6 +30,9 @@
 * [74. Search a 2D Matrix](#search-a-2d-matrix)
 * [75. Sort Colors](#sort-colors)
 * [** 79. Word Search](#word-search)
+* [81. Search in Rotated Sorted Array II](#search-in-rotated-sorted-array-ii)
+* [82. Remove Duplicates from Sorted List II](#remove-duplicates-from-sorted-list-ii)
+* [88. Merge Sorted Array](#merge-sorted-array)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -264,3 +267,20 @@ def getPermutation(self, n, k):
 
 回溯，先在 board 中找到 word 的第一个字母，再根据该位置从“上下左右”四个方向去 DFS 后面的字母。  
 用二维数组 visit 来记录 board[i][j] 是否被访问过，由于是递归，因此一次递归完成后，该节点应再标记为未访问。
+
+### Search in Rotated Sorted Array II
+[Leetcode : 81. Search in Rotated Sorted Array II (Medium)](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/description/)
+
+二分查找，拿 nums[mid] 与 num[left] 相比来判断左右哪边是有序的，再拿 target 与有序的一边的两端元素相比，来判断 target 到底在哪边。  
+需要注意的是：该题相比 33 有重复元素的存在，因此只需要添加一条 if nums[mid] == nums[left] : left += 1
+
+### Remove Duplicates from Sorted List II
+[Leetcode : 82. Remove Duplicates from Sorted List II (Medium)](https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/description/)
+
+用一个标记 is_repeated 记录是否出现过重复的节点，如果遇到重复节点，就先 pass 这些节点，直到 cur.val != cur.next.val 为止。
+
+### Merge Sorted Array
+[Leetcode : 88. Merge Sorted Array (Easy)](https://leetcode.com/problems/merge-sorted-array/description/)
+
+归并两个有序数组，相当于是归并排序的归并这一步。  
+应该从后往前来计算，用 cur 记录下当前位置，通过判断 nums1[i] 和 nums2[j] 哪个更大来看 cur 应该放哪个数字。当 j = -1 时，nums2 中的数去全部插进去了。 注意最后可能会 j >= 0，需要把 nums2 剩下的数查到 num1 的前面。 
