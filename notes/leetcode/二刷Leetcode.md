@@ -33,6 +33,9 @@
 * [81. Search in Rotated Sorted Array II](#search-in-rotated-sorted-array-ii)
 * [82. Remove Duplicates from Sorted List II](#remove-duplicates-from-sorted-list-ii)
 * [88. Merge Sorted Array](#merge-sorted-array)
+* [89. Gray Code](#gray-code)
+* [91. Decode Ways](#decode-ways)
+* [** 92. Reverse Linked List II](#reverse-linked-list-ii)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -284,3 +287,45 @@ def getPermutation(self, n, k):
 
 归并两个有序数组，相当于是归并排序的归并这一步。  
 应该从后往前来计算，用 cur 记录下当前位置，通过判断 nums1[i] 和 nums2[j] 哪个更大来看 cur 应该放哪个数字。当 j = -1 时，nums2 中的数去全部插进去了。 注意最后可能会 j >= 0，需要把 nums2 剩下的数查到 num1 的前面。 
+
+### Gray Code
+[Leetcode : 89. Gray Code (Medium)](https://leetcode.com/problems/gray-code/description/)
+
+记住：格雷码：两个相邻的码的二进制只有一位是不同的，就是将 i 与 右移一位的 i 进行异或
+
+### Decode Ways
+[Leetcode : 91. Decode Ways (Medium)](https://leetcode.com/problems/decode-ways/description/)
+
+动态规划，用 dp[i] 表示前 i 个字符能够解码的方法数，此处的 1<=i<=len(s)。  
+有三种情况，s[i-2:i] == '10' or '20'， 11<=int(s[i-2:i])<=26，其他  
+注意其他不能以 0 开头，比如含有 90 不能解码成功
+注意边界，以 0 开头的字符串不能解码成功
+
+
+### Reverse Linked List
+[Leetcode : 92. Reverse Linked List II (Medium)](https://leetcode.com/problems/reverse-linked-list-ii/description/)
+
+将链表分成三段，找到每段的起点和终点，只需要反转中间这一段
+
+```python
+def reverseBetween(self, head, m, n):
+    if not head or not head.next or m == n:
+        return head
+    dummy = ListNode(0)
+    dummy.next = head
+    p1 = dummy
+    for _ in range(m-1):
+        p1 = p1.next # p1 记录下m的前一个节点，也就是第一部分的终点
+    
+    pre = None
+    cur = p1.next
+    p2 = cur # 反转后第二段的终点
+    for _ in range(n-m+1): # 开始反转，到第 n 个节点需要经过 n-m 次
+        tmp = cur.next
+        cur.next = pre
+        pre = cur
+        cur = tmp
+    p2.next = cur # cur 是第三段的起点
+    p1.next = pre # pre 是第二段的起点
+    return dummy.next
+```
