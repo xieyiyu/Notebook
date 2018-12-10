@@ -42,6 +42,8 @@
 * [100. Same Tree](#same-tree)
 * [101. Symmetric Tree](#symmetric-tree)
 * [105. Construct Binary Tree from Preorder and Inorder Traversal](#construct-binary-tree-from-preorder-and-inorder-traversal)
+* [110. Balanced Binary Tree](#balanced-binary-tree)
+* [112. Path Sum](#path-sum)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -427,3 +429,31 @@ def numTrees(self, n):
 [Leetcode : 105. Construct Binary Tree from Preorder and Inorder Traversal (Medium)](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/)
 
 前序遍历的第一个元素是根节点，找到根节点在中序遍历的位置 i，则 i 左边的是左子树， i 右边的是右子树，再找到左子树和右子树的前序遍历，递归构造即可
+
+### Balanced Binary Tree
+[Leetcode : 110. Balanced Binary Tree (Easy)](https://leetcode.com/problems/balanced-binary-tree/description/)
+
+需要使用到 maxDepth 函数，求树的最大高度，当左子树与右子树的高度差大于 1 时，return False
+
+### Path Sum
+[Leetcdoe : 112. Path Sum (Easy)](https://leetcode.com/problems/path-sum/description/)
+
+递归，只有当 sum == 0 且节点为叶子节点时，才 return True
+
+若要找到所有符合条件的解，用回溯法
+```python
+def pathSum(self, root, sum):
+    def dfs(root, sum, path):
+        if not root:
+            return 
+        sum -= root.val
+        if sum == 0 and not root.left and not root.right:
+            path = path+[root.val] # 别忘记把最后一个节点添加到 path 里
+            res.append(path)
+        dfs(root.left, sum, path+[root.val])
+        dfs(root.right, sum, path+[root.val])
+        
+    res = []
+    dfs(root, sum, [])
+    return res
+```
