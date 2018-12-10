@@ -44,6 +44,9 @@
 * [105. Construct Binary Tree from Preorder and Inorder Traversal](#construct-binary-tree-from-preorder-and-inorder-traversal)
 * [110. Balanced Binary Tree](#balanced-binary-tree)
 * [112. Path Sum](#path-sum)
+* [114. Flatten Binary Tree to Linked List](#flatten-binary-tree-to-linked-list)
+* [116. Populating Next Right Pointers in Each Node](#populating-next-right-pointers-in-each-node)
+* [** 117. Populating Next Right Pointers in Each Node II](#populating-next-right-pointers-in-each-node-ii)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -456,4 +459,53 @@ def pathSum(self, root, sum):
     res = []
     dfs(root, sum, [])
     return res
+```
+
+### Flatten Binary Tree to Linked List
+[Leetcode : 114. Flatten Binary Tree to Linked List (Medium)](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/description/)
+
+相当于按照前序遍历组织二叉树，因此可以先得到前序遍历的结果，再构造二叉树
+
+### Populating Next Right Pointers in Each Node
+[Leetcode : 116. Populating Next Right Pointers in Each Node(Medium)](https://leetcode.com/problems/populating-next-right-pointers-in-each-node/description/)
+
+本题中的二叉树是完全二叉树，因此对于 root，有左孩子的话必定有右孩子，此时将 root.left.next = root.right。  
+对于右孩子，当有 root.next 是， root.right.next = root.next.left，否则是右边的节点 next 为 None
+
+### Populating Next Right Pointers in Each Node II
+[Leetcode : 117. Populating Next Right Pointers in Each Node II (Medium)](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/description/)
+
+相对于上一题，二叉树不是完全二叉树。  
+需要考虑的情况很多，在有 root 的条件下：
+1. root 有左孩子，也有右孩子，直接指向 root.left.next = root.right
+2. root 只有左孩子，则需要根据下一个 root.next 的孩子来得到 root.left 的指向
+3. root 只有右孩子，则需要根据下一个 root.next 的孩子来得到 root.right 的指向  
+
+构造一个函数 helper(node) 来判断 root.next 的孩子情况，从而得到 root 的孩子需要指向哪个节点：
+1. node 为空，则 root 没有 next，那么指向 None
+2. node 有左孩子，则指向 node.left
+3. node 有右孩子，但没有左孩子，则指向 node.right
+4. node 既没有左孩子也没有右孩子，则需要根据下一个 node.next 来判断应该指向哪个节点，因此递归 self.helper(node.next)
+
+```python
+def connect(self, root):
+    if root:
+        if root.left:
+            if root.right:
+                root.left.next = root.right
+            else:
+                root.left.next = self.helper(root.next)
+        if root.right:
+            root.right.next = self.helper(root.next)
+        self.connect(root.right)
+        self.connect(root.left)
+           
+def helper(self, node):
+    if not node:
+        return None
+    if node.left:
+        return node.left
+    elif node.right:
+        return node.right
+    return self.helper(node.next)
 ```
