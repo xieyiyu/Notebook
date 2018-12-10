@@ -36,6 +36,12 @@
 * [89. Gray Code](#gray-code)
 * [91. Decode Ways](#decode-ways)
 * [** 92. Reverse Linked List II](#reverse-linked-list-ii)
+* [** 记住 95. Unique Binary Search Trees II](#unique-binary-search-trees-ii)
+* [96. Unique Binary Search Trees](#unique-binary-search-trees)
+* [98. Validate Binary Search Tree](#validate-binary-search-tree)
+* [100. Same Tree](#same-tree)
+* [101. Symmetric Tree](#symmetric-tree)
+* [105. Construct Binary Tree from Preorder and Inorder Traversal](#construct-binary-tree-from-preorder-and-inorder-traversal)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -329,3 +335,95 @@ def reverseBetween(self, head, m, n):
     p1.next = pre # pre 是第二段的起点
     return dummy.next
 ```
+
+### Restore IP Addresses
+[Leetcode : 93. Restore IP Addresses(Medium)](https://leetcode.com/problems/restore-ip-addresses/description/)
+
+回溯，先判断边界，注意回溯停止的条件有两个 if not s and len(ip) == 4
+
+```python
+def restoreIpAddresses(self, s):
+    if len(s) > 12:
+        return []
+    res = []
+    def dfs(s, ip):
+        if not s and len(ip) == 4:
+            res.append('.'.join(ip))
+            return 
+        for i in range(len(s)):
+            if i >= 3:
+                break
+            number = int(s[:i+1])
+            if number <= 255 and str(number) == s[:i+1]: # 需要注意此处，为了避免 01 这种情况发生
+                dfs(s[i+1:], ip+[s[:i+1]])
+    dfs(s, [])
+    return res
+```
+
+### Unique Binary Search Trees II
+[Leetcode : 95. Unique Binary Search Trees II (Medium)](https://leetcode.com/problems/unique-binary-search-trees-ii/description/)
+
+对于以 i 为根节点的 BST，1...i-1 构成左子树，i+1...n 构成右子树。  
+把左子树的元素和右子树的元素递归出一个数组，从两个数组中取节点拼接成树。
+
+** 背下来！！！ **
+```python
+def generateTrees(self, n):
+    if not n:
+        return []
+    def dfs(begin, end):
+        if begin > end:
+            return [None]
+        res = []
+        for i in range(begin, end+1):
+            left = dfs(begin, i-1)
+            right = dfs(i+1, end)
+            for l in left:
+                for r in right:
+                    root = TreeNode(i)
+                    root.left = l
+                    root.right = r
+                    res.append(root)
+        return res
+    return dfs(1, n)
+```
+
+### Unique Binary Search Trees
+[Leetcode : 96. Unique Binary Search Trees (Medium)](https://leetcode.com/problems/unique-binary-search-trees/description/)
+
+dp[i] 表示长度为 i 的序列能够组成的 BST 数。  
+F(j, i) 表示以 j 为根节点的，长度为 i 的序列能够组成的 BST 数，则该树的左子树有 j-1 个节点，右子树有 i-j 个节点。1<=j<=i  
+dp[i] = F(1, i) + F(2, i) + ... + F(j, i) + ... + F(i, i)  
+F(j, i) = dp[j-1] * dp[i-j]  
+则有 dp[i] = dp[0] * dp[i-1] + dp[1] * dp[i-2] + ... + dp[i-1] * dp[0]
+
+```python
+def numTrees(self, n):
+    dp = [0 for i in range(n+1)]
+    dp[0] = dp[1] = 1
+    for i in range(2, n+1):
+        for j in range(1, i+1):
+            dp[i] += dp[j-1] * dp[i-j]
+    return dp[-1]
+```
+
+### Validate Binary Search Tree
+[Leetcode : 98. Validate Binary Search Tree (Medium)](https://leetcode.com/problems/validate-binary-search-tree/description/)
+
+利用 BST 中序遍历的结果是有序数组来验证是否为 BST，当前访问的节点值 <= 前一个节点值时，return False
+
+### Same Tree
+[Leetcode : 100. Same Tree (Easy)](https://leetcode.com/problems/same-tree/description/)
+
+简单的递归，注意 return p.val == q.val and self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+
+### Symmetric Tree
+[Leetcode : 101. Symmetric Tree (Easy)](https://leetcode.com/problems/symmetric-tree/description/)
+
+判断 left.left 与 right.right， left.right 与 right.left 是否是对称树。  
+构造一个函数 helper 来判断 left 和 right 是否对称。
+
+### Construct Binary Tree from Preorder and Inorder Traversal
+[Leetcode : 105. Construct Binary Tree from Preorder and Inorder Traversal (Medium)](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/)
+
+前序遍历的第一个元素是根节点，找到根节点在中序遍历的位置 i，则 i 左边的是左子树， i 右边的是右子树，再找到左子树和右子树的前序遍历，递归构造即可
