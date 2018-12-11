@@ -49,7 +49,16 @@
 * [** 117. Populating Next Right Pointers in Each Node II](#populating-next-right-pointers-in-each-node-ii)
 * [123. Best Time to Buy and Sell Stock III](#best-time-to-buy-and-sell-stock-iii)
 * [127. Word Ladder](#word-ladder)
+* [130. Surrounded Regions](#surrounded-regions)
+* [** 没做，图的深拷贝 133. Clone Graph](#clone-graph)
+* [136. Single Number](#single-number)
+* [** 没做，位操作，较难 137. Single Number II](#single-number-ii)
+* [** 没做，链表深拷贝 138. Copy List with Random Pointer](#copy-list-with-random-pointer)
+* [139. Word Break](#word-break)
+* [205. Isomorphic Strings](#isomorphic-strings)
 <!-- GFM-TOC -->
+
+133, 138 关于深拷贝， 137 位运算暂时搁置
 
 ### Add Two Numbers
 [Leetcode : 2. Add Two Numbers(Medium)](https://leetcode.com/problems/add-two-numbers/description/)
@@ -262,12 +271,12 @@ def getPermutation(self, n, k):
 注意最后的输出格式。
 
 ### Set Matrix Zeroes
-[Leetocde : 73. Set Matrix Zeroes (Medium)](https://leetcode.com/problems/set-matrix-zeroes/description/)
+[Leetcode : 73. Set Matrix Zeroes (Medium)](https://leetcode.com/problems/set-matrix-zeroes/description/)
 
 要求空间复杂度为 O(1)，可以将需要置为 0 的行号和列号记录在第 0 行和第 1 列，并记下第 0 列的原始数据是否本来就含有 0。
 
 ### Search a 2D Matrix
-[Leetocde : 74. Search a 2D Matrix (Medium)](https://leetcode.com/problems/search-a-2d-matrix/description/)
+[Leetcode : 74. Search a 2D Matrix (Medium)](https://leetcode.com/problems/search-a-2d-matrix/description/)
 
 使用分治法，比较右上角的数字与 target 的值，将原矩阵不断缩小。  
 由于 matrix 是按行递增也按列递增的, 若 target>右上角，则肯定在下面的行中， row+1；  
@@ -441,7 +450,7 @@ def numTrees(self, n):
 需要使用到 maxDepth 函数，求树的最大高度，当左子树与右子树的高度差大于 1 时，return False
 
 ### Path Sum
-[Leetcdoe : 112. Path Sum (Easy)](https://leetcode.com/problems/path-sum/description/)
+[Leetcode : 112. Path Sum (Easy)](https://leetcode.com/problems/path-sum/description/)
 
 递归，只有当 sum == 0 且节点为叶子节点时，才 return True
 
@@ -526,3 +535,62 @@ p1 计算方法与之前的相同， p2 需要从后往前算，保存的应该�
 2. 当有 queue 时，先进先出，遍历这个单词的每个字符，将其替换为 alphas 中的每个字符，判断得到的新单词是否在 wordList 中，且新单词不能和旧单词一样。
 3. 注意已经找到的单词需要从 wordList 中删除，成功找到的话就 length + 1
 4. 注意用 set 比 list 更快, 先将 wordList 变为 set
+
+### Surrounded Regions
+[Leetcode : 130. Surrounded Regions (Medium)](https://leetcode.com/problems/surrounded-regions/description/)
+
+1. 搜索边缘的元素，第一行和最后一个，第一列和最后一咧，若为 O，则将其置换成其他的字母如 D
+2. 然后搜索该元素的上下左右位置，当超出范围或元素 != 'O' 时，则返回
+3. 再遍历一遍，board 中还存在的 O 是被包围的，将其置换为 X，再将所有的 D 变为 O
+
+### Clone Graph
+[Leetocde : 133. Clone Graph (Medium)](https://leetcode.com/problems/clone-graph/description/)
+
+### Gas Station
+[Leetcode : 134. Gas Station (Medium)](https://leetcode.com/problems/gas-station/description/) 
+
+1. 当 sum(gas) < sum(cost) 时，肯定不能跑完全程；当 sum(gas) >= sum(cost) 时，必然存在一个点，从该点出发能够跑完全程
+2. 用 rest 记录剩余的油量，用 index 记录出发点
+3. 当 rest < 0 时，说明从 index 出发不能跑完，index 处的油量肯定是 >= index+1 到 i 处的油量的，那么在 index 到 i 这一段都不能作为起点，因此重置 index = i + 1， res = 0
+
+### Single Number
+[Leetocde : 136. Single Number (Easy)](https://leetcode.com/problems/single-number/description/)
+
+要求时间复杂度 O(n), 空间复杂度 O(1)  
+用位运算实现，由于异或操作的顺序不影响结果，考虑将数组中的所有数字异或。  
+x^0=x, x^x=0，例如 [4,1,2,1,2], 则 4^1^2^1^2 = 4^(1^1^2^2) = 4^0 = 4
+
+```python
+def singleNumber(self, nums):
+    res = nums[0]
+    for i in range(1, len(nums)):
+        res = res ^ nums[i]
+    return res
+```
+
+### Single Number II
+[Leetocde : 137. Single Number II (Medium)](https://leetcode.com/problems/single-number-ii/description/)
+
+### Copy List with Random Pointer
+[Leetcode : 138. Copy List with Random Pointer (Medium)](https://leetcode.com/problems/copy-list-with-random-pointer/description/)
+
+### Word Break
+[Leetcode : 139. Word Break (Medium)](https://leetcode.com/problems/word-break/description/)
+
+动态规划，dp[i] 表示到第 i 个字母时能够被正确分割，对于 leetcode， dp[0], dp[4], dp[8] 为 True  
+遍历 s 的每个字符，再遍历每一个单词，若 s[i-len(word):i] == word and dp[i-len(word)] == True，得当前的 dp[i] 也可以被正确分割
+
+### Rotate Array
+[Leetcode : 189. Rotate Array(Easy)](https://leetcode.com/problems/rotate-array/description/)
+
+若直接 nums[:] = nums[:len(nums)-k] + nums[len(nums)-k:], 在 OJ 中一定要 nums[:]，否则只是一个相同的叫 nums 的引用。  
+要求时间复杂度为 O(1) 的话，可以通过三次反转实现，对于 [1,2,3,4,5,6,7], k=3  
+[1,2,3,4] -> [4,3,2,1]; [5,6,7] -> [7,6,5]; [4,3,2,1,7,6,5] -> [5,6,7,1,2,3,4]
+
+
+### Isomorphic Strings
+[Leetcode : 205. Isomorphic Strings (Easy)](https://leetcode.com/problems/isomorphic-strings/description/)
+
+字典记录 s[i] 为 key， t[i] 为 value，两种情况：  
+1. 若 s[i] 在字典中， 若 t[i] != dic[s[i]] 不对应，则 return False
+2. 若 s[i] 不在字典中，若 t[i] in dic.values()，说明已经有一个 key 对应了这个字符，不能有两个不同的 key 对应同一个字符，因此 return False；否则就把 s[i] 加到 dic 中
