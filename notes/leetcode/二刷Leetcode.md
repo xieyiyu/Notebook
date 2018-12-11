@@ -47,6 +47,8 @@
 * [114. Flatten Binary Tree to Linked List](#flatten-binary-tree-to-linked-list)
 * [116. Populating Next Right Pointers in Each Node](#populating-next-right-pointers-in-each-node)
 * [** 117. Populating Next Right Pointers in Each Node II](#populating-next-right-pointers-in-each-node-ii)
+* [123. Best Time to Buy and Sell Stock III](#best-time-to-buy-and-sell-stock-iii)
+* [127. Word Ladder](#word-ladder)
 <!-- GFM-TOC -->
 
 ### Add Two Numbers
@@ -509,3 +511,18 @@ def helper(self, node):
         return node.right
     return self.helper(node.next)
 ```
+
+### Best Time to Buy and Sell Stock III
+[Leetcode : 123. Best Time to Buy and Sell Stock III (Hard)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/description/)
+
+最多可以进行两次交易，若将数组分为两个部分，分别计算各自的最大利润，会超时。  
+考虑设置两个数组， p1[i] 存储前 i 天的最大利润， p2[i] 天存储 i 天之后的最大利润。  
+p1 计算方法与之前的相同， p2 需要从后往前算，保存的应该当前的最大值 pmax。
+
+### Word Ladder
+[Leetcode : 127. Word Ladder (Medium)](https://leetcode.com/problems/word-ladder/description/)
+
+1. 用队列 queue 存储能够成功变换的单词及当前变化的次数 queue = [[word, length]]，alphas 存储单词的所有不同字符。
+2. 当有 queue 时，先进先出，遍历这个单词的每个字符，将其替换为 alphas 中的每个字符，判断得到的新单词是否在 wordList 中，且新单词不能和旧单词一样。
+3. 注意已经找到的单词需要从 wordList 中删除，成功找到的话就 length + 1
+4. 注意用 set 比 list 更快, 先将 wordList 变为 set

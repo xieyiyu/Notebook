@@ -40,6 +40,10 @@ str.lstrip(c) 移除左端指定字符。
 str.rstrip(c) 移除末端指定字符。
 
 ## 列表
+#### list 和 set
+判断值是否在 set 中的速度比 list 快的多，因此 set 用到 hash 时间复杂度为 O(1)， 而 list 时间复杂度 O(n)  
+因此可以将 list 转为 set 来提高查询效率
+
 #### extend 和 append  
 ```python
 list.append(object) # 向列表中添加一个对象 object, 整体打包添加进去
