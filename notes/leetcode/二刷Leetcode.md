@@ -4,7 +4,7 @@
 <!-- GFM-TOC -->
 * [2. Add Two Numbers](#add-two-numbers)
 * [3. Longest Substring Without Repeating Characters](#longest-substring-without-repeating-characters)
-* [** 4. Median of Two Sorted Arrays](#median-of-two-sorted-arrays)
+* [** 较难 4. Median of Two Sorted Arrays](#median-of-two-sorted-arrays)
 * [5. Longest Palindromic Substring](#longest-palindromic-substring)
 * [6. ZigZag Conversion](#zigZag-conversion)
 * [9. Palindrome Number](#palindrome-number)
@@ -15,8 +15,9 @@
 * [29. Divide Two Integers](#divide-two-integers)
 * [31. Next Permutation](#next-permutation)
 * [33. Search in Rotated Sorted Array](#search-in-rotated-sorted-array)
+* [34. Find First and Last Position of Element in Sorted Array](#find-first-and-last-position-of-element-in-sorted-array)
 * [38. Count and Say](#count-and-say)
-* [** 43. Multiply Strings](#multiply-strings)
+* [** 大数乘法 43. Multiply Strings](#multiply-strings)
 * [49. Group Anagrams](#group-anagrams)
 * [50. Pow(x, n)](#powx-n)
 * [51. N-Queens](#n-queens)
@@ -55,10 +56,18 @@
 * [** 没做，位操作，较难 137. Single Number II](#single-number-ii)
 * [** 没做，链表深拷贝 138. Copy List with Random Pointer](#copy-list-with-random-pointer)
 * [139. Word Break](#word-break)
+* [147. Insertion Sort List](#insertion-sort-list)
+* [150. Evaluate Reverse Polish Notation](#evaluate-reverse-polish-notation)
+* [152. Maximum Product Subarray](#maximum-product-subarray)
+* [153 Find Minimum in Rotated Sorted Array](#find-minimum-in-rotated-sorted-array)
+* [154. Find Minimum in Rotated Sorted Array II](#find-minimum-in-rotated-sorted-array-ii)
+* [160. Intersection of Two Linked Lists](#intersection-of-two-linked-lists)
+* [162. Find Peak Element](#find-peak-element)
 * [205. Isomorphic Strings](#isomorphic-strings)
 <!-- GFM-TOC -->
 
 133, 138 关于深拷贝， 137 位运算暂时搁置
+147,148,168,171,172,174,190,191,204
 
 ### Add Two Numbers
 [Leetcode : 2. Add Two Numbers(Medium)](https://leetcode.com/problems/add-two-numbers/description/)
@@ -160,6 +169,11 @@ def addTwoNumbers(self, l1, l2):
 
 要求时间复杂度为 O(logn)，必是二分查找。有三种情况，先要知道左右哪个部分是有序的，才能知道 target 会落在哪。  
 利用 nums[mid] 与 左右两边 进行比较来判断哪一个部分是有序的，再利用有序的那部分判断 target 是否会在有序的这边，从而移动 left 和 right。
+
+### Find First and Last Position of Element in Sorted Array
+[Leetcode : 34. Find First and Last Position of Element in Sorted Array (Medium)](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/)
+
+两次二分查找，第一次找到第一个相等的元素下标，再将边界设为 left，len-1 进行第二次二分查找，找到最后一个相等的元素。 若第一次就没找到，就返回 [-1, -1]
 
 ### Count and Say
 [Leetcode : 38. Count and Say (Easy)](https://leetcode.com/problems/count-and-say/description/)
@@ -579,6 +593,66 @@ def singleNumber(self, nums):
 
 动态规划，dp[i] 表示到第 i 个字母时能够被正确分割，对于 leetcode， dp[0], dp[4], dp[8] 为 True  
 遍历 s 的每个字符，再遍历每一个单词，若 s[i-len(word):i] == word and dp[i-len(word)] == True，得当前的 dp[i] 也可以被正确分割
+
+### Insertion Sort List
+[Leetcode : 147. Insertion Sort List (Medium)](https://leetcode.com/problems/insertion-sort-list/description/)
+
+### Evaluate Reverse Polish Notation
+[Leetcode : 150. Evaluate Reverse Polish Notation (Medium)](https://leetcode.com/problems/evaluate-reverse-polish-notation/description/)
+
+实现逆波兰式的四则运算，用 stack 即可。判断是否为数字时，由于有负数，可以用 if char.lstrip('-').isdigit()
+
+### Maximum Product Subarray
+[Leetcode : 152. Maximum Product Subarray (Medium)](https://leetcode.com/problems/maximum-product-subarray/description/)
+
+1. dp[i] 记录以下标为 i 的数字结尾的子数组的最大积，则有 dp[i] = max(dp[i-1] * nums[i], nums[i])，由于只用到 dp[i-1], 可以优化到空间复杂度 O(1)
+2. 需要注意的是，由于是求积，最大值可能是 负数 * 负数 的情况，因此需要记录下前 i-1 的最小值，因此最大值在 [maxp * nums[i], minp * nums[i], nums[i]] 中产生
+3. res 记录全局的最大值 res = max(res, maxp)
+
+### Find Minimum in Rotated Sorted Array
+[Leetcode : 153. Find Minimum in Rotated Sorted Array (Medium)](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
+
+二分查找，找到左右两边的条件即可，注意 right = mid
+
+### Find Minimum in Rotated Sorted Array II
+[Leetcode : 154. Find Minimum in Rotated Sorted Array II (Hard)](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/description/)
+
+判断 nums[mid] 与 nums[right] 的大小，有三种情况：
+1. nums[mid] < nums[right], min 可能是 nums[mid] 也可能是左半部分，因此 right = mid
+2. nums[mid] = numd[right], 无法判断，可能在左边也可能右边，因此 right -= 1
+3. 其他，在有半部分，因此 left = mid + 1
+
+### Intersection of Two Linked Lists
+[Leetcode : 160. Intersection of Two Linked Lists (Easy)](https://leetcode.com/problems/intersection-of-two-linked-lists/description/)
+
+直观思路是计算出两个链表的长度，得到差值 step，让较长的链表先走 step 不，然后两个链表一起走，相遇的点就是两个链表的交点。若某个链表已经走到底还没有相遇，则没有交点。时间复杂度 O(max(n,m))  
+  
+改进算法：若 A,B 有交点，设公共部分长度为 c，则 A 长度为 a+c， B 长度为 b+c， 则有 a+c+b = b+c+a。 当 A 走到底时让 A 从 headB 出发，当 B 走到底时让 B 从 headA 出发，若到最后两者都没有相遇的话，A 和 B 都为 None，退出循环。
+
+### Find Peak Element
+[Leetcode : 162. Find Peak Element (Medium)](https://leetcode.com/problems/find-peak-element/description/)
+
+二分查找，当 nums[mid] < nums[mid+1], 峰值在右半部分，left = mid + 1；反之，峰值可能是 nums[mid] 也可能在左半部分，因此 right = mid
+
+### Compare Version Numbers
+[Leetcode : 165. Compare Version Numbers (Medium)](https://leetcode.com/problems/compare-version-numbers/description/)
+
+注意二者的长度不同，遍历时选择长度更长的，当 i 超过某个 arr 的长度时，就把他的后面的数字置为 0，再继续比较
+
+```python
+def compareVersion(self, version1, version2):
+    if version1 == version2:
+        return 0
+    v1, v2 = version1.split('.'), version2.split('.')
+    for i in range(max(len(v1), len(v2))):
+        num1 = int(v1[i]) if i < len(v1) else 0
+        num2 = int(v2[i]) if i < len(v2) else 0
+        if num1 > num2:
+            return 1
+        elif num1 < num2:
+            return -1
+    return 0
+```
 
 ### Rotate Array
 [Leetcode : 189. Rotate Array(Easy)](https://leetcode.com/problems/rotate-array/description/)
