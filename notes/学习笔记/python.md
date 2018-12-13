@@ -173,3 +173,36 @@ a^b = 0011 0001
 
 ## 正则表达式
 <div align="center"><img src="../../pics/python/re.jpg"></div>
+
+## 变量
+#### 星号和双星号
+单个星号 * ：该位置接收任意多个非关键字参数，在函数中转化为**元组**(1,2,3,4)
+双星号 ** ： 该位置接收任意多个关键字 (key-word) 参数，在函数中转化为**字典**{a=1,b=2}
+
+## python三大神器
+### 装饰器
+- 装饰器 Decorator 本质上是一个 python 函数，可以让其他函数在不需要任何代码变动的前提下增加额外功能。  
+- 装饰器的返回值是一个函数对象，常用场景有：插入日志、性能测试、事务处理、缓存、权限校验等。  
+- 装饰器可以抽离出大量与函数本身功能无关的雷同代码并继续重用
+
+```python
+import functools
+
+def log(text):
+	def wrapper(func):
+		@functools.wraps(func)
+		def inner_wrapper(*args, **kw): 
+			print('%s %s()' %(text, func.__name__))
+			return func(*args, **kw) # 可以让其用于任何函数，无论参数形式如何
+		return inner_wrapper
+	return wrapper
+```
+
+### 生成器
+生成器 generator 可以实现一边循环一边计算，节省空间，与列表生成式的区别就在于最外层是 [] 还是 ()
+```python
+l = [x*x for x in range(10)]
+g = (x*x for x in range(10))
+```
+
+通过函数可以实现复杂逻辑的生成式，当函数中包含 yield 关键字时
