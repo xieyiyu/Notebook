@@ -88,12 +88,8 @@ def addTwoNumbers(self, l1, l2):
         if l2:
             carry += l2.val
             l2 = l2.next
-        if carry >= 10:
-            cur.next = ListNode(carry-10)
-            carry = 1
-        else:
-            cur.next = ListNode(carry)
-            carry = 0
+        carry, n = divmod(carry, 10)
+        cur.next = ListNode(n)
         cur = cur.next
     return dummy.next
 ```
