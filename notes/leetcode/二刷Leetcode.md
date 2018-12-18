@@ -57,17 +57,21 @@
 * [** 没做，链表深拷贝 138. Copy List with Random Pointer](#copy-list-with-random-pointer)
 * [139. Word Break](#word-break)
 * [147. Insertion Sort List](#insertion-sort-list)
+* [148. Sort List](#sort-list)
 * [150. Evaluate Reverse Polish Notation](#evaluate-reverse-polish-notation)
 * [152. Maximum Product Subarray](#maximum-product-subarray)
 * [153 Find Minimum in Rotated Sorted Array](#find-minimum-in-rotated-sorted-array)
 * [154. Find Minimum in Rotated Sorted Array II](#find-minimum-in-rotated-sorted-array-ii)
 * [160. Intersection of Two Linked Lists](#intersection-of-two-linked-lists)
 * [162. Find Peak Element](#find-peak-element)
+* [168. Excel Sheet Column Title](#excel-sheet-column-title)
+* [171. Excel Sheet Column Number](#excel-sheet-column-number)
+* [174. Dungeon Game](#dungeon-game)
 * [205. Isomorphic Strings](#isomorphic-strings)
 <!-- GFM-TOC -->
 
 133, 138 关于深拷贝， 137 位运算暂时搁置
-147,148,168,171,172,174,190,191,204
+187,190,191,199,200,201,204
 
 ### Add Two Numbers
 [Leetcode : 2. Add Two Numbers(Medium)](https://leetcode.com/problems/add-two-numbers/description/)
@@ -593,6 +597,66 @@ def singleNumber(self, nums):
 ### Insertion Sort List
 [Leetcode : 147. Insertion Sort List (Medium)](https://leetcode.com/problems/insertion-sort-list/description/)
 
+链表的插入排序，注意链表不能和数组一样从后往前遍历，因此需要从前往后寻找待排序的节点应该插入的正确位置。  
+用 pre 记录前一个节点，cur 记录当前节点，则待排序节点为 cur.next
+
+```python
+def insertionSortList(self, head):
+    if not head or not head.next:
+        return head
+    dummy = ListNode(0)
+    dummy.next = head
+    cur = head
+    while cur.next:
+        if cur.next.val >= cur.val: # 由于前面已经有序，当待排序节点值比前一个大时则不需要排序
+            cur = cur.next
+        else:
+            pre = dummy
+            tmp = cur.next
+            while pre.next.val <= tmp.val: # 找到待排序节点 tmp 需要插入的正确位置，也就是 pre.next
+                pre = pre.next
+            cur.next = cur.next.next
+            tmp.next = pre.next
+            pre.next = tmp
+    return dummy.next
+```
+
+### Sort List
+[Leetcode : 148. Sort List (Medium)](https://leetcode.com/problems/sort-list/description/)
+
+要求时间 O(nlogn) 空间 O(1)，链表的归并排序，用快慢指针法来找到中点
+
+```python
+def sortList(self, head):
+    if not head or not head.next:
+        return head
+    slow = fast = head
+    while fast.next and fast.next.next: # 注意此处，与环形链表的条件不一样
+        slow = slow.next
+        fast = fast.next.next
+    right = self.sortList(slow.next)
+    slow.next = None
+    left = self.sortList(head)
+    return self.merge(left, right)
+
+def merge(self, left, right):
+    dummy = ListNode(0)
+    cur = dummy
+    while left and right:
+        if left.val < right.val:
+            cur.next = left
+            left = left.next
+        else:
+            cur.next = right
+            right = right.next
+        cur = cur.next
+    if left:
+        cur.next = left
+    if right:
+        cur.next = right
+    return dummy.next
+```
+
 ### Evaluate Reverse Polish Notation
 [Leetcode : 150. Evaluate Reverse Polish Notation (Medium)](https://leetcode.com/problems/evaluate-reverse-polish-notation/description/)
 
@@ -648,6 +712,48 @@ def compareVersion(self, version1, version2):
         elif num1 < num2:
             return -1
     return 0
+```
+
+### Excel Sheet Column Title
+[Leetcode : 168. Excel Sheet Column Title(Easy)](https://leetcode.com/problems/excel-sheet-column-title/description/)
+
+十进制转二十六进制
+
+```python
+def convertToTitle(self, n):
+    res = ''
+    while n:
+        res = chr((n-1)%26 + 65) + res # 由于没有 0，需要 n-1
+        n = (n-1) // 26
+    return res
+```
+
+### Excel Sheet Column Number
+[Leetcode : 171. Excel Sheet Column Number (Easy)](https://leetcode.com/problems/excel-sheet-column-number/description/)
+
+二十六进制转十进制
+
+```python
+def titleToNumber(self, s):
+    sum = 0
+    for char in s:
+        sum = sum * 26 + ord(char) - 64
+    return sum
+```
+
+### Dungeon Game
+[Leetcode : 174. Dungeon Game (Hard)](https://leetcode.com/problems/dungeon-game/description/)
+
+### Largest Number
+[Leetcode : 179. Largest Number (Medium)](https://leetcode.com/problems/largest-number/description/)
+
+```python
+from functools import cmp_to_key
+class Solution:
+    def largestNumber(self, nums):
+        nums = [str(n) for n in nums]
+        nums.sort(key=cmp_to_key(lambda a, b: 1 if a+b<b+a else -1))
+        return ''.join(nums) if nums[0] !='0' else '0'
 ```
 
 ### Rotate Array
