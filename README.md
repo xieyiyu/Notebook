@@ -12,6 +12,10 @@
 	* [二刷Leetcode](https://github.com/xieyiyu/Notebook/blob/master/notes/leetcode/二刷Leetcode.md)
 * 学习笔记
 	* [python](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/python.md)
-	* [Gensim](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/gensim.md)
-	* [本体与OWL语言](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/本体.md)
+	* [计算机网络](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/计算机网络.md)
+	* [数据库](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/数据库.md)
+	* [linux](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/linux.md)
+	* [git](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/git.md)
+	* [其他](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/其他.md)
+	* [Gensim和本体](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/gensim和本体.md)
 <!-- GFM-TOC -->
