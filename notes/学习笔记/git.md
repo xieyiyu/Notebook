@@ -1,4 +1,5 @@
-GIT命令
+# GIT命令
+
 git init 创建版本库，初始化一个git仓库，会自动创建唯一的master分支
 
 添加文件到git仓库
@@ -15,7 +16,7 @@ git log --pretty=oneline 日志用一行显示
 
 git中，HEAD表当前版本，HEAD^表上一个版本，HEAD^^上上个，HEAD~100表前100
 git reset --hard HEAD^ 回退到上一个版本
-git reset –hard 版本号 回退到某个版本，版本号可以只写前几位
+git reset -hard 版本号 回退到某个版本，版本号可以只写前几位
 git reflog 查看命令历史，可以确定要回退到未来哪个版本
 
 本地git仓库与github传输，需要设置SSH加密

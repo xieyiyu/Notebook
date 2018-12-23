@@ -67,7 +67,31 @@
 * [168. Excel Sheet Column Title](#excel-sheet-column-title)
 * [171. Excel Sheet Column Number](#excel-sheet-column-number)
 * [174. Dungeon Game](#dungeon-game)
+* [179. Largest Number](#largest-number)
+* [** 位运算可解 187. Repeated DNA Sequences](#repeated-dna-sequences)
+* [189. Rotate Array](#rotate-array)
+* [190. Reverse Bits](#reverse-bits)
+* [191. Number of 1 Bits](#number-of-1-bits)
+* [200. Number of Islands](#number-of-islands)
+* [201. Bitwise AND of Numbers Range](#bitwise-and-of-numbers-range)
+* [** 没做，素数计算 204. Count Primes](#count-primes)
 * [205. Isomorphic Strings](#isomorphic-strings)
+* [209. Minimum Size Subarray Sum](#minimum-size-subarray-sum)
+* [215. Kth Largest Element in an Array](#kth-largest-element-in-an-array)
+* [219. Contains Duplicate II](#contains-duplicate-ii)
+* [221. Maximal Square](#maximal-square)
+* [222. Count Complete Tree Nodes](#count-complete-tree-nodes)
+* [** 队列实现栈 225. Implement Stack using Queues](#implement-stack-using-queues)
+* [** 栈实现队列 232. Implement Queue using Stacks](#implement-queue-using-stacks)
+* [223. Rectangle Area](#rectangle-area)
+* [229. Majority Element II](#majority-element-ii)
+* [235. Lowest Common Ancestor of a Binary Search Tree](#lowest-common-ancestor-of-a-binary-search-tree)
+* [236. Lowest Common Ancestor of a Binary Tree](#lowest-common-ancestor-of-a-binary-tree)
+* [237. Delete Node in a Linked List](#delete-node-in-a-linked-list)
+* [279. Perfect Squares](#perfect-squares)
+* [287. Find the Duplicate Number](#find-the-duplicate-number)
+* [300. Longest Increasing Subsequence](#longest-increasing-subsequence)
+* [** 完全背包 322. Coin Change](coin-change)
 <!-- GFM-TOC -->
 
 133, 138 关于深拷贝， 137 位运算暂时搁置
@@ -756,6 +780,12 @@ class Solution:
         return ''.join(nums) if nums[0] !='0' else '0'
 ```
 
+### Repeated DNA Sequences
+[Leetocde : 187. Repeated DNA Sequences (Medium)](https://leetcode.com/problems/repeated-dna-sequences/description/)
+
+直接判断用 list 判断会超时，用 set 提高效率。
+另外，可以用**位运算**做
+
 ### Rotate Array
 [Leetcode : 189. Rotate Array(Easy)](https://leetcode.com/problems/rotate-array/description/)
 
@@ -763,6 +793,83 @@ class Solution:
 要求时间复杂度为 O(1) 的话，可以通过三次反转实现，对于 [1,2,3,4,5,6,7], k=3  
 [1,2,3,4] -> [4,3,2,1]; [5,6,7] -> [7,6,5]; [4,3,2,1,7,6,5] -> [5,6,7,1,2,3,4]
 
+### Reverse Bits
+[Leetcode : 190. Reverse Bits (Easy)](https://leetcode.com/problems/reverse-bits/description/)
+
+```python
+def reverseBits(self, n):
+    res = 0
+    for _ in range(32):
+        res <<= 1
+        if n & 1:
+            res += 1
+        n >>= 1
+    return res
+```
+
+### Number of 1 Bits
+[Leetcode : 191. Number of 1 Bits (Easy)](https://leetcode.com/problems/number-of-1-bits/description/)
+
+与 1 进行 & 操作
+```python
+def hammingWeight(self, n):
+    cnt = 0
+    for i in range(32):
+        if n & 1:
+            cnt += 1
+        n >>= 1
+    return cnt
+```
+
+### Number of Islands
+[Leetcode : 200. Number of Islands (Medium)](https://leetcode.com/problems/number-of-islands/description/)
+
+矩阵搜索，每次遇到 1 的时候就开始往他的上下左右搜索，直到周围都是 0 为止，遍历过的 1 要变为 0；主函数每次遇到 1 都说明出现了一个新的 island
+
+```python
+def numIslands(self, grid):
+    if not grid:
+        return 0
+    cnt = 0
+    n = len(grid)
+    m = len(grid[0])
+    
+    def dfs(i, j):
+        if i >= n or i < 0 or j >= m or j < 0 or grid[i][j] == '0':
+            return 
+        grid[i][j] = '0'
+        dfs(i-1, j)
+        dfs(i+1, j)
+        dfs(i, j-1)
+        dfs(i, j+1)
+                  
+    for i in range(n):
+        for j in range(m):
+            if grid[i][j] == '1':
+                dfs(i, j)
+                cnt += 1
+    return cnt
+```
+
+### Bitwise AND of Numbers Range
+[Leetcode : 201. Bitwise AND of Numbers Range (Medium)](https://leetcode.com/problems/bitwise-and-of-numbers-range/description/)
+
+直接遍历一遍按位 & 超时，无法通过
+
+m-n 之间的所有数字按位与相当于是 m 和 n 左边的公共部分，后面肯定都是 0；先将 m 和 n 右移 cnt 位，直到两个数相等，再将 m 左移 cnt 位得到结果
+
+```python
+def rangeBitwiseAnd(self, m, n):
+    cnt = 0
+    while m != n:
+        m >>= 1
+        n >>= 1
+        cnt += 1
+    return m << cnt
+```
+
+### Count Primes
+[Leetcode : 204. Count Primes (Easy)](https://leetcode.com/problems/count-primes/description/)
 
 ### Isomorphic Strings
 [Leetcode : 205. Isomorphic Strings (Easy)](https://leetcode.com/problems/isomorphic-strings/description/)
@@ -770,3 +877,337 @@ class Solution:
 字典记录 s[i] 为 key， t[i] 为 value，两种情况：  
 1. 若 s[i] 在字典中， 若 t[i] != dic[s[i]] 不对应，则 return False
 2. 若 s[i] 不在字典中，若 t[i] in dic.values()，说明已经有一个 key 对应了这个字符，不能有两个不同的 key 对应同一个字符，因此 return False；否则就把 s[i] 加到 dic 中
+
+### Minimum Size Subarray Sum
+[Leetcode : 209. Minimum Size Subarray Sum (Medium)](https://leetcode.com/problems/minimum-size-subarray-sum/description/)
+
+双指针 left right 记录下子数组的起点和终点  
+sum < s 时，right 移动； sum >= s 时， left 移动； 同时需要记录下最小的长度
+
+```python
+def minSubArrayLen(self, s, nums):
+    if not nums or sum(nums) < s:
+        return 0
+    left = right = 0
+    min_len = float('inf')
+    sum_nums = 0
+    while right < len(nums):
+        while sum_nums < s and right < len(nums):
+            sum_nums += nums[right]
+            right += 1
+        while sum_nums >= s:
+            min_len = min(min_len, right-left) # 注意这个长度
+            sum_nums -= nums[left]
+            left += 1
+    return min_len
+```
+
+### Kth Largest Element in an Array
+[Leetcode : 215. Kth Largest Element in an Array (Medium)](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)
+
+二分查找 + 快速排序
+
+```python
+class Solution(object):
+    def findKthLargest(self, nums, k):
+        if k > len(nums) or k <= 0:
+            return None
+        left, right = 0, len(nums)-1
+        while left <= right:
+            mid = self.quick_sort(nums, left, right)
+            if mid == len(nums) - k:
+                return nums[mid]
+            elif mid < len(nums) - k:
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+    def quick_sort(self, nums, left, right):
+        key = nums[left]
+        while left < right:
+            while left < right and nums[right] >= key:
+                right -= 1
+            nums[left] = nums[right]
+            while left < right and nums[left] <= key:
+                left += 1
+            nums[right] = nums[left]
+        nums[left] = key
+        return left
+```
+
+### Contains Duplicate II
+[Leetcode : 219. Contains Duplicate II (Easy)](https://leetcode.com/problems/contains-duplicate-ii/description/)
+
+用字典存储元素上一次出现的位置，当前元素在字典中的时候，比较两个小标的差是不是 <= k 
+
+```python
+def containsNearbyDuplicate(self, nums, k):
+    dic = {}
+    for i in range(len(nums)):
+        if nums[i] in dic:
+            if i - dic[nums[i]] <= k:
+                return True
+        dic[nums[i]] = i
+    return False
+```
+
+### Maximal Square
+[Leetcode : 221. Maximal Square (Medium)](https://leetcode.com/problems/maximal-square/description/)
+
+用 dp[i][j] 存储以 [i, j] 为右下角的正方形的最大边长，则当 nums[i][j] == '0' 时，dp[i][j] = 0; nums[i][j] == '1' 时， dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1; 在这个过程中需记录下全局的最大边长。
+
+```python
+def maximalSquare(self, matrix):
+    if not matrix:
+        return 0
+    n, m = len(matrix), len(matrix[0])
+    dp = [[0 for j in range(m)] for i in range(n)]
+    res = 0
+    for i in range(n):
+        dp[i][0] = int(matrix[i][0])
+        res = max(res, dp[i][0])
+    for j in range(m):
+        dp[0][j] = int(matrix[0][j])
+        res = max(res, dp[0][j])
+    for i in range(1, n):
+        for j in range(1, m):
+            if matrix[i][j] == '1':
+                dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1
+                res = max(res, dp[i][j])
+            else:
+                dp[i][j] = 0
+    return res*res
+```
+
+### Count Complete Tree Nodes
+[Leetcode : 222. Count Complete Tree Nodes (Medium)](https://leetcode.com/problems/count-complete-tree-nodes/description/)
+
+计算完全二叉树的节点数，不能直接遍历一遍。 利用左右子树的高度来计算，因为对于满二叉树的节点数为 2 ** height - 1
+
+若左子树高等于右子树高，则左子树为满二叉树，节点数可以求出；右子树可能满也可能完全，则继续递归计算右子树
+若左子树高大于右子树高，则右子树为满二叉树
+
+**时间复杂度 O(logn * logn)**
+
+```python
+class Solution(object):
+    def countNodes(self, root):
+        if not root:
+            return 0
+        left_height = self.get_height(root.left)
+        right_height = self.get_height(root.right)
+        if left_height == right_height:
+            return 2 ** left_height + self.countNodes(root.right)
+        else:
+            return 2 ** right_height + self.countNodes(root.left)
+        
+    def get_height(self, root):
+        if not root:
+            return 0
+        return self.get_height(root.left) + 1 # 由于是完全二叉树，只需要返回左子树的树高
+```
+
+### Implement Stack using Queues
+[Leetcode : 225. Implement Stack using Queues (Easy)](https://leetcode.com/problems/implement-stack-using-queues/description/)
+
+### Implement Queue using Stacks
+[Leetcode : 232. Implement Queue using Stacks (Easy)](https://leetcode.com/problems/implement-queue-using-stacks/description/)
+
+### Rectangle Area
+[Leetcode : 223. Rectangle Area (Medium)](https://leetcode.com/problems/rectangle-area/description/)
+
+数学题，需要找到两个矩形的重叠部分，用右上角最小的减去左下角最大的，则可以得到重叠边长
+
+```python
+def computeArea(self, A, B, C, D, E, F, G, H):
+    length = max(0, min(C, G)-max(A, E))
+    width = max(0, min(D, H)-max(B,F))
+    overlap = length * width
+    return (C-A) * (D-B) + (G-E) * (H-F) - overlap
+```
+
+### Majority Element II
+[Leetcode : 229. Majority Element II (Medium)](https://leetcode.com/problems/majority-element-ii/description/)
+
+要求时间复杂度为 O(n) 空间 O(1)，用摩尔投票法，初始化两个候选者为 None，每次遍历只能进行一种操作，不然选不出来
+
+```python
+def majorityElement(self, nums):
+    can1, can2 = None, None
+    cnt1, cnt2 = 0, 0 
+    for i in range(len(nums)):
+        if nums[i] == can1:
+            cnt1 += 1
+        elif nums[i] == can2:
+            cnt2 += 1
+        elif cnt1 == 0:
+            can1 = nums[i]
+            cnt1 = 1
+        elif cnt2 == 0:
+            can2 = nums[i]
+            cnt2 = 1
+        else:
+            cnt1 -= 1
+            cnt2 -= 1
+    res = [n for n in (can1, can2) if nums.count(n) > len(nums)//3] # 最后需要判断是否真的符合条件
+    return res
+```
+
+### Lowest Common Ancestor of a Binary Search Tree
+[Leetcode : 235. Lowest Common Ancestor of a Binary Search Tree (Easy)](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/)
+
+看到二叉查找树 BST ，肯定要用到其左子树比它小，右子树比它大的特性。
+
+```python
+def lowestCommonAncestor(self, root, p, q):
+    if root.val > p.val and root.val > q.val:
+        return self.lowestCommonAncestor(root.left, p, q)
+    elif root.val < p.val and root.val < q.val:
+        return self.lowestCommonAncestor(root.right, p, q)
+    else: # 介于两者之间，或者其他情况，必须要写在最后面
+        return root
+```
+
+### Lowest Common Ancestor of a Binary Tree
+[Leetcode : 236. Lowest Common Ancestor of a Binary Tree (Medium) ](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/)
+
+找到 p 和 q 在左子树还是右子树
+
+```python
+def lowestCommonAncestor(self, root, p, q):
+    if not root or root == p or root == q:
+        return root
+    left = self.lowestCommonAncestor(root.left, p, q)
+    right = self.lowestCommonAncestor(root.right, p, q)
+    if left and right:
+        return root
+    elif left:
+        return left
+    else:
+        return right
+```
+
+### Delete Node in a Linked List
+[Leetcode : 237. Delete Node in a Linked List (Easy)](#https://leetcode.com/problems/delete-node-in-a-linked-list/description/)
+
+删除节点 node，注意在该题中值只给了一个节点 node，没有给整个链表，因此可以考虑用下一个节点来操作，把下一个节点的值赋给 node，再删除下一个节点，就相当于删除了 node 节点。
+
+```python
+def deleteNode(self, node):
+    node.val = node.next.val
+    node.next = node.next.next
+```
+
+### Product of Array Except Self
+[Leetcode : 238. Product of Array Except Self (Medium)](https://leetcode.com/problems/product-of-array-except-self/description/)
+
+理清相乘的过程，写下每次的数字，从左往右乘一遍，再从右往左乘一遍，第一个数是不乘的
+
+```python
+def productExceptSelf(self, nums):
+    res = []
+    tmp = 1
+    for i in range(len(nums)):
+        res.append(tmp)
+        tmp = tmp * nums[i]
+    tmp = 1
+    for i in range(len(nums)-1, -1, -1):
+        res[i] *= tmp
+        tmp = tmp * nums[i]
+    return res
+```
+
+### Perfect Squares
+[Leetcode : 279. Perfect Squares (Medium)](https://leetcode.com/problems/perfect-squares/description/)
+
+求最少的完全平方数组成，动态规划，用 dp[i] 存储以数字 i 的最少完全平方数组成。  
+比如 13 = 1 * 1 + 12， 2 * 2 + 9， 3 * 3 + 4 , 那么dp[13] = min(dp[12]+1, dp[9]+1, dp[4]+1)
+
+```python
+def numSquares(self, n):
+    dp = [float('inf')] * (n+1)
+    dp[0] = 0
+    for i in range(1, n+1):
+        for j in range(1, int(math.sqrt(n)+1)):
+            dp[i] = min(dp[i], dp[i-j*j]+1)
+    return dp[-1]
+```
+
+### Find the Duplicate Number
+[Leetcode : 287. Find the Duplicate Number (Medium)](https://leetcode.com/problems/find-the-duplicate-number/description/)
+
+要求不能修改数组，时间 O(nlogn), 空间 O(1)，因此不能排序，不能用 dict 存储数字及计数。
+
+二分查找，对于 nums，里面的数字是从 1 到 len(nums)-1，这个是有序的，因此为这里面的数字进行二分查找，然后遍历一遍数组，计算小于等于 mid 的个数，若 cnt > mid 大，则说明重复数字要么是 mid 要么比 mid 更小，也就是在 1-mid 之间。
+
+```python
+def findDuplicate(self, nums):
+    left, right = 1, len(nums)-1
+    while left < right:
+        mid = left + (right-left) // 2
+        cnt = 0 
+        for i in range(len(nums)):
+            if nums[i] <= mid:
+                cnt += 1
+        if cnt > mid:
+            right = mid
+        else:
+            left = mid + 1
+    return left
+```
+
+### Longest Increasing Subsequence
+[Leetcode : 300. Longest Increasing Subsequence (Medium)](https://leetcode.com/problems/longest-increasing-subsequence/description/)
+
+求最长递增子序列，用 dp[i] 存储到下标为 i 的数的最长递增子序列
+
+```python
+def lengthOfLIS(self, nums):
+    if not nums:
+        return 0
+    dp = [0] * len(nums)
+    for i in range(len(nums)):
+        dp_max = 1
+        for j in range(i):
+            if nums[i] > nums[j]:
+                dp_max = max(dp_max, dp[j] + 1)
+        dp[i] = dp_max
+    return max(dp)
+```
+
+### Coin Change
+[Leetcode : 322. Coin Change (Medium)](https://leetcode.com/problems/coin-change/description/)
+
+**完全背包，背包问题需要在复习一遍！！！**
+
+```python
+def coinChange(self, coins, amount):
+    INF = float('inf')
+    dp = [0] + [INF] * amount
+    for i in range(len(coins)):
+        for j in range(coins[i], amount+1):
+            if dp[j-coins[i]] != INF:
+                dp[j] = min(dp[j], dp[j-coins[i]]+1)
+    return dp[amount] if dp[amount] != INF else -1
+```
+
+328 之后
+
+### Min Cost Climbing Stairs
+[Leetcode : 746. Min Cost Climbing Stairs (Easy)](https://leetcode.com/problems/min-cost-climbing-stairs/description/)
+
+用 dp[i] 存储到第 i 层的时候的最小花费，则他可能从 i-1 或 i-2 层跳上来，但不用加上 cost[i] 的花费  
+dp[i] = min(dp[i-1]+cost[i-1], dp[i-2]+cost[i-2])  
+
+dp 的长度应该 cost 更长 1，因为需要跳到顶部，而不是 len(cost)-1 这层。
+
+```python
+def minCostClimbingStairs(self, cost):
+    pre1 = pre2 = 0
+    dp = 0
+    for i in range(2, len(cost)+1):
+        dp = min(pre1+cost[i-1], pre2+cost[i-2])
+        pre2 = pre1
+        pre1 = dp
+    return dp
+```

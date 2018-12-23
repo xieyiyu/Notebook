@@ -1,4 +1,4 @@
-## 20181215 字节跳动一面 50分钟
+## 20181215 字节跳动一面 50分钟 效率工程团队 后端
 ### 1. 找出数组中第 k 大的数，Kth Largest 
 其实相当于 求数组中最大的前 K 个数，topK 问题
 
@@ -6,7 +6,7 @@
 
 可以改变输入数组：  
 思路： 以第一个数为基准，用一次快速排序找到他的正确位置，下标为 mid，则 mid 左边的数小于等于基数，mid 右边的数大于等于基数，可以知道 nums[mid] 是第 len(nums)-mid 大的数，有无重复数字都可以这样做  
-平均的时间复杂度为 O(n)， 最好的时候一次 O(1)，最差的时候 ？？？
+平均的时间复杂度为 O(nlogn)， 最好的时候一次 O(n)，最差的时候 ？？？
 ```python
 def topk(nums, k):
     n = len(nums)
@@ -111,3 +111,71 @@ search() 扫描整个 string 查找匹配，全部没有返回 None
 ### 10. 一个很大的文本，比如log数据，以行存储，如何快速计算一个字段的平均值
 
 
+## 20181220 金山云 测试开发 20分钟
+### 1. 简历上的 appium+python 自动化测试，具体讲一下做了什么？ 比如“滑动”功能怎么实现
+### 2. 有没有什么难点？遇到了什么问题？怎么解决的？ 
+### 3. 性能测试做了什么? 你说的那些不算是性能测试吧？
+
+### 4. python 多进程怎么实现的？
+multiprocessing 中的 Process 类，代表进程对象
+用进程池 Pool 的方式批量创建子进程，Pool 的默认大小是 CPU 的核数
+对 Pool 对象调用 join() 方法会等待所有子进程执行完毕，调用 join() 之前必须先调用 close()，调用 close() 之后就不能继续添加新的 Process 了。
+```python
+pool_size = multiprocessing.cpu_count()*2
+pool = multiprocessing.Pool(processes = 2)
+    pool.apply_async(sparse_matrix, (filename, allword, matrix_file, )) # apply_async 是异步非阻塞的
+pool.close()
+pool.join()
+```
+
+### 5. linux 平时用过一些什么命令？ 查看 mysql 进程
+ps aux | grep mysql
+
+### 6. 文件很大的话如何处理？有没有遇到什么瓶颈？
+1. 在 linux 下用 awk 命令
+2. 读取大文件： 用 with open, 在打开文件的过程中，不会一次性读取全部文件，而是每次读取一行的方式，类似 buffer 机制
+```python
+with open(filename) as f:
+    for line in f
+```
+3. 处理大文件：如果可以去重的话，尽量用 set 和 dic，不用 list（查询速度慢）
+4. 用一些工具进行文件切割
+
+### 7. 数据库，学生(学号、课程号、成绩)，查询全部学科成绩在80分以上的学生信息
+select sno from student where sno not in (select sno from student where grad <= 80)
+
+
+## 20181220 好未来 python 开发 45min
+实际上应该是和测试相关的，测试工具的开发
+1. 描述一下实习经历，测试，重点讲一下自动化测试，用到了 python 的哪些功能？
+
+### 2. python 用过哪些数据结构？ 哪些是可变的，哪些不可变
+python 有六种标准数据类型  
+- 可变：list、set、dict
+- 不可变，变量所指向的内存地址处的值不可改变： number（int、float、bool、complex）、 string、 tuple
+
+### 3. 直接参数传递和引用传递有什么区别？ 类里面的变量是用的什么传递？
+值传递： 传的是实参变量的值，形参是作为一个局部变量，形参改变不会影响主调函数中的实参
+引用传递： 传的是实参变量的地址，被调函数中的形参修改会改变主调函数中的实参
+
+python 中的“传对象引用”的方式，对于不可变对象相当于是值传递，可变对象相当于是引用传递。
+
+### 4. python有什么比较大的优势，python 用过哪些开源包？
+优雅、简洁、易懂，开发效率高、开源库丰富，可移植性、可扩展性、可嵌入性。  
+自然语言处理jieba、 爬虫beautifulsoup、深度学习tensorflow、numpy
+
+### 5. 多进程与多线程的区别？ 多线程里面：IO密集型任务，与资源的共享有啥关系吗？ 什么是僵尸进程？
+僵尸进程： 子进程退出后，父进程没有调用 wait/waitpid 来获取子进程的状态信息，那子进程的进程描述符就仍让在系统中，这就是僵尸进程。
+
+### 6. 除了 python 之外，还擅长什么？
+
+### 7. linux 熟悉程度？ 写命令：查看端口号，查看进程，统计一个字符串出现的次数， 复制文件
+netstat -anp | grep 80
+ps aux | grep xxx
+grep -c xxx filedir
+cp sourcedir destdir
+
+### 8. 编程： 给一个字符串，找出次数最多的字符和次数
+
+### 9. 微信的输入框和发送界面，如何设计测试用例？
+需要考虑通信问题，网络问题，对方是否能够接收
