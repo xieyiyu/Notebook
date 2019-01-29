@@ -186,6 +186,10 @@ for root, dirs, files in os.walk(dir):
 	for file in files: # 遍历文件夹下的所有文件
 ```
 
+- os.popen(cmd [, mode]) 用于从一个命令打开一个管道，运行 cmd 命令， mode 模式权限默认 'r'，也可以 'w'，可以用 read() 获取执行的输出
+- os.system(cmd) 执行 cmd 命令，返回值是脚本运行的状态码，0 是成功
+
+
 ## python内置函数
 #### int()和bin()
 int() 函数用于将一个字符串或数字转换为整型。 
@@ -336,7 +340,18 @@ l = [x*x for x in range(10)]
 g = (x*x for x in range(10))
 ```
 
-通过函数可以实现复杂逻辑的生成式，当函数中包含 yield 关键字时
+通过函数可以实现复杂逻辑的生成器，当函数中包含 yield 关键字时
+
+### 迭代器
+可迭代对象 Iterable： 能够直接作用于 for 循环的对象，如 list、tuple、dict、set、str、generator
+迭代器 Iterator： 可以被 next() 函数调用并不断返回下一个值的对象
+
+生成器是 Iterator 对象，但 list、 dict、 str 虽然都是 Iterable，但不是 Iterator， 可以用 iter() 方法将其变成 Iterable 类型。
+
+Python 的 Iterator 对象表示的是一个数据流，Iterator 对象可以被 next() 函数调用并不断返回下一个数据，直到没有数据时抛出 StopIteration 错误。可以把这个数据流看做是一个有序序列甚至是无限大的数据流，只能不断通过 next() 函数实现按需计算下一个数据，所以 Iterator 的计算是惰性的，只有在需要返回下一个数据时它才会计算。
+
+for 循环的本质是不断调用 next()
+
 
 ## 函数式编程
 特点： 允许把函数本身作为参数传入另一个函数，还允许返回一个函数

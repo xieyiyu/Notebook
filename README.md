@@ -15,7 +15,9 @@
 	* [计算机网络](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/计算机网络.md)
 	* [数据库](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/数据库.md)
 	* [linux](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/linux.md)
+	* [shell&vim](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/shell和vim.md)
 	* [git](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/git.md)
+	* [测试](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/测试.md)
 	* [其他](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/其他.md)
 	* [Gensim和本体](https://github.com/xieyiyu/Notebook/blob/master/notes/学习笔记/gensim和本体.md)
 <!-- GFM-TOC -->
