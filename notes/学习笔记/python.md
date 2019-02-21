@@ -423,3 +423,5 @@ try-finally 语句无论是否发生异常都将执行最后的代码。
 Python的异常也是class，所有的异常类型都继承自BaseException，
 
 Python中的raise 关键字用于引发一个异常， raise关键字后面是抛出是一个通用的异常类型(Exception)，一般来说抛出的异常越详细越， 主动抛出
+
+
