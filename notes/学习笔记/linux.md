@@ -50,9 +50,8 @@ $ rm [-ir] file|dir
 ```
 
 #### cp
-复制文件或目录
+```$ cp [options] sourcedir destdir``` 复制文件或目录
 ```html
-$ cp [options] sourcedir destdir
 -a 常用于复制目录，保留链接、文件属性，并复制目录下所有文件
 -d 复制时保留链接，链接相当于 win 中的快捷方式
 -f 覆盖已存在的目标文件且不提示
@@ -68,7 +67,7 @@ $ scp [options] [username@source_ip] source_file [username@remote_ip] dir_file
 ```
 
 #### mv
-移动目标文件 mv [-fi] sourcedir destdir
+```mv [-fi] sourcedir destdir``` 移动目标文件
 
 #### file
 确定文件类型
@@ -95,12 +94,14 @@ $ cat -n text1 > text2
 ```
 
 ### 文件权限
+```
 rwx； x：可执行
 十个字符；第一个表文件类型，- 普通文件，d 目录；c 字符设备文件， b块设备文件；l 符号链接，权限是虚拟的，真是权限为指向的文件，一直是lrwxrwxrwx
 后面分别为owner，group， world的权限
+```
 
 #### 1.chmod
-修改文件或目录权限 chmod [options] mode file
+```chmod [options] mode file``` 修改文件或目录权限
 
 mode: 权限设置字串，格式为 [ugoa][+-=][rwxX][...]
 ```
@@ -114,7 +115,7 @@ $ chmod ug+w,o-w file1 file2
 ```
 
 #### 2. chown
-修改文件的属主，可改为其他用户或群组 chown [options] user[:group] file
+```chown [options] user[:group] file``` 修改文件的属主，可改为其他用户或群组
 
 将文件 file 的所有者设为  users 群组中的 tom 用户
 ```sh
@@ -122,12 +123,12 @@ $ chown tom:users file
 ```
 
 #### 3. chgrp
-修改文件或目录的所属群组
-chgrp [options] [所属群组] [file/dir]
-
+```chgrp [options] [所属群组] [file/dir]``` 修改文件或目录的所属群组
+ 
 ### 文档编辑
 #### 1. wc
-wc [-wlc] filename 无参数的话默认输出计算文件的字数、行数、字节数
+```wc [-wlc] filename``` 无参数的话默认输出计算文件的字数、行数、字节数  
+
 -w 只显示字数； -l 只显示行数； -c 只显示 byte 数
 
 ## linux 三剑客
@@ -151,27 +152,30 @@ grep [options] 字符串 [filepath]
 ### 2. awk
 用于处理数据和生成报告，更适合文本格式化，对文本进行较复杂的格式处理。
 
-awk [options] 'pattern{action}' filepath ，必须用单引号
+```awk [options] 'pattern{action}' filepath``` ，必须用单引号
 
--F 指定分隔符，如果有多个分隔符： -F '[:,]'
+-F 指定分隔符，如果有多个分隔符： ```awk -F '[:,]' filepath```
 
 awk 逐行处理文本，处理的最小单位是字段，每个字段的命名方式为：$n，n 为字段号，从 1 开始，$0 表示一整行。
 
-pattern 包含两种特殊模式， BEGIN 模式是命令在处理文本之前执行， END 模式是命令在处理文本之后执行。
-
-内建变量：  
+**内建变量：**
+```  
 $0 整行, $1-$n 第n个字段
 NR 已经读出的记录数，即行号，从 1 开始，有多个文件的话值也是不断累加的，用于最后可以输出总共的记录数。
 FNR 当前记录数，是每个文件自己的行号
 OFS 输出字段分隔符，默认为空格
 ORS 输出记录分隔符，默认为换行符
+```
 
-awk 编程结构：  
+**awk 编程结构：**  
+```sh
 awk 'BEGIN{BEGIN 操作} {文件行处理块} END{END 操作}' filepath
-BEGIN 模块是在文件输入前执行的，不输入任何文件数据也会执行该模块，常用于设置修改内置变量如 OFS,RS 等，为用户自定义的变量赋初始值或者打印标题信息等。 操作语句以 ";" 或分行隔开。 可缺省。
-END 模块是处理完文件后的操作
+```
+pattern 包含两种特殊模式:  
+- BEGIN 模块是在文件输入前执行的，不输入任何文件数据也会执行该模块，常用于设置修改内置变量如 OFS,RS 等，为用户自定义的变量赋初始值或者打印标题信息等。 操作语句以 ";" 或分行隔开。 可缺省。  
+- END 模块是处理完文件后的操作
 
-重定向：  
+**重定向：**    
 符号与 shell 相同； 目标文件必须用双引号括起；目标文件打开就一直保持打开状态，显式关闭或 awk 程序终止。
 
 awk 每次只能打开打开一个管道，管道右边的命令必须用双引号括起。
@@ -202,8 +206,6 @@ awk -F ":" '{if($1 ~/yi/) print > "1.txt"; else print > "2.txt"}' passwd
 ps aux | awk 'NR!=1{a[$1]+=$6;} END {for (i in a) print i "," a[i]"KB";}'
 ```
 
-
-
 python 编程
 ```python
 instance_id = os.popen('grep \"Log view:\" %s -A 1| awk -F "&" \'{print $3}\' | awk -F "=" \'{print $2}\' | awk \'{if($0!="") print}\'' % job_trace_log_file).readlines()
@@ -215,12 +217,14 @@ instance_id = os.popen('grep \"Log view:\" %s -A 1| awk -F "&" \'{print $3}\' | 
 ## 进程管理
 ### 查看进程
 #### 1. ps
+```
 空 显示自己的进程；
 -a 显示现行终端下的所有进程，包括其他用户的进程；
 -A 所有进程都显示，相当于 -e；
 -u 以用户为主的进程状态；
 x 通常与 -a 一起用，列出较完整的信息；
 -l 显示较详细的信息
+```
 
 查看系统所有进程
 ```sh
@@ -239,7 +243,7 @@ $ ps aux | grep xxx
 可以实时显示进程信息，可用于监控 linux 的系统状况
 
 - 第一行 load average 后面有三个数字，显示距离现在 1、5、15 分钟的负载情况，数值除以逻辑 cpu 的数量，结果高于 5 则表明系统在超负荷运转。  
-- 第三行 %Cpu(s): 13.7 us,  1.5 sy,  0.0 ni, 84.2 id,  0.6 wa,  0.0 hi,  0.0 si,  0.0 st
+- 第三行 ```%Cpu(s): 13.7 us,  1.5 sy,  0.0 ni, 84.2 id,  0.6 wa,  0.0 hi,  0.0 si,  0.0 st```
 ```
 us: user 用户空间占用 cpu 的百分比 
 sy: system 内核空间占用 cpu 的百分比 
@@ -268,13 +272,14 @@ COMMAND： 进程名称（命令名/命令行）
 
 #### 4. netstat
 显示各种网络相关信息，如网络连接、路由表、接口状态等。
-
+```
 -a 显示所有选项（包括 listen）；
 -t 仅显示 tcp 相关； 
 -u 仅显示 udp 相关；
 -l 仅列出有在 listen 的服务状态；
 -n 拒绝显示别名（显示数字）；
 -p 显示建立相关连接的程序名
+```
 
 查看占用 80 端口的进程信息
 ```sh
@@ -282,8 +287,11 @@ $ netstat -anp | grep 80
 ```
 
 ### 后台运行
+```
 &：命令后加&，后台运行
-bg %1 ： 将1号进程移到后台； fg %1：移到前台
+bg %1 ： 将1号进程移到后台
+fg %1：移到前台
+```
 
 ### 孤儿进程和僵尸进程
 子进程和父进程的运行是异步过程，即父进程永远无法预测子进程何时结束。当子进程完成工作终止后，父进程需要调用 wait() 或 waitpid() 系统取得子进程的终止状态。
@@ -301,16 +309,20 @@ bg %1 ： 将1号进程移到后台； fg %1：移到前台
 
 ### 系统管理
 #### 用户管理
+```
 useradd xxx：添加用户
 passwd xxx： 为新用户设置密码
 userdel xxx：删除用户
 logout：注销当前用户
+```
 
 ### 磁盘管理
-Linux磁盘管理常用三个命令为df、du和fdisk。
+Linux磁盘管理常用三个命令为 df、du 和 fdisk。
+```
 df：列出文件系统的整体磁盘使用量
 du：检查磁盘空间使用量
 fdisk：用于磁盘分区
+```
 
 #### 1. df
 检查文件系统的磁盘空间占用情况，可以获取硬盘被占用了多少空间，目前还剩多少空间等信息。
