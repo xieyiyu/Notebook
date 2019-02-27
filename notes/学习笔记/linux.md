@@ -139,8 +139,9 @@ grep [options] 字符串 [filepath]
 -c 显示符合要求的个数； 
 -i 忽略大小写；
 -n 输出行号；
- -v 反向输出，也就是不匹配的内容； 
- -o 只显示被匹配到的字符串；
+-v 反向输出，也就是不匹配的内容； 
+-o 只显示被匹配到的字符串；
+-f <规则文件> 查找符合指定规则文件的内容，格式为每行一个规则样式；
 
 若希望输出匹配行的前后行： 
 - grep 字符串 filepath -A 1 ： 输出除匹配的该行外，还显示其后面一行(After 1)
@@ -150,15 +151,62 @@ grep [options] 字符串 [filepath]
 ### 2. awk
 用于处理数据和生成报告，更适合文本格式化，对文本进行较复杂的格式处理。
 
-awk [options] 'pattern{action}' filepath
+awk [options] 'pattern{action}' filepath ，必须用单引号
+
+-F 指定分隔符，如果有多个分隔符： -F '[:,]'
 
 awk 逐行处理文本，处理的最小单位是字段，每个字段的命名方式为：$n，n 为字段号，从 1 开始，$0 表示一整行。
 
 pattern 包含两种特殊模式， BEGIN 模式是命令在处理文本之前执行， END 模式是命令在处理文本之后执行。
 
+内建变量：  
+$0 整行, $1-$n 第n个字段
+NR 已经读出的记录数，即行号，从 1 开始，有多个文件的话值也是不断累加的，用于最后可以输出总共的记录数。
+FNR 当前记录数，是每个文件自己的行号
+OFS 输出字段分隔符，默认为空格
+ORS 输出记录分隔符，默认为换行符
+
+awk 编程结构：  
+awk 'BEGIN{BEGIN 操作} {文件行处理块} END{END 操作}' filepath
+BEGIN 模块是在文件输入前执行的，不输入任何文件数据也会执行该模块，常用于设置修改内置变量如 OFS,RS 等，为用户自定义的变量赋初始值或者打印标题信息等。 操作语句以 ";" 或分行隔开。 可缺省。
+END 模块是处理完文件后的操作
+
+重定向：  
+符号与 shell 相同； 目标文件必须用双引号括起；目标文件打开就一直保持打开状态，显式关闭或 awk 程序终止。
+
+awk 每次只能打开打开一个管道，管道右边的命令必须用双引号括起。
+
+
 查看最近 5 条登录用户和 ip 地址
 ```sh
 $ last -n 5 | awk '{print $1"\t"$3}'
+```
+
+过滤文本，查看 /etc/passwd 文件
+```sh
+$ awk -F ":" '{print NR, $1, $5, $6}' OFS="\t" /etc/passwd
+```
+
+字符串匹配，~ 表示模式开始，/pattern/ 中间是模式， ```|| NR==1``` 打印出第一行（有时候是想打印表头），用 !~ // 表示模式取反
+```sh
+awk -F ":" '$1 ~/er/ || NR==1 {print NR, $1, $5, $6}' OFS="\t" /etc/passwd
+```
+
+拆分文件，使用重定向，输出
+```sh
+awk -F ":" '{if($1 ~/yi/) print > "1.txt"; else print > "2.txt"}' passwd
+```
+
+统计，统计每个用户的进程占了多少内存（计算 RSS 列）
+```sh
+ps aux | awk 'NR!=1{a[$1]+=$6;} END {for (i in a) print i "," a[i]"KB";}'
+```
+
+
+
+python 编程
+```python
+instance_id = os.popen('grep \"Log view:\" %s -A 1| awk -F "&" \'{print $3}\' | awk -F "=" \'{print $2}\' | awk \'{if($0!="") print}\'' % job_trace_log_file).readlines()
 ```
 
 ### 3. sed

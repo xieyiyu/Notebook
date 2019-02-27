@@ -281,6 +281,11 @@ a^b = 0011 0001
 ```
 <div align="center"><img src="../../pics/python/bit.jpg"></div>
 
+左移 n 位： 最左边的 n 位被丢弃，在右边补上 n 个 0  
+右移 n 位： 要考虑数值是否有符号。 若是无符号数值，则用 0 填补最左边 n 位； 若是有符号数值，正数用 0 填补，负数用 1 填补。
+
+将整数右移一位与将整数除以 2 等价，但除法运算的效率比移位更低得多。 
+
 ## 正则表达式
 <div align="center"><img src="../../pics/python/re.jpg"></div>
 

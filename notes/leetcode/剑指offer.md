@@ -1,3 +1,14 @@
+<!-- GFM-TOC -->
+* [字符串](#字符串)
+* [替换空格](#替换空格)
+* [从尾到头打印链表](#从尾到头打印链表)
+* [重建二叉树](#重建二叉树)
+* [** 用两个栈实现队列](#用两个栈实现队列)
+* [** 旋转数组的最小数字](#旋转数组的最小数字)
+* [矩形覆盖](#矩形覆盖)
+* [** 二进制中1的个数](#二进制中1的个数)
+<!-- GFM-TOC -->
+
 ### 字符串
 #### 替换空格
 请实现一个函数，将一个字符串中的每个空格替换成 "%20"。例如，当字符串为 We Are Happy,则经过替换之后的字符串为 We%20Are%20Happy。
@@ -105,7 +116,113 @@ class Solution:
 #### 旋转数组的最小数字
 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 
 
-```python
+思路： 旋转后的数组可以看成两个排序的子数组，且前面的子数组的元素都大于等于后面的，最小的元素刚好是两个子数组的分界。
+用两个指针 left 和 right 分别指向左右，有三种情况：
+1. nums[mid] >= nums[left], 左边有序，由于左边子数组的元素都会大于等于右边的，也就是最小元素在右边子数组中，有可能是 mid，所以 left = mid
+2. nums[mid] <= nums[left]， right = mid
+3. 考虑特殊情况，当出现很多相同元素，即 nums[mid] == nums[left] == nums[right] 时，只能顺序查找，找到 nums[mid] < nums[left] 即是最小元素
 
+循环终止时，left 指向最大元素，right 指向最小元素，两者的 index 相差 1 
+ 
+```python
+class Solution:
+    def minNumberInRotateArray(self, rotateArray):
+        # write code here
+        if not rotateArray:
+            return 0
+        left, right = 0, len(rotateArray)-1
+        while right - left > 1:
+            mid = left + (right-left)//2
+            if rotateArray[mid] == rotateArray[left] and rotateArray == rotateArray[right]:
+                for i in range(left+1, len(rotateArray)):
+                    if rotateArray[i] < rotateArray[left]:
+                        return rotateArray[i]
+            elif rotateArray[mid] >= rotateArray[left]:
+                left = mid
+            else:
+                right = mid
+        return rotateArray[right]
 ```
 
+### 变态跳台阶
+一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
+
+```python
+class Solution:
+    def jumpFloorII(self, number):
+        # write code here
+        if not number: return 0
+        dp = [1]
+        for i in range(1, number):
+            f = sum(dp)
+            dp.append(f)
+        return sum(dp)
+```
+
+### 矩形覆盖
+我们可以用2 * 1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2 * 1的小矩形无重叠地覆盖一个2 * n的大矩形，总共有多少种方法？
+
+思路： 仍然是斐波拉切数列，最后一个小矩形竖着放，有 f(n-1) 种放法，横着放，则下面必须再横着放一个，则有 f (n-2) 种放法，f(n) = f(n-1) + f(n-2)
+
+## 位运算
+### 二进制中1的个数
+输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。
+
+思路： 从 n 的二进制的最右边与 1 进行按位与，正数可以得到正确结果，但负数右移时在最高位补的是 1，而与 1 按位与的话，会全部变成 1 而进入死循环。 因此可以将数字 1 左移，再和 n 进行按位与。
+
+```python
+class Solution:
+    def NumberOf1(self, n):
+        # write code here
+        cnt = 0
+        flag = 1
+        for i in range(32):
+            if n & flag:
+                cnt += 1
+            flag <<= 1
+        return cnt
+```
+
+思路二： 将一个整数减去 1，再和原整数做按位与运算，会把该整数最右边一个 1 变成 0， 因此一个整数有多少个 1， 就可以进行多少次这样的运算，知道该整数变为 0.
+
+1. 用一条语句判断一个整数是不是 2 的整数次方：
+```python
+if (n-1)&n == 0：
+	return True
+```
+
+2. 输入两个整数 m 和 n，计算需要改变 m 的二进制表示的多少位才能得到 n：
+先异或，再计算异或得到的二进制中的 1 的个数。
+
+
+### 数值的整数次方
+给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。
+
+注意考虑各种边界条件
+
+```python
+class Solution:
+    def Power(self, base, exponent):
+        # write code here
+        if base == 0:
+            return 0
+        if exponent == 0 or base == 1:
+            return 1
+        res = 1
+        for i in range(abs(exponent)):
+            res = base * res
+        return res if exponent > 0 else 1/res
+```
+
+优化，使用快速幂算法：
+https://blog.csdn.net/hkdgjqr/article/details/5381028
+
+### 在O(1)时间删除链表节点
+需要考虑多方面：是否头部和尾部(必须顺序查找)，只有一个节点，节点是否存在于该链表中
+
+### 调整数组顺序使奇数位于偶数前面
+输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+
+思路一： 开辟新数组，用空间换时间，时间复杂度 O(n)，空间复杂度 O(n)
+
+思路二： 类似于排序，需要采用稳定排序的思路
