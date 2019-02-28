@@ -289,6 +289,9 @@ a^b = 0011 0001
 ## 正则表达式
 <div align="center"><img src="../../pics/python/re.jpg"></div>
 
+```\<``` 表示词首，如 ```\<abc``` 表示以 abc 为首的词
+```\>``` 表示词尾，如 ```\>abc``` 表示以 abc 结尾的词
+
 #### re.sub
 替换字符串中的匹配项 re.sub(pattern, repl, string, count=0) 
 repl 为替换的字符串，也可以是一个函数; count 为模式匹配替换的最大次数，默认 0 是替换所有。

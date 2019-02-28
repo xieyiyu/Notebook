@@ -5,6 +5,9 @@
 	* [文件权限](#文件权限)
 	* [文档编辑](#文档编辑)
 * [linux 三剑客](#linux-三剑客)
+	* [grep](#grep)
+	* [awk](#awk)
+	* [sed](#sed)
 * [进程管理](#进程管理)
 	* [查看进程](#查看进程)
 	* [后台运行](#后台运行)
@@ -132,7 +135,7 @@ $ chown tom:users file
 -w 只显示字数； -l 只显示行数； -c 只显示 byte 数
 
 ## linux 三剑客
-### 1. grep
+### grep
 grep : 作用 文本搜索工具，根据用户指定的‘模式’（可以是正则表达式）对目标文件逐步进行匹配检查，打印匹配到的行
 
 grep [options] 字符串 [filepath]
@@ -149,7 +152,7 @@ grep [options] 字符串 [filepath]
 - grep 字符串 filepath -B 1 ： 输出除匹配的该行外，还显示其前面一行(Before 1)
 - grep 字符串 filepath -1 ： 输出除匹配的该行外，还显示前一行和后一行
 
-### 2. awk
+### awk
 用于处理数据和生成报告，更适合文本格式化，对文本进行较复杂的格式处理。
 
 ```awk [options] 'pattern{action}' filepath``` ，必须用单引号
@@ -211,8 +214,35 @@ python 编程
 instance_id = os.popen('grep \"Log view:\" %s -A 1| awk -F "&" \'{print $3}\' | awk -F "=" \'{print $2}\' | awk \'{if($0!="") print}\'' % job_trace_log_file).readlines()
 ```
 
-### 3. sed
-文本编辑工具，实现数据的替换，删除，增加，选取等(以行为单位进行处理)
+### sed
+stream editor , 流编辑器，是一个文本编辑工具，实现数据的替换，删除，增加，选取等(以行为单位进行处理)
+
+```sed [-nefri] '动作'```
+
+-f<script文件> 将 sed 动作写在文件内，以指定的 script 来处理输入的文本
+-i 直接修改读取的文件内容，不输出到终端，也可选择将修改重定向到一个新的文件
+
+动作说明：
+s 替换命令，搭配正则表达式，如 's/old/new/g'
+
+在每行最前面或最后面添加 #
+```sh
+sed 's/^/#/g' filepath
+sed 's/$/#/g' filepath
+```
+
+指定需要替换的内容，允许多个匹配，用分号隔开
+```sh
+sed '3s/old/new/g' filepath # 替换第 3 行的
+sed '3,6s/old/new/g' filepath # 替换第 3-6 行的
+sed 's/old/new/1' filepath # 替换每行的第一个
+sed 's/old/new/3g; xxx' filepath # 替换每行的第三个以后的
+```
+
+使用 & 表示被匹配的变量，在周围添加内容
+```sh
+sed 's/my/[&]/g' filepath # 将所有的 my 变为 [my]
+```
 
 ## 进程管理
 ### 查看进程
