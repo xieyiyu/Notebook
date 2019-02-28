@@ -96,6 +96,58 @@ ln：创建硬链接和符号链接； ln -s 文件名 链接名：符号链接
 $ cat -n text1 > text2
 ```
 
+#### find
+`find path -option` 用于在指定目录下查找文件, path 为空则使用当前路径
+
+```sh
+find . -name "*.c" # 列出当前目录及子目录下的所有扩展名为 .c 的文件； 用 -iname 忽略大小写
+find . -type f # 列出当前目录及子目录中的所有一般文件 
+find . -ctime -20 # 列出当前目录及子目录下所有最近 20 天更新过的文件
+```
+
+#### head 和 tail
+```
+head filepath 默认显示 file 的前 10 行
+head -k filepath 显示 file 的开头 k 行
+head -n -k filepath 除最后 k 行外，显示剩余全部内容
+```
+```
+tail filepath 默认显示 file 的后 10 行
+tail +20 filepath 显示从 20 行到文件末尾的内容
+tail -c 10 filepath 显示 file 的最后 10 个字符
+```
+
+#### wget
+wget [options] url 用于从网络上下载资源
+
+-b 启动后转入后台执行，可以用 tail -f wget-log 查看下载进度
+-c 断点续传
+-o <filename> 保存下载信息(wget-log)到 file 中
+
+下载文件并以新文件名保存
+```sh
+wget -O new_filename url
+```
+
+#### tar
+```
+-c 建立新的压缩文件
+-x 从压缩文件中提取文件
+-v 显示操作过程
+-f 指定压缩文件
+-z 支持 gzip 解压
+-j 支持 bzip2 解压
+```
+
+打包
+```
+tar -cvf filename.tar dirName
+tar -zcvf filename.tar.gz dirName
+tar -jcvf filename.tar.bz2 dirName
+```
+解压 xvf, zxvf, jxvf
+```tar -xvf filename.tar```
+
 ### 文件权限
 ```
 rwx； x：可执行
@@ -129,10 +181,29 @@ $ chown tom:users file
 ```chgrp [options] [所属群组] [file/dir]``` 修改文件或目录的所属群组
  
 ### 文档编辑
-#### 1. wc
+#### wc
 ```wc [-wlc] filename``` 无参数的话默认输出计算文件的字数、行数、字节数  
 
 -w 只显示字数； -l 只显示行数； -c 只显示 byte 数
+
+#### tr
+`tr [options] [第一字符集] [第二字符集]` 用于转换或删除文件中的字符
+
+```
+-c 反选设定字符，即符合 SET1 的部分不做处理，不符合的才转换
+-d 删除指定字符
+```
+
+字符集有：  
+[:alnum:] 所有字母与数字； [:alpha:] 所有字母； [:digit:] 所有数字  
+[:blank:] 所有水平空格； [:space:] 所有水平与垂直空格符； [:punct:] 所有标点符号  
+[:graph:] 所有可打印字符（不包含空格）； [:print:] 所有可打印字符(包含空格)  
+[:upper:] 所有大写字母； [:lower:] 所有小写字母
+
+将 file 中的所有小写字母转为大写字母
+```sh
+cat filename | tr [:lower:] [:upper:]
+```
 
 ## linux 三剑客
 ### grep
@@ -418,10 +489,15 @@ rsync -zr --progress 10.77.29.68::backup/weiflow/xxx
 -r 对子目录递归
 --progress 显示数据镜像同步过程
 
+#### 2. curl
+curl [options] url ，利用 url 规则在命令行下工作的文件传输工具，支持文件的上传和下载
 
+```
+curl url ，显示 url 的 html，可重定向保存
+curl -c cookie.txt url ，保存 http 的 response 里的 cookie 信息
+curl -c cookie.txt -F name=xieyiyu -F pwd=xxx url ，模拟表单信息，模拟登录 url，并保存 cookie 信息
 
-### 文件系统
+```
 
-### 
+#### 3.tr
 
-工作常用： grep find sed curl wget tr 管道 tail head vim tmux
