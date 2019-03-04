@@ -7,6 +7,11 @@
 * [** 旋转数组的最小数字](#旋转数组的最小数字)
 * [矩形覆盖](#矩形覆盖)
 * [** 二进制中1的个数](#二进制中1的个数)
+* [数值的整数次方](#数值的整数次方)
+* [在O(1)时间删除链表节点](#在O-1-时间删除链表节点)
+* [调整数组顺序使奇数位于偶数前面](#调整数组顺序使奇数位于偶数前面)
+* [链表中倒数第 k 个结点](#链表中倒数第-k-个结点)
+* [树的子结构](#树的子结构)
 <!-- GFM-TOC -->
 
 ### 字符串
@@ -224,5 +229,79 @@ https://blog.csdn.net/hkdgjqr/article/details/5381028
 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
 
 思路一： 开辟新数组，用空间换时间，时间复杂度 O(n)，空间复杂度 O(n)
+```python
+def reOrderArray(self, array):
+        # write code here
+        odd = [i for i in array if i%2==1]
+        even = [i for i in array if i%2==0]
+        return odd + even
+```
 
-思路二： 类似于排序，需要采用稳定排序的思路
+思路二： 类似于排序，需要采用稳定排序的思路  
+
+使用冒泡排序的思想，i 从前往后遍历， j 从后往前遍历，当遇到**前偶后奇**的情况，就交换
+```python
+def reOrderArray(self, array):
+        # write code here
+        for i in range(len(array)):
+            for j in range(len(array)-1, i, -1):
+                if array[j-1] % 2 == 0 and array[j] % 2 == 1:
+                    array[j], array[j-1] = array[j-1], array[j]
+        return array
+```
+
+### 链表中倒数第 k 个结点
+输入一个链表，输出该链表中倒数第k个结点。
+
+思路： 倒数第 k 个结点，也就是第 n-k+1 个结点，n 为链表长度，若要在 O(n) 时间解决，则用快慢指针法，fast 先走 k 步，然后 fast 和 slow 同步走，当 fast 走到最后时， slow 指向的就是倒数第 k 个结点。
+
+要注意 k 比链表长度更大的情况，此时 fast 已经走到最后，但是 k != 0，直接返回； 还有链表为空的情况，fast 就没有 next，因此在最开始就需要考虑链表是否为空的情况。
+```python
+class Solution:
+    def FindKthToTail(self, head, k):
+        # write code here
+        if not head:
+            return None
+        fast = slow = head
+        while k:
+            fast = fast.next
+            k -= 1
+            if not fast and k != 0:
+                return None
+        while fast:
+            fast = fast.next
+            slow = slow.next
+        return slow
+```
+
+### 树的子结构
+输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+
+思路： 首先需要在 A 中找到一个与 B 的根节点的值相同的结点，再从 A 的该节点与 B 进行比较，判断 B 是否是其子结构，此时可以构造一个函数 isSubtree 来判断 B 是否是 A 的子结构。 如果没找到，则继续往 A 的左子树和右子树找。
+
+注意： 找到第一个相同值的结点后，不能直接 return isSubtree 的结果，因为可能只有根节点相同，左子树和右子树并不相同，则会返回 False，因此可以用一个变量 res 记录下这次的结果，如果是 False，则继续往 A 的左子树找，如果再是 False，再往 A 的右子树找。
+
+```python
+class Solution:
+    def HasSubtree(self, pRoot1, pRoot2):
+        # write code here
+        if not pRoot1 or not pRoot2:
+            return False
+        res = False
+        if pRoot1.val == pRoot2.val:
+            res = self.isSubtree(pRoot1, pRoot2)
+        if not res:
+            res = self.HasSubtree(pRoot1.left, pRoot2)
+        if not res:
+            res = self.HasSubtree(pRoot1.right,pRoot2)
+        return res
+            
+    def isSubtree(self, pRoot1, pRoot2):
+        if not pRoot2:
+            return True
+        if not pRoot1 and pRoot2:
+            return False
+        if pRoot1.val != pRoot2.val:
+            return False
+        return self.isSubtree(pRoot1.left, pRoot2.left) and self.isSubtree(pRoot1.right, pRoot2.right)
+```
