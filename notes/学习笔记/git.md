@@ -144,3 +144,7 @@ hexo s --debug 启动本地站点并开启调试模式
 
 hexo new page xxx 新建页面
 
+hexo n <filename> 新建文章
+hexo s 启动服务器，在本地查看内容
+hexo g 生成静态页面
+hexo deploy 部署到网站

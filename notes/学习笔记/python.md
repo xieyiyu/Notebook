@@ -441,7 +441,16 @@ Python中的raise 关键字用于引发一个异常， raise关键字后面是�
 
 
 ### python 编码
+python2 默认编码是 ASCII， python3 默认编码是 Unicode。
 
+Python 有两种不同的字符串数据类型： str 和 unicode，都是 basestring 的子类。
+
+对于同一个汉字 "好"， 用 str 表示和 unicode 表示是不同的。 用 str 表示时，对应的 UTF-8 编码是 "\xe5\xa5\xbd", 而 Unicode 表示对应的符号是 u'\u597d'，等同于 u'好'。
+
+str 可以通过 decode 解码成 unicode 字符串。unicode 可以通过 encode 编码得到 UTF-8 编码格式的 str 类型的字符串。
+
+> str --> decode --> unicode  
+unicode --> encode --> str
 
 ### 其他
 1. python 中字符串的前导 r 代表**原始字符串标识符**，即字符串中的特殊符号不会被转义，适用于正则表达式中繁杂的特殊符号表示。 如 r'\n' 会直接输出 \n

@@ -305,3 +305,152 @@ class Solution:
             return False
         return self.isSubtree(pRoot1.left, pRoot2.left) and self.isSubtree(pRoot1.right, pRoot2.right)
 ```
+### 二叉树镜像
+操作给定的二叉树，将其变换为源二叉树的镜像。
+
+思路： 递归交换结点的左右子树即可。
+
+```python
+class Solution:
+    # 返回镜像树的根节点
+    def Mirror(self, root):
+        # write code here
+        if not root:
+            return root
+        root.left, root.right = root.right, root.left
+        self.Mirror(root.left)
+        self.Mirror(root.right)
+        return root
+```
+
+### 顺时针打印矩阵
+输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+
+思路： 设置四个方向进行打印，向右，向下，向左，向上，但是必须要注意循环结束的终止条件。 首先第一层需要满足 left <= right and up <= down，其次需要分析每一次打印元素的前提条件，res 的长度必须小于矩阵的大小的时候，才打印。 
+
+若没有 if len(res) < size 这个条件，就可能会出现重复打印的情况。比如只有一列的矩阵，[[1],[2],[3],[4],[5]]
+1. 首先 go right， res = [1]
+2. 然后 go down ，res = [1,2,3,4,5]
+3. 不会 go left，因此此时 left = 0, right = -1
+4. 此时 up = 1，down = 3，会继续 go up，res = [1,2,3,4,5,4,3,2], 最后循环终止。 
+
+这道题最重要的是： 确定循环终止条件， 确定打印的终止条件。
+
+```python
+class Solution:
+    # matrix类型为二维列表，需要返回列表
+    def printMatrix(self, matrix):
+        # write code here
+        if not matrix:
+            return []
+        left = 0
+        right = len(matrix[0])-1
+        up = 0
+        down = len(matrix)-1
+        size = len(matrix) * len(matrix[0]) 
+        res = []
+        while left <= right and up <= down:
+            # go right
+            for j in range(left, right+1):
+                if len(res) < size:
+                    res.append(matrix[up][j])
+            up += 1
+            # go down
+            for i in range(up, down+1):
+                if len(res) < size:
+                    res.append(matrix[i][right])
+            right -= 1
+            # go left
+            for j in range(right, left-1, -1):
+                if len(res) <  size:
+                    res.append(matrix[down][j])
+            down -= 1
+            # go up
+            for i in range(down, up-1, -1):
+                if len(res) < size:
+                    res.append(matrix[i][left])
+            left += 1
+        return res
+```
+
+### 包含min函数的栈
+定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
+
+思路： 要求时间复杂度为 O(1), 因此需要一次得到最小值，因此要考虑用空间换时间。
+
+不能在元素入栈的时候就对元素进行排序，这样的话就无法保证出栈的是最后入栈的那个元素。
+
+考虑使用一个辅助栈 min_stack，用来存储当前的最小值，每次都把当前的最小值压入 min_stack 中。 当 stack 需要出栈时，辅助栈中也需要同步出栈，这样就能保证若出栈的是最小值，那么辅助栈中就不能再保存最小值，然后就到了次小值。
+
+重点： 用辅助栈保存当前最小值，并使两个栈大小相同，可以同步出栈
+
+```python
+class Solution:
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+    def push(self, node):
+        self.stack.append(node)
+        if not self.min_stack or node <= self.min_stack[-1]:
+            self.min_stack.append(node)
+        else:
+            self.min_stack.append(self.min_stack[-1])
+    def pop(self):
+        self.min_stack.pop()
+        self.stack.pop()
+    def top(self):
+        return self.stack[-1]
+    def min(self):
+        return self.min_stack[-1]
+```
+
+### 栈的压入、弹出序列
+输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
+
+思路： 用一个辅助栈，把输入的第一个序列的元素依次压入栈，再按照第二个序列的顺序依次出栈。 
+
+```python
+class Solution:
+    def IsPopOrder(self, pushV, popV):
+        # write code here
+        stack = []
+        i = 0
+        while i < len(pushV):
+            stack.append(pushV[i])
+            while popV and stack and popV[0] == stack[-1]: # 注意这里必须先判断 popV 和 stack 是否为空，否则会出现溢出
+                stack.pop()
+                popV.pop(0)
+            i += 1
+        return True if not stack else False
+```
+
+### 二叉搜索树的后序遍历序列
+输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+
+思路： 对于 BST，后序遍历的最后一个数字是根节点，BST 左子树的所有节点都比根节点小，右子树的所有节点都比根节点大，因此对前面的元素与根节点大小比较，可以把该序列分成左、右子树两部分。然后再递归判断左右子树的结构是否符合。当有元素违背 BST 的规则时，则返回 False
+
+该题由于测试用例为 [] 时，需要返回 False，如果为空情况返回 True 的话，直接调用 helper 函数即可。
+
+```python
+class Solution:
+    def VerifySquenceOfBST(self, sequence):
+        # write code here
+        if not sequence:
+            return False
+        return self.helper(sequence)
+    
+    def helper(self, sequence):
+        if len(sequence) <= 2:
+            return True
+        left = []
+        right = []
+        i = 0
+        while sequence[i] < sequence[-1]:
+            left.append(sequence[i])
+            i += 1
+        right = sequence[i:-1]
+        for j in range(len(right)):
+            if right[j] < sequence[-1]:
+                return False
+        return self.helper(left) and self.helper(right)
+```
