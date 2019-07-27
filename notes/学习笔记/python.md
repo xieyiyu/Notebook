@@ -1,34 +1,46 @@
 # python学习笔记
 <!-- GFM-TOC -->
-* [python 优缺点](#python-优缺点)
-* [python 参数传递机制](#python参数传递机制)
-* [python 数据结构]
+* [python 概念](#python-概念)
+	* [python 优缺点](#python-优缺点)
+	* [python java c 区别](#python-java-c-区别)
+	* [python2 和 python3 区别](#python2-和-python3-区别)
+	* [python 参数传递机制](#python参数传递机制)
+* [变量](#变量)
+	* [星号和双星号](#星号和双星号)
+	* [命名方式](#命名方式)
+* [python 数据结构](#python-数据结构)
 	* [python 可变和不可变](#python-可变和不可变)
 	* [字符串](#字符串)
 	* [列表](#列表)
+	* [字典](#字典)
+* [python 运算（除法、取模）](#python-运算)
 * [IO 编程](#io-编程)
 	* [读取键盘输入](#读取键盘输入)
 	* [文件操作](#文件操作)
+	* [目录操作](#目录操作)
 * [python内置函数](#python内置函数)
 * [python初始化问题](#python初始化问题)
 * [python数据规范化问题](#python数据规范化问题)
 * [python浅拷贝和深拷贝](#python浅拷贝和深拷贝)
 * [正则表达式](#正则表达式)
 * [位运算](#位运算)
-* [变量](#变量)
 * [python三大神器](#python三大神器)
 	* [装饰器](#装饰器)
 	* [生成器](#生成器)
+	* [迭代器](#迭代器)
 * [函数式编程](#函数式编程)
 	* [高阶函数](#高阶函数)
 	* [lambda](#lambda)
 	* [偏函数](#偏函数)
 * [异常处理](#异常处理)
 * [python 编码](#python-编码)
+* [面向对象编程](#面向对象编程)
 * [其他](#其他)
 <!-- GFM-TOC -->
 
-## python 优缺点
+## python 基础
+
+### python 优缺点
 **优点**：
 1. 优雅、明确、简单。易学，能够专注解决问题而不是搞明白语言本身。
 2. 开发效率高，有强大的第三方库
@@ -45,11 +57,30 @@
 python 是动态语言，解释型语言，运行速度较慢；在运行期间才做数据类型检查；语法简单，代码量少，类库丰富
 java、 c 是静态语言， 数据类型在编译前就需要明确
 
-## python参数传递机制
+### python2 和 python3 区别
+
+### python参数传递机制
 python 中一切皆对象，任何变量都是对象的引用，python 中参数传递都是**“传对象引用”**的方式，相当于传值和传引用的结合。若收到是可变对象的引用，就能修改对象的原始值，相当于“传引用”； 若收到是不可变对象，就不能直接修改原始对象，相当于“传值”。
 
 - 值传递：存放实参变量的值，被调函数对形参的任何操作都是作为局部变量进行，不影响主调函数的实参变量的值。
 - 引用传递：存放实参变量的地址，被调函数对形参的任何操作都影响主调函数中的实参变量。
+
+## 变量
+### 星号和双星号
+单个星号 * ：该位置接收任意多个非关键字参数，在函数中转化为**元组**(1,2,3,4)
+双星号 ** ： 该位置接收任意多个关键字 (key-word) 参数，在函数中转化为**字典**{a=1,b=2}
+
+### 命名方式
+python中主要存在四种命名方式：
+```
+1、object #公用方法
+2、_object #半保护
+    #被看作是“protect”，意思是只有类对象和子类对象自己能访问到这些变量，在模块或类外不可以使用，不能用’from module import *’导入。
+    #__object 是为了避免与子类的方法名称冲突， 对于该标识符描述的方法，父类的方法不能轻易地被子类的方法覆盖，他们的名字实际上是_classname__methodname。
+3、__object  #全私有，全保护
+    #私有成员“private”，意思是只有类对象自己能访问，连子类对象也不能访问到这个数据，不能用’from module import *’导入。
+4、__object__     #内建方法，用户不要这样定义
+```
 
 ## python数据结构
 ### python 可变和不可变
@@ -62,6 +93,9 @@ python 对 int 和较短的 string 进行了缓存，无论声明多少个值相
 比如 x = 10 和 y = 10， 查看二者的内存地址会发现，id(x) == id(y)； 但若 x += 1 后，内存地址会改变。
 
 值相同的元组的地址可能不同，元组的本质是只读的列表
+
+##### tuple
+Python 中的 tuple 结构为 “不可变序列”，用小括号表示。为了区别数学中表示优先级的小括号，当 tuple 中只含一个元素时，需要在元素后加上逗号。即 (1, )， 如果是 (1) 会被判定为 int 型
 
 #### 可变数据类型
 变量所指的内存地址处的值是可以改变的，值的变化不会引起新建对象，地址不会改变。
@@ -136,9 +170,6 @@ sort(fun，key，reverse=False)，可以对列表中的元素进行排序，会�
 2. key： 用来指定一个函数，此函数在每次元素比较时被调用，此函数代表排序的规则，也就是你按照什么规则对你的序列进行排序；
 3. reverse： 用来表明是否逆序，默认的 False 情况下是按照升序的规则进行排序的，当 reverse=True 时，便会按照降序进行排序。
 
-- 全局函数 sorted()
-与 sorted 参数一致，对所有可迭代的序列都是适用的，只会返回一个排序后的当前对象的副本，而不会改变当前对象。
-
 如果要自己写比较函数的话，python3 中需要 import functools.cmp_to_key() 方法。
 ```python
 from functools import cmp_to_key
@@ -146,9 +177,67 @@ from functools import cmp_to_key
 nums = [1, 3, 2, 4]
 nums.sort(key=cmp_to_key(lambda a, b: a - b)) # nums = [1, 2, 3, 4]
 ```
+
+- 全局函数 sorted()
+与 sorted 参数一致，对所有可迭代的序列都是适用的，只会返回一个排序后的当前对象的副本，而不会改变当前对象。
+
+可以自定义比较函数，sorted()也是一个高阶函数，它可以接收一个比较函数来实现自定义排序，比较函数的定义是，传入两个待比较的元素 x, y，如果 x 应该排在 y 的前面，返回 -1，如果 x 应该排在 y 的后面，返回 1。如果 x 和 y 相等，返回 0。
+
+```python
+nums = sorted(nums, cmp) # 按从大到小的顺序排序
+
+def cmp(x, y):
+	if x > y:
+		return -1
+	if x < y:
+		return 1
+	return 0
+```
+
 #### 5. 反转
 反转List: list.reverse()  
 反转字符串: str[::-1]
+
+### 字典
+在 python2 中，字典是无序的，若要保持有序，需要用 OrderedDict
+```python
+from collections import OrderedDict
+d = OrderedDict()
+```
+
+在 python3 中，字典是有序的
+
+#### dict.items()
+遍历 dict 中每一个元素的 key 和 value
+```python
+for key, value in dict.items():
+	print(key, value)
+```
+
+## python 运算
+### 除法
+#### 正数除法
+python3 中的除法，`/` 总是返回浮点数，`//` 返回整除结果，且是向下取整。  
+python2.6 之前的版本，除法只有 `/`，对于整数运算会舍弃小数部分，对于浮点数运算会保留小数。
+
+需要注意的是：`//` 得到的是整除的结果，并不一定是整数，这取决于分子分母的数据类型。
+
+#### 负数除法
+由于 python3 的除法是向下取整，比如 -4//3 = -2
+
+但我们通常的计算中是**向零取整**，比如 -4//3 = -1，如果想要在 python3 中得到这个结果，需要 int(-4/3)
+
+```python
+>>> int(-4/3)
+-1
+>>> -4//3
+-2
+>>> -4/3
+-1.3333333333333333
+```
+
+### 取模
+要注意的是对负数的取模运算，由于 python 是向下取整，对 -21%10 = 9，因为 -21//10 = -3
 
 ## IO 编程
 在 IO 编程中，输入流 input stream 是数据从磁盘、网络等地方流入内存，输出流是从内存流到外面。  
@@ -159,6 +248,7 @@ nums.sort(key=cmp_to_key(lambda a, b: a - b)) # nums = [1, 2, 3, 4]
 - input([prompt])： 可以接收一个 python 表达式作为输入，并返回运算结果
 
 ### 文件操作
+#### read
 用 with open 方法能够自动调用 close() 方法
 ```python
 with open('filename', 'r', encoding='utf-8') as f:
@@ -168,8 +258,15 @@ with open('filename', 'r', encoding='utf-8') as f:
 	for line in f: # 按行读取，使用大文件
 ```
 - 读取二进制文件，如图片、视频等需要用 'rb' 模式
-- 读取非 ASCII 码的文本文件，如 gbk 编码，需要先用二进制模式 'rb' 打开，再用 f.read().decode('gbk')  解码；用 codecs 可以自动转换编码直接独处 unicode
+- 读取非 ASCII 码的文本文件，如 gbk 编码，需要先用二进制模式 'rb' 打开，再用 f.read().decode('gbk')  解码；用 codecs 可以自动转换编码直接读出 unicode
 - 在 python3 下可以直接用 open()，是 io 模块提供； 而在 python2 中最好使用 codecs.open() 可以解决一些编码问题。
+
+#### write
+write()方法不会在字符串的结尾添加换行符('\n')
+```python
+fo = open('filename', 'r')
+fo.write(string)
+```
 
 os.rename(cur_file_name, new_file_name) 重命名 cur
 os.remove(file_name) 删除文件
@@ -324,11 +421,6 @@ res = pattern.findall(string)
 - groups() 返回一个包含所有小组字符串的元组，从 1 开始
 - span() 返回匹配成功的位置，起始位置和终止位置
 
-## 变量
-#### 星号和双星号
-单个星号 * ：该位置接收任意多个非关键字参数，在函数中转化为**元组**(1,2,3,4)
-双星号 ** ： 该位置接收任意多个关键字 (key-word) 参数，在函数中转化为**字典**{a=1,b=2}
-
 ## python三大神器
 ### 装饰器
 - 装饰器 Decorator 本质上是一个 python 函数，可以让其他函数在不需要任何代码变动的前提下增加额外功能。  
@@ -346,6 +438,55 @@ def log(text):
 			return func(*args, **kw) # 可以让其用于任何函数，无论参数形式如何
 		return inner_wrapper
 	return wrapper
+```
+
+#### 闭包
+闭包就是能够读取其他函数内部变量的函数，可以理解为定义在一个函数内部的函数，外部的叫外函数，内部的叫内函数。
+
+在一个外函数中定义了一个内函数，内函数用到了外函数的临时变量，外函数的返回值是内函数的引用，这就构成了闭包。
+
+```python
+def outer(a):
+	b = 10
+	def inner(x):
+		print(a * x +b) # a,b 是 outer 的临时变量
+	return inner
+
+demo = outer(1)
+demo(2) # 输出 1*2+10 = 12
+```
+
+若要在内函数中修改闭包变量（外函数绑定给内函数的局部变量）：
+1. 在 python3 中，用 nonlocal 关键字申明变量，表示这个变量不是局部变量空间的，需要向上一层变量空间中寻找该变量
+2. 在 python2 中，没有 nonlocal 关键字，但可以把闭包变量改为可变类型数据进行修改，如 set、list、dict
+
+```python
+def outer(a):
+	b = 10
+	c = [a]
+	def inner():
+		nonlocal b
+		b += 1 # 方法1
+		c[0] += 1 # 方法2
+		print(b, c[0])
+	return inner
+
+demo = outer(1)
+demo() # 输出 11, 2
+```
+
+在使用闭包的过程中，一旦外函数被调用一次返回了内函数的引用，虽然每次调用内函数，是开启一个函数执行过后消亡，但是闭包变量实际上只有一份，每次开启内函数都在使用同一份闭包变量
+```python
+def outer(a):
+	def inner(b):
+		nonlocal a
+		a += b
+		return a
+	return inner
+
+demo = outer(1)
+demo(2) # 输出 1+2=3
+demo(3) # 输出 3+3=6
 ```
 
 ### 生成器
@@ -452,10 +593,97 @@ str 可以通过 decode 解码成 unicode 字符串。unicode 可以通过 encod
 > str --> decode --> unicode  
 unicode --> encode --> str
 
-### 其他
-1. python 中字符串的前导 r 代表**原始字符串标识符**，即字符串中的特殊符号不会被转义，适用于正则表达式中繁杂的特殊符号表示。 如 r'\n' 会直接输出 \n
+### 面向对象
+面向对象的三个特征：封装、继承、多态
+#### 封装
+封装，即隐藏对象的属性和实现细节，仅对外公开接口，控制在程序中属性的读和修改的访问级别。
+- 封装数据： 为了保护隐私，明确区分内外数据，对外提供操作该数据的接口
+- 封装方法： 目的是隔离复杂度
 
-2. python 中复数表示为 real + image j，实部和虚部都是浮点数，虚部后缀可以是 j 或 J，方法 conjugate 返回复数的共轭复数。 python 不支持复数比较大小
+#### 继承
+在定义一个类的时候可以从当前有的类中进行继承。
+
+python 允许多继承，并且在子类中拥有父类所有的成员变量和方法，为了缓解代码中的冗余，子类在父类的基础上增加的成员变量可以如下修改。
+```python
+class Person(object):
+	def __init__(self):
+		self.name = name
+
+class Child(Person):
+	def __init__(self):
+		Person.__init__(self, name, sex)
+		self.mother = mother
+```
+
+#### 多态
+当子类继承父类之后，成员方法既可以重写也可以不重写。当调用的时候只要保证新方法编写正确，不用管原来的代码
+- 对扩展开放（Open for extension）：允许子类重写方法函数
+- 对修改封闭（Closed for modification）：不重写，直接继承父类方法函数
+
+鸭子类型： 一些类含有相同的方法，则这些类就互称为鸭子
+
+#### 多继承
+MixIn的目的就是给一个类增加多个功能，这样，在设计类的时候，我们优先考虑通过多重继承来组合多个MixIn的功能，而不是设计多层次的复杂的继承关系。
+
+#### 访问限制
+private：私有变量以 `__` 开头，只有内部能够访问，可以给类增加 get、set 方法
+特殊变量： `__xxx__`, 可以直接访问
+
+#### __init__ 和 __new__ 区别
+
+```
+__init__是当实例对象创建完成后被调用的，然后设置对象属性的一些初始值。
+__new__是在实例创建之前被调用的，因为它的任务就是创建实例然后返回该实例，是个静态方法。
+
+即，__new__在__init__之前被调用，__new__的返回值（实例）将传递给__init__方法的第一个参数，然后__init__给这个实例设置一些参数。
+```
+
+```
+1. __init__ 方法为初始化方法, __new__方法才是真正的构造函数。
+2. __new__方法默认返回实例对象供__init__方法、实例方法使用。
+3. __init__ 方法为初始化方法，为类的实例提供一些属性或完成一些动作。
+4. __new__ 方法创建实例对象供__init__ 方法使用，__init__方法定制实例对象。
+5. __new__是一个静态方法，而__init__是一个实例方法。
+```
+
+#### self 和 cls 区别
+self 是实例方法定义，cls 主要用在类方法定义。
+
+一般来说，要使用某个类的方法，需要先实例化一个对象再调用方法。
+而使用@staticmethod或@classmethod，就可以不需要实例化，直接类名.方法名()来调用。
+
+```python
+class A(object):
+	@staticmethod
+	def foo1(name): # 静态函数，这种方法与类有某种关系但不需要使用到实例或者类来参与
+		print(name) # 既可以作为类的方法使用，也可以作为类的实例的方法使用
+
+	def foo2(self, name):
+		print(name)
+
+	@classmethod
+	def foo3(cls, name):
+		print(name)
+
+a = A()
+a.foo1('xyy')
+A.foo1('xyy')
+
+a.foo2('xyy')
+A.foo2('xyy') # 报错
+
+a.foo3('xyy')
+A.foo3('xyy')
+```
+
+@staticmethod 和 @classmethod 都可以直接类名.方法名()来调用
+
+### 其他
+#### 前导 r
+python 中字符串的前导 r 代表**原始字符串标识符**，即字符串中的特殊符号不会被转义，适用于正则表达式中繁杂的特殊符号表示。 如 r'\n' 会直接输出 \n
+
+#### 复数
+python 中复数表示为 real + image j，实部和虚部都是浮点数，虚部后缀可以是 j 或 J，方法 conjugate 返回复数的共轭复数。 python 不支持复数比较大小
 ```python
 a = 1 + 2j
 a.read // 1.0
@@ -464,5 +692,122 @@ a.imag // 2.0
 
 3. 系统变量 ```__name__``` 显示当前模块执行过程中的名字，单独执行这个模块时就是 ```__main__```； 当在另个一个模块导入这个模块时，那 ```__name__``` 是这个模块的名字。
 
-4. 解释型语言的特性： 非独立、效率低
+#### 解释型语言的特性： 非独立、效率低
 
+#### python is 和 == 的区别
+python 对象包括三个基本要素，身份标识 id、 数据类型 type、 值 value  
+
+is 和 == 都是用于用于对象的比较判断，但判断内容不相同。
+- is 同一性运算符，比较两个对象的 id 是否相同。 当 a 和 b 的值相同时，只有数值型和字符型，**并且在通用对象池中的情况下**， a is b 为 True； 而 tuple，list，dict，set 时，a is b 为 False。 对于浮点数，只有正浮点数值相等时 a is b 为 True
+
+- == 比较两个对象的值是否相同
+
+- id(object) 查看 object 所在的内存地址
+
+备注： 事实上 python 为了优化速度，使用了小整数对象池，避免为整数频繁申请和销毁内存空间。只有数值在 [-5,256] 之间时同一个数值的 id 才会相等，超过范围就是 Fasle。同理，字符串对象也有类似的缓冲池。
+
+#### python 常用模块
+1. re 正则表达式
+2. os 文件操作、系统
+3. request
+```python
+url = "http://www.sinomed.ac.cn/zh/subjectSearch.html"
+with requests.Session() as s:
+    r = s.get(url)
+content = re.findall(r'WebFXLoadTreeItem(.+?)\n', r.text)
+```
+4. urllib
+5. multiprocessing
+```python
+pool_size = multiprocessing.cpu_count()*2
+pool = multiprocessing.Pool(processes = 2)
+files = os.listdir(root_dir)
+word_f = open(word_file, 'r', encoding='utf-8')
+allword = word_f.read()  # 词典
+for file in sorted(files, key=lambda s: int(s.split('.')[0])):
+    filename = os.path.join(root_dir, file)
+    pool.apply_async(sparse_matrix, (filename, allword, matrix_file, ))
+
+pool.close()
+pool.join()
+word_f.close()
+```
+6. logging
+7. collections 
+8. time
+9. sys
+
+
+#### python 第三方库
+1. jieba 分词
+```python
+jieba.load_userdict(u'C:\\Users\\谢祎玉\\Desktop\\1.txt')
+wordlist = list(jieba.cut(line))
+```
+2. BeautifulSoup
+```python
+with requests.Session() as s:
+    topic_r = s.get(topic_url)
+soup = BeautifulSoup(topic_r.text, 'lxml')
+topic_tree = soup.find_all('tree')
+
+for i in range(1, len(topic_tree)):
+    topic_child = topic_tree[i].attrs['text']
+    print(topic_child)
+    traget_file = u'D:\\陆门\\临床学科整理\\1临床课程文本\\cmesh1.txt'
+    fp = open(traget_file, 'a+')
+    fp.write(topic_child + '\n')
+
+    if 'src=' in str(topic_tree[i]):
+        url_child = "http://www.sinomed.ac.cn/%s" % topic_tree[i].attrs['src']
+        get_topic(url_child)
+    else:
+        continue
+```
+3. xlrd\xlsxwriter
+```python
+def open_excel(filepath):
+    """
+    打开一个 Excel 文件
+    :param filepath: 文件路径
+    :return:
+    """
+    try:
+        data = xlrd.open_workbook(filepath)
+        return data
+    except Exception as e:
+        print(str(e))
+
+def write_excel(filepath, res, sheetname='sheet'):
+    """
+    将 res 写入 Excel 文件中
+    :param filepath: 文件路径
+    :param res: 结果，格式为 List[List[str]], 如 [['身份', '对话内容'], ...]
+    :return:
+    """
+    book = xlsxwriter.Workbook(filepath, {'strings_to_urls': False}) # 创建一个Excel
+    sheet = book.add_worksheet(sheetname)
+    for i in range(len(res)):
+        for j in range(len(res[i])):
+            sheet.write(i, j, res[i][j]) # 在新sheet中写入第i行第j列的内容
+```
+4. gensim
+5. matplotlib.pyplot
+```python
+import matplotlib.pyplot as plt
+x1 = range(2, 42, 2)
+patient_coherence = [xxx]
+
+x2 = range(2, 42, 2)
+doctor_coherence = [xxx]
+
+plt.plot(x1, patient_coherence, label="patient", markerfacecolor="b",marker="o")
+plt.plot(x2, doctor_coherence, label="doctor", markerfacecolor="r", marker="^")
+plt.xlabel('Number of topics')
+plt.ylabel('Topic Coherence')
+
+font1 = {'weight' : 'normal', 'size' : 14}
+plt.legend(loc="upper right", prop=font1)
+plt.savefig('./coherence.png')
+plt.show()
+```

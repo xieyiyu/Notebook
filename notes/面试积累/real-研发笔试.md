@@ -87,3 +87,94 @@ def pick(grid):
     return dp
 ```
 
+### 20190309 腾讯提前批
+1. 1-n 种面值的硬币，无穷个，商品价格为 m，求组成 m 的最小硬币数
+
+思路： 注意此处是 1,2,3,...,n 种面值，因此可以直接贪心解决。 如果是特定几种面值，则是完全背包问题。
+
+```python
+def function(n, m):
+    res = 0
+    flag = n
+    while m:
+        if m >= flag:
+            m -= flag
+            res += 1
+        else:
+            flag = m
+    return res
+```
+
+2. 有一个序列是 i * (-1)^i, nums = [-1, 2, -3, 4, -5, 6 ...]，给定区间 n，m，求出该区间的和， n 从 1 开始。
+
+思路： 找出规律，分 n,m 分别是奇数和偶数，共四种情况考虑，直接计算出和。
+
+```python
+# def function(n, m):
+#     if n > m:
+#         return 0
+#     if n % 2 != 0:
+#         return function(n+1, m) - n
+#     if (m-n+1) % 2 != 0:
+#         return function(n, m-1) + m
+#     return -(m-n+1) //2
+def function(n, m):
+    if n > m:
+        return 0
+    if n == m and n % 2 != 0:
+        return -n
+    if n == m and n % 2 == 0:
+        return n
+    if n % 2 != 0 and m % 2 == 0:
+        return (m-n+1)//2
+    if n % 2 != 0 and m % 2 != 0:
+        return (m-n+1)//2 - m
+    if n % 2 == 0 and m % 2 == 0:
+        return -((m-n+1)//2) + m
+    if n % 2 == 0 and m % 2 != 0:
+        return -((m-n+1)//2)
+```
+
+4. n个数字组成的数组 nums，有 1-m 个数字，找到 nums 中包含 1-m 所有数字的最小子数组的长度。 nums 由 1-m 和 0 组成，如果没有这样的数组，返回 -1。
+
+思路： 设置 dp 存储每个数字在当前区域内出现的次数， left，right 分别表示区域的左右边界，cnt 记录当前区域内不重复的数字的个数。 只需要考虑 > 0 的数字，0 可以直接略过。
+
+- 当 cnt < m 时，区间需要向右扩张，right + 1
+- 当 cnt = m 时，说明此时区间已经包含 1-m 的所有数字，可以开始收缩，left + 1
+
+注意最后 left 和 right 指向的是区间的边界 + 1，长度是 right-left+1
+
+```python
+import sys
+
+def function(n, m, nums):
+    res = n + 1
+    cnt = 0
+    dp = [0] * m
+    left = right = 0
+    while right < len(nums):
+        while cnt < m and right < len(nums):
+            if nums[right] > 0:
+                if dp[nums[right]-1] == 0:
+                    cnt += 1
+                dp[nums[right]-1] += 1
+            right += 1
+        while cnt >= m and left <= right:
+            if nums[left] > 0:
+                dp[nums[left]-1] -= 1
+                if dp[nums[left]-1] == 0:
+                    cnt -= 1
+            left += 1
+        res = min(res, right-left+1)
+    return -1 if res == n + 1 else res
+
+if __name__ == "__main__":
+    line1 = sys.stdin.readline().strip()
+    a = list(map(int, line1.split()))
+    n = int(a[0])
+    m = int(a[1])
+
+    line2 = sys.stdin.readline().strip()
+    b = list(map(int, line2.split()))
+    nums = [int(b[i]) for i in range(len(b))]
+```
