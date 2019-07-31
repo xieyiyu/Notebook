@@ -58,6 +58,16 @@ python 是动态语言，解释型语言，运行速度较慢；在运行期间�
 java、 c 是静态语言， 数据类型在编译前就需要明确
 
 ### python2 和 python3 区别
+1. print
+2. 默认编码： python2 是 ASCII，python3 是 UTF-8
+3. 最核心变化：python 2 中 unicode 是字符串（定义要 u''），str 是字节串码； python3 中 str 是字符串，byte 是字节串，py3 默认支持 unicode 字符集，因此不用定义 u
+4. 解析用户输入：python2 用 raw_input(), python3 用 input() ，都输入 str
+5. True 和 False：python2 中是两个全局变量，数值是 1 和 0，可以修改指向其他对象；python3 中是关键字，不可重新赋值
+6. 在 python2 中很多返回 list 对象的的内置函数在 python3 中改为了返回类似迭代器的对象（惰性加载操作大数据更有效率），比如 dict.keys(), dict.values()
+7. 加入 nonlocal 关键字，可以在闭包中给一个变量申明为非局部变量
+8. 除法：python2 中 1/2==0， python3 中 1/2==0.5
+
+将 python2 转为 python3 兼容的： `from __future__ imports xxx`
 
 ### python参数传递机制
 python 中一切皆对象，任何变量都是对象的引用，python 中参数传递都是**“传对象引用”**的方式，相当于传值和传引用的结合。若收到是可变对象的引用，就能修改对象的原始值，相当于“传引用”； 若收到是不可变对象，就不能直接修改原始对象，相当于“传值”。
@@ -639,11 +649,10 @@ __new__是在实例创建之前被调用的，因为它的任务就是创建实�
 ```
 
 ```
-1. __init__ 方法为初始化方法, __new__方法才是真正的构造函数。
+1. __init__ 方法为初始化方法, __new__方法才是真正的构造函数，创建实例。
 2. __new__方法默认返回实例对象供__init__方法、实例方法使用。
 3. __init__ 方法为初始化方法，为类的实例提供一些属性或完成一些动作。
-4. __new__ 方法创建实例对象供__init__ 方法使用，__init__方法定制实例对象。
-5. __new__是一个静态方法，而__init__是一个实例方法。
+4. __new__是一个静态方法，而__init__是一个实例方法。
 ```
 
 #### self 和 cls 区别
@@ -706,108 +715,16 @@ is 和 == 都是用于用于对象的比较判断，但判断内容不相同。
 
 备注： 事实上 python 为了优化速度，使用了小整数对象池，避免为整数频繁申请和销毁内存空间。只有数值在 [-5,256] 之间时同一个数值的 id 才会相等，超过范围就是 Fasle。同理，字符串对象也有类似的缓冲池。
 
-#### python 常用模块
-1. re 正则表达式
-2. os 文件操作、系统
-3. request
+#### random 用法
 ```python
-url = "http://www.sinomed.ac.cn/zh/subjectSearch.html"
-with requests.Session() as s:
-    r = s.get(url)
-content = re.findall(r'WebFXLoadTreeItem(.+?)\n', r.text)
-```
-4. urllib
-5. multiprocessing
-```python
-pool_size = multiprocessing.cpu_count()*2
-pool = multiprocessing.Pool(processes = 2)
-files = os.listdir(root_dir)
-word_f = open(word_file, 'r', encoding='utf-8')
-allword = word_f.read()  # 词典
-for file in sorted(files, key=lambda s: int(s.split('.')[0])):
-    filename = os.path.join(root_dir, file)
-    pool.apply_async(sparse_matrix, (filename, allword, matrix_file, ))
+import random
 
-pool.close()
-pool.join()
-word_f.close()
-```
-6. logging
-7. collections 
-8. time
-9. sys
+random.random() # 生成 0 到 1 的随机浮点数
+random.randint(1,100) # 生成 1 到 100 之间的随机整数
+random.uniform(1.1, 2.2) # 生成 1.1 到 2.2 之间的随机浮点数
+random.choice('hello world') # 从序列中随机选择一个元素
+random.randrange(1, 101, 2) # 生成从 1 到 101 间隔为 2 的整数，也就是 1-101 的偶数 
 
-
-#### python 第三方库
-1. jieba 分词
-```python
-jieba.load_userdict(u'C:\\Users\\谢祎玉\\Desktop\\1.txt')
-wordlist = list(jieba.cut(line))
-```
-2. BeautifulSoup
-```python
-with requests.Session() as s:
-    topic_r = s.get(topic_url)
-soup = BeautifulSoup(topic_r.text, 'lxml')
-topic_tree = soup.find_all('tree')
-
-for i in range(1, len(topic_tree)):
-    topic_child = topic_tree[i].attrs['text']
-    print(topic_child)
-    traget_file = u'D:\\陆门\\临床学科整理\\1临床课程文本\\cmesh1.txt'
-    fp = open(traget_file, 'a+')
-    fp.write(topic_child + '\n')
-
-    if 'src=' in str(topic_tree[i]):
-        url_child = "http://www.sinomed.ac.cn/%s" % topic_tree[i].attrs['src']
-        get_topic(url_child)
-    else:
-        continue
-```
-3. xlrd\xlsxwriter
-```python
-def open_excel(filepath):
-    """
-    打开一个 Excel 文件
-    :param filepath: 文件路径
-    :return:
-    """
-    try:
-        data = xlrd.open_workbook(filepath)
-        return data
-    except Exception as e:
-        print(str(e))
-
-def write_excel(filepath, res, sheetname='sheet'):
-    """
-    将 res 写入 Excel 文件中
-    :param filepath: 文件路径
-    :param res: 结果，格式为 List[List[str]], 如 [['身份', '对话内容'], ...]
-    :return:
-    """
-    book = xlsxwriter.Workbook(filepath, {'strings_to_urls': False}) # 创建一个Excel
-    sheet = book.add_worksheet(sheetname)
-    for i in range(len(res)):
-        for j in range(len(res[i])):
-            sheet.write(i, j, res[i][j]) # 在新sheet中写入第i行第j列的内容
-```
-4. gensim
-5. matplotlib.pyplot
-```python
-import matplotlib.pyplot as plt
-x1 = range(2, 42, 2)
-patient_coherence = [xxx]
-
-x2 = range(2, 42, 2)
-doctor_coherence = [xxx]
-
-plt.plot(x1, patient_coherence, label="patient", markerfacecolor="b",marker="o")
-plt.plot(x2, doctor_coherence, label="doctor", markerfacecolor="r", marker="^")
-plt.xlabel('Number of topics')
-plt.ylabel('Topic Coherence')
-
-font1 = {'weight' : 'normal', 'size' : 14}
-plt.legend(loc="upper right", prop=font1)
-plt.savefig('./coherence.png')
-plt.show()
+a = [1,2,3,4,5,6]
+random.shuffle(a) # 打乱 a 中元素的顺序
 ```

@@ -141,3 +141,109 @@ class Singleton(object):
     def __new__(cls, *args, **kwargs):
     	pass
 ```
+
+#### python 常用模块
+1. re 正则表达式
+2. os 文件操作、系统
+3. request
+```python
+url = "http://www.sinomed.ac.cn/zh/subjectSearch.html"
+with requests.Session() as s:
+    r = s.get(url)
+content = re.findall(r'WebFXLoadTreeItem(.+?)\n', r.text)
+```
+4. urllib
+5. multiprocessing
+```python
+pool_size = multiprocessing.cpu_count()*2
+pool = multiprocessing.Pool(processes = 2)
+files = os.listdir(root_dir)
+word_f = open(word_file, 'r', encoding='utf-8')
+allword = word_f.read()  # 词典
+for file in sorted(files, key=lambda s: int(s.split('.')[0])):
+    filename = os.path.join(root_dir, file)
+    pool.apply_async(sparse_matrix, (filename, allword, matrix_file, ))
+
+pool.close()
+pool.join()
+word_f.close()
+```
+6. logging
+7. collections 
+8. time
+9. sys
+
+
+#### python 第三方库
+1. jieba 分词
+```python
+jieba.load_userdict(u'C:\\Users\\谢祎玉\\Desktop\\1.txt')
+wordlist = list(jieba.cut(line))
+```
+2. BeautifulSoup
+```python
+with requests.Session() as s:
+    topic_r = s.get(topic_url)
+soup = BeautifulSoup(topic_r.text, 'lxml')
+topic_tree = soup.find_all('tree')
+
+for i in range(1, len(topic_tree)):
+    topic_child = topic_tree[i].attrs['text']
+    print(topic_child)
+    traget_file = u'D:\\陆门\\临床学科整理\\1临床课程文本\\cmesh1.txt'
+    fp = open(traget_file, 'a+')
+    fp.write(topic_child + '\n')
+
+    if 'src=' in str(topic_tree[i]):
+        url_child = "http://www.sinomed.ac.cn/%s" % topic_tree[i].attrs['src']
+        get_topic(url_child)
+    else:
+        continue
+```
+3. xlrd\xlsxwriter
+```python
+def open_excel(filepath):
+    """
+    打开一个 Excel 文件
+    :param filepath: 文件路径
+    :return:
+    """
+    try:
+        data = xlrd.open_workbook(filepath)
+        return data
+    except Exception as e:
+        print(str(e))
+
+def write_excel(filepath, res, sheetname='sheet'):
+    """
+    将 res 写入 Excel 文件中
+    :param filepath: 文件路径
+    :param res: 结果，格式为 List[List[str]], 如 [['身份', '对话内容'], ...]
+    :return:
+    """
+    book = xlsxwriter.Workbook(filepath, {'strings_to_urls': False}) # 创建一个Excel
+    sheet = book.add_worksheet(sheetname)
+    for i in range(len(res)):
+        for j in range(len(res[i])):
+            sheet.write(i, j, res[i][j]) # 在新sheet中写入第i行第j列的内容
+```
+4. gensim
+5. matplotlib.pyplot
+```python
+import matplotlib.pyplot as plt
+x1 = range(2, 42, 2)
+patient_coherence = [xxx]
+
+x2 = range(2, 42, 2)
+doctor_coherence = [xxx]
+
+plt.plot(x1, patient_coherence, label="patient", markerfacecolor="b",marker="o")
+plt.plot(x2, doctor_coherence, label="doctor", markerfacecolor="r", marker="^")
+plt.xlabel('Number of topics')
+plt.ylabel('Topic Coherence')
+
+font1 = {'weight' : 'normal', 'size' : 14}
+plt.legend(loc="upper right", prop=font1)
+plt.savefig('./coherence.png')
+plt.show()
+```
