@@ -398,8 +398,8 @@ class Solution:
 ```python
 def NumberOf1(self, n):
     cnt = 0
-    while n & 0xffffffff:
-        n = (n-1) & n
+    while n:
+        n = (n-1) & n & 0xffffffff # 负数在进行位运算的时候记得和 Oxffffffff 相与
         cnt += 1
     return cnt
 ```

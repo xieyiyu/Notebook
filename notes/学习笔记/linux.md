@@ -3,8 +3,14 @@
 * [文件系统](#文件系统)
 * [文件操作](#文件操作)
 	* [文件与目录基本操作](#文件与目录基本操作)
+		* [ln](#ln)
+		* [find](#find)
+		* [tar](#tar)
 	* [文件权限](#文件权限)
 	* [文档编辑](#文档编辑)
+		* [wc](#wc)
+		* [tr](#tr)
+		* [split](#split)
 	* [文件描述符](#文件描述符)
 * [文本操作](#文本操作)
 	* [查看日志](#查看日志)
@@ -19,7 +25,17 @@
 * [系统管理](#系统管理)
 	* [用户管理](#用户管理)
 * [磁盘管理](#磁盘管理)
+	* [df](#df)
+	* [du](#du)
+	* [fdisk](#fdisk)
+	* [mount](#mount)
 * [其他](#其他)
+	* [linux 快捷操作](#linux-快捷操作)
+	* [过滤器](#过滤器)
+	* [rsync](#rsync)
+	* [curl](#curl)
+	* [source](#source)
+	* [xargs](#xargs)
 <!-- GFM-TOC -->
 
 ## 文件系统
@@ -254,6 +270,13 @@ $ chown tom:users file
 ```sh
 cat filename | tr [:lower:] [:upper:]
 ```
+
+### split
+split 将大文件分割成较小的文件，在默认情况下将按照每 1000 行切割成一个小文件
+
+`split [-<行数>][-b <字节>][-C <字节>][-l <行数>][要切割的文件][输出文件名]`
+
+-C 与参数"-b"相似，指定每多少字节切成一个小文件,但是在切割时将尽量维持每行的完整性
 
 ### 文件描述符
 0: 标准输入 STDIN
@@ -492,8 +515,8 @@ fg %1：移到前台
 - 系统能使用的进程号有限，如果产生大量僵尸进程，就可能因为没有可用进程号而不能产生新进程。
 - 消灭僵尸进程： kill 父进程，那僵尸进程将变为孤儿进程，由 init 收养，init 会释放僵尸进程占用的资源。
 
-### 系统管理
-#### 用户管理
+## 系统管理
+### 用户管理
 ```
 useradd xxx：添加用户
 passwd xxx： 为新用户设置密码
@@ -501,7 +524,7 @@ userdel xxx：删除用户
 logout：注销当前用户
 ```
 
-### 磁盘管理
+## 磁盘管理
 Linux磁盘管理常用三个命令为 df、du 和 fdisk。
 ```
 df：列出文件系统的整体磁盘使用量
@@ -509,7 +532,7 @@ du：检查磁盘空间使用量
 fdisk：用于磁盘分区
 ```
 
-#### 1. df
+### df
 检查文件系统的磁盘空间占用情况，可以获取硬盘被占用了多少空间，目前还剩多少空间等信息。
 ```sh 
 $ df [-ahikHTm] [目录或文件名]
@@ -518,17 +541,17 @@ $ df [-ahikHTm] [目录或文件名]
 -T ：显示文件系统类型, 连同该 partition 的 filesystem 名称 (例如 ext3) 也列出；
 ```
 
-#### 2. du
+### du
 du 命令是对文件和目录磁盘使用的空间的查看
 ```sh
 $ du [-ahskm] 文件或目录名称
 ```
 
-#### 3. fdisk
+### fdisk
 fdisk [-l] 装置名称  是磁盘分区表操作工具
 -l ：输出后面接的装置所有的分区内容。若仅有 fdisk -l 时， 则系统将会把整个系统内能够搜寻到的装置的分区均列出来。
 
-#### 4. mount
+### mount
 磁盘挂载使用 mount 命令，卸载使用 umount 命令。
 mount [-t 文件系统] [-L Label名] [-o 额外选项] [-n]  装置文件名  挂载点
 ```sh
@@ -536,10 +559,14 @@ mount [-t 文件系统] [-L Label名] [-o 额外选项] [-n]  装置文件名  �
 $ mount /dev/hdc6 /mnt/hdc6
 ```
 
+## 其他
+### linux 快捷操作
+~ ： 显示目录
+ctrl+a ： 光标移到行首； ctrl+e ： 光标移到行尾
+ctrl+d ： 删除光标位置的字符
 
-
-
-
+两次tab键 ： 显示自动补全列表
+history：显示历史命令； history | grep /usr/bin ： 显示包含/usr/bin的历史命令
 
 ### 过滤器
 sort： 可以改变输出结果，生成一个有序列表
@@ -548,32 +575,14 @@ uniq： 报道或忽略重复行，接受数据有序列表，常与sort连用; 
 wc： 显示文件包含的行数、字数和字节数； wc -l ：只显示行数
 head/tail ： 默认打印文件开头/结尾的十行； -n x：控制打印x行； -f：检测文件变化，有新内容会显示在屏幕上
 
-
-
-wget 地址：下载文件
-tar -zxvf xxx：解压； ./configure ； make ； make install
-tough filename：新建文件；vi filename：新建并编辑
-
-linux字符类 [:alnum:] 任意一个字母或数字; [:alpha:]; [:digit:]; [:lower:]; [:upper:]
-例： \*[[:lower:]123] 文件名以小写字母结尾，或以1 2 3结尾的文件
-两次tab键 ： 显示自动补全列表
-history：显示历史命令； history | grep /usr/bin ： 显示包含/usr/bin的历史命令
-
-~ ： 显示目录
-
-ctrl+a ： 光标移到行首； ctrl+e ： 光标移到行尾
-文本编辑
-ctrl+d ： 删除光标位置的字符
-
-### 其他
-#### 1. rsync
+### rsync
 数据镜像备份工具，用于文件同步和数据传输，可将客户机和远程文件服务器之间的文件同步。
 rsync -zr --progress 10.77.29.68::backup/weiflow/xxx
 -z 传输时对数据压缩
 -r 对子目录递归
 --progress 显示数据镜像同步过程
 
-#### 2. curl
+### curl
 curl [options] url ，利用 url 规则在命令行下工作的文件传输工具，支持文件的上传和下载
 
 ```sh
@@ -582,10 +591,7 @@ curl -c cookie.txt url ，保存 http 的 response 里的 cookie 信息
 curl -c cookie.txt -F name=xieyiyu -F pwd=xxx url ，模拟表单信息，模拟登录 url，并保存 cookie 信息
 ```
 
-#### 3.tr
-
-
-#### 4. source
+### source
 source：使当前shell读入路径为filepath的shell文件并依次执行文件中的所有语句，通常用于重新执行刚修改的初始化文件，使之立即生效，而不必注销并重新登录
 
 ~/是进入当前用户的主目录。比如我用的用户名是USER 那么命令 cd ~/ 就进入了/home/USER 目录。
@@ -594,7 +600,7 @@ source：使当前shell读入路径为filepath的shell文件并依次执行文�
 
 更新配置文件命令： `source ~/.bashrc`
 
-#### 5. xargs
+### xargs
 xargs 是给命令传递参数的一个过滤器，也是组合多个命令的一个工具不，一般和管道一起使用。 有些命令不支持管道 | 来传递参数，就需要用 xargs
 
 `find /usr -name '.txt' | xargs ls -l` 如果不加 xargs 会 ls -l 当前目录下所有文件的信息 
