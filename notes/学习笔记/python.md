@@ -66,6 +66,8 @@ java、 c 是静态语言， 数据类型在编译前就需要明确
 6. 在 python2 中很多返回 list 对象的的内置函数在 python3 中改为了返回类似迭代器的对象（惰性加载操作大数据更有效率），比如 dict.keys(), dict.values()
 7. 加入 nonlocal 关键字，可以在闭包中给一个变量申明为非局部变量
 8. 除法：python2 中 1/2==0， python3 中 1/2==0.5
+9. sort 自定义排序函数，在 python2 中可以直接传入 cmp 函数； python3 中需要 from functools import cmp_to_key， 用的时候要 key = cmp_to_key(cmp)
+10. long 类型： python2 的整型有 int 和长整型 long； python3 中整合了二者，只有 int 类型
 
 将 python2 转为 python3 兼容的： `from __future__ imports xxx`
 
@@ -254,8 +256,13 @@ python2.6 之前的版本，除法只有 `/`，对于整数运算会舍弃小数
 同步 IO： CPU 等待程序完成，再执行后面的代码； 异步 IO： CPU 不等待磁盘操作
 
 ### 读取键盘输入
-- raw_input([prompt]): 从标准输入读取一行，并返回这个的字符串； prompt 提示的文字
-- input([prompt])： 可以接收一个 python 表达式作为输入，并返回运算结果
+python2.x 中以下三个函数都支持
+- raw_input([prompt]): 将所有输入作为字符串看待，返回字符串类型； prompt 提示的文字
+- input([prompt])： 只能接收“数字”的输入，返回所输入的数字的类型（ int, float ）
+- sys.stdin.readline() 将所有输入视为字符串，并在最后包含换行符'\n'，可以通过sys.stdin.readline().strip('\n')去掉换行符
+
+python3.x 中：
+- input(): 整合 raw_input()和input()，接收任意输入，将所有输入默认为字符串处理，并返回字符串类型。
 
 ### 文件操作
 #### read
@@ -335,8 +342,15 @@ float('inf') #无穷大
 ```
 
 ## python数据规范化问题
-#### python 保留小数位    
-float('%.2f' % a)  
+### python 保留小数位    
+float('%.6f' % a) 可以控制保留六位小数，但是如果后面都是 0 的话，比如 0.00000，返回的是 0.0； 如果是 1.2200000 的话，返回的是 1.22
+
+### Decimal
+```python
+from decimal import Decimal
+
+Decimal(num).quantize(Decimal('0.000000')) # 四舍五入，保留六位小数，不管 num 是什么形式
+```
 
 ## python浅拷贝和深拷贝
 1. 直接赋值  
@@ -727,4 +741,17 @@ random.randrange(1, 101, 2) # 生成从 1 到 101 间隔为 2 的整数，也就
 
 a = [1,2,3,4,5,6]
 random.shuffle(a) # 打乱 a 中元素的顺序
+```
+
+#### find() 和 index() 区别
+index() 和 find() 都是检测字符串中是否包含子字符串 str ，如果指定 beg（开始） 和 end（结束） 范围，则检查是否包含在指定范围内。
+
+不同的是： 
+1. 如果找不到，find() 返回 -1 ； 而 index() 会报一个异常 substring not found。
+2. 列表有 index() 方法，没有 find() 方法
+ 
+```python
+str.index(str, beg=0, end=len(string))
+str.find(str, beg=0, end=len(string))
+list.index(n)
 ```

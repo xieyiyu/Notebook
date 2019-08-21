@@ -8,8 +8,8 @@ netstat -anp | grep 80
 
 3. 查看某个进程的端口号：
 ```sh
-ps aux | grep xxx # 可以看到端口号和详细信息
-netstat -anp | grep xxx # 也可以
+netstat -anp | grep xxx 
+lsof -i :80
 ``` 
 
 4. top： 用于实施监控 linux 系统状况，可以查看 cpu、内存、进程、运行时间等
@@ -95,14 +95,18 @@ grep -r : 递归查询子目录； -l：查询多文件的时候只输出包含�
 
 2. 查找文本中 “abcd” 字符串出现的次数
 使用 vim 统计，在命令模式下输入： `:%s/abcd//gn`，注意如果是 `:%s/abcd/gn` 是用 gn 去替换 abcd
-使用 grep 统计 ： `grep -c "abcd" filepath`
+使用 grep 统计 ： `grep -o "abcd" filepath | wc -l`
 
 3. 统计日志文件中一秒之内打印出的日志条数
 
 
 4. 统计文本中每个单词出现的次数
 ```sh
-cat word.txt | awk '{a[$0]++} END{for (i in a) print i"="a[i]}'
+cat word.txt | awk '{a[$0]++} END{for (i in a) print i"="a[i]}' # 每行是一个单词
+```
+如果每行是一个单词，那么直接可以：
+```sh
+cat word.txt | sort | uniq -c
 ```
 
 5. 统计出现频率最多的 3 个单词

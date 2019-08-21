@@ -325,6 +325,8 @@ class Solution:
                 for i in range(left+1, right+1):
                     if rotateArray[i] < rotateArray[mid]:
                         return rotateArray[i]
+                    if i == right:
+                        return rotateArray[right] # 数组元素全部相等的情况
             elif rotateArray[mid] >= rotateArray[left]:
                 left = mid
             else:
@@ -1696,8 +1698,7 @@ class Solution:
         if char not in self.dict:
             self.dict[char] = 1
         else:
-            self.dict[char] += 1
-        
+            self.dict[char] += 1 
 ```
 
 ### 链表中环的入口结点
