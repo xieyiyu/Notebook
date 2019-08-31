@@ -18,7 +18,7 @@ lsof -i :80
 kill 用法： kill -n pid,  -n 是信号编号
 
 kill pid 就是 kill -15 pid， -15 是 SIGTERM
-系统会发送一个SIGTERM的信号给对应的程序。当程序接收到该signal后，将会发生以下的事情
+系统会发送一个 SIGTERM 的信号给对应的程序。当程序接收到该 signal 后，将会发生以下的事情
 - 程序立刻停止
 - 当程序释放相应资源后再停止
 - 程序可能仍然继续运行
@@ -33,6 +33,10 @@ netstat -anp | grep 端口号 # 先找到 pid
 kill -9 pid # 再杀死
 ```
 
+7. linux 暂停一个进程或程序
+暂停： 在 shell窗口 ctrl + z，显示 `[3]+  Stopped ...`
+恢复： fg %3
+
 ### vim
 1. 显示行号： 命令模式下输入 `:set nu`, 
    取消显示行号： `:set nonu`
@@ -42,6 +46,7 @@ kill -9 pid # 再杀死
 :s/old/new/g # 用 old 替换 new，替换当前行的所有匹配
 :%s/old/new/g # 用 old 替换 new，替换整个文件的所有匹配
 ```
+用 sed 是： sed 's/old/new/g' file
 
 ### 文件操作
 #### 文件权限
@@ -55,6 +60,18 @@ kill -9 pid # 再杀死
 1. 查找当前目录下名字带有 abc 的文件 `ls *abc*`
 
 2. 创建新文件 `touch newfile`
+
+使用 shell 新建以 00-99 为文件名的空文件
+如果是 0-99，可以 touch {0..99}，同样的 mkdir，rm 都可以这样用，同样也可以 touch {0,1,2,3}
+
+如果是 00-99，就需要格式化，一位数的话前面要补 0
+```sh
+for i in $(seq 0 99); 
+do
+	filename=$(printf %02d $i); 
+	touch "$filename"; 
+done
+```
 
 3. 服务器A上的文件拷贝到B，远程拷贝 `scp A/xxx B/xxx`
 
@@ -93,14 +110,24 @@ grep -r : 递归查询子目录； -l：查询多文件的时候只输出包含�
 
 \`\` :反引号，获取执行命令的结果 
 
-2. 查找文本中 “abcd” 字符串出现的次数
+2. 用 sed 命令删除文件的 xxx
+```sh
+sed -i '$d' test.txt # 删除最后一行
+sed -i '1d' test.txt # 删除第一行
+sed -i '/^$/d' test.txt # 删除所有空行
+sed -i 'Nd' test.txt # 删除第 N 行，N 是数字
+sed -i '3,5d' test.txt # 删除第 3-5 行
+sed -i '/abc/d;/egf/d' test.txt # 删除包含字符串 abc 或 egf 的行
+```
+
+3. 查找文本中 “abcd” 字符串出现的次数
 使用 vim 统计，在命令模式下输入： `:%s/abcd//gn`，注意如果是 `:%s/abcd/gn` 是用 gn 去替换 abcd
 使用 grep 统计 ： `grep -o "abcd" filepath | wc -l`
 
-3. 统计日志文件中一秒之内打印出的日志条数
+4. 统计日志文件中一秒之内打印出的日志条数
 
 
-4. 统计文本中每个单词出现的次数
+5. 统计文本中每个单词出现的次数
 ```sh
 cat word.txt | awk '{a[$0]++} END{for (i in a) print i"="a[i]}' # 每行是一个单词
 ```
@@ -109,13 +136,13 @@ cat word.txt | awk '{a[$0]++} END{for (i in a) print i"="a[i]}' # 每行是一�
 cat word.txt | sort | uniq -c
 ```
 
-5. 统计出现频率最多的 3 个单词
+6. 统计出现频率最多的 3 个单词
 ```sh
 cat word.txt | awk '{a[$0]++} END{for (i in a) print i" "a[i]}' | sort -k2rn | head -3 
 # -r 倒序； -k2 按照第 2 个字段排序，也就是 a[i]； -n 按照数值排序
 ```
 
-6. 统计一个文件中出现次数最多的 ip， 文本第二个字段是 ip
+7. 统计一个文件中出现次数最多的 ip， 文本第二个字段是 ip
 ```sh
 cat ip.txt | awk '{print $2}' | sort | uniq -c | sort -nr | head -n 1
 # uniq 命令用于检查及删除文本文件中重复出现的行列，一般与 sort 命令结合使用, -c或--count 在每列旁边显示该行重复出现的次数。
@@ -185,3 +212,7 @@ nohup python test.py >> output.log 2>&1 &
 nohup 的是忽略 SIGHUP 信号，当运行 nohup ./a.out 的时候，关闭shell, a.out 进程继续运行（对 SIGHUP 信号免疫），但用 ctrl+c 会消失。
 
 因此，要想进程不受 shell 关闭和 ctrl+c 影响，就两个同时用
+
+8. 服务器远程登录：
+ssh -p 端口号 服务器用户名@ip ，回车后，再输入账号密码
+

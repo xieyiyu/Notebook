@@ -73,9 +73,9 @@ git pull
 git branch 列出所有分支
 git branch dev 创建分支
 git branch –d dev 删除分支
-git checkout dev 切换到dev分支
-git checkout -b dev 创建并切换到dev分支
-git merge dev 合并分支，先切换到master分支中
+git checkout dev 切换到 dev 分支
+git checkout -b dev 创建并切换到 dev 分支
+git merge dev 合并分支，先切换到 master 分支中
 ```
 
 git 无法自动合并分支时，需要先解决冲突在提交，`git log –graph` 查看分支合并图

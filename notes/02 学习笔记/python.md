@@ -1,23 +1,24 @@
 # python学习笔记
 <!-- GFM-TOC -->
 * [python 概念](#python-概念)
-	* [python 优缺点](#python-优缺点)
-	* [python java c 区别](#python-java-c-区别)
-	* [python2 和 python3 区别](#python2-和-python3-区别)
-	* [python 参数传递机制](#python参数传递机制)
+    * [python 优缺点](#python-优缺点)
+    * [python java c 区别](#python-java-c-区别)
+    * [python2 和 python3 区别](#python2-和-python3-区别)
+    * [IDLE](#idle)
+    * [python 参数传递机制](#python参数传递机制)
 * [变量](#变量)
-	* [星号和双星号](#星号和双星号)
-	* [命名方式](#命名方式)
+    * [星号和双星号](#星号和双星号)
+    * [命名方式](#命名方式)
 * [python 数据结构](#python-数据结构)
-	* [python 可变和不可变](#python-可变和不可变)
-	* [字符串](#字符串)
-	* [列表](#列表)
-	* [字典](#字典)
+    * [python 可变和不可变](#python-可变和不可变)
+    * [字符串](#字符串)
+    * [列表](#列表)
+    * [字典](#字典)
 * [python 运算（除法、取模）](#python-运算)
 * [IO 编程](#io-编程)
-	* [读取键盘输入](#读取键盘输入)
-	* [文件操作](#文件操作)
-	* [目录操作](#目录操作)
+    * [读取键盘输入](#读取键盘输入)
+    * [文件读写](#文件读写)
+    * [目录操作](#目录操作)
 * [python内置函数](#python内置函数)
 * [python初始化问题](#python初始化问题)
 * [python数据规范化问题](#python数据规范化问题)
@@ -25,21 +26,21 @@
 * [正则表达式](#正则表达式)
 * [位运算](#位运算)
 * [python三大神器](#python三大神器)
-	* [装饰器](#装饰器)
-	* [生成器](#生成器)
-	* [迭代器](#迭代器)
+    * [装饰器](#装饰器)
+    * [生成器](#生成器)
+    * [迭代器](#迭代器)
 * [函数式编程](#函数式编程)
-	* [高阶函数](#高阶函数)
-	* [lambda](#lambda)
-	* [偏函数](#偏函数)
+    * [高阶函数](#高阶函数)
+    * [lambda](#lambda)
+    * [偏函数](#偏函数)
 * [异常处理](#异常处理)
 * [python 编码](#python-编码)
 * [面向对象编程](#面向对象编程)
 * [其他](#其他)
+* [python 魔术方法](#python-魔术方法)
 <!-- GFM-TOC -->
 
 ## python 基础
-
 ### python 优缺点
 **优点**：
 1. 优雅、明确、简单。易学，能够专注解决问题而不是搞明白语言本身。
@@ -57,6 +58,14 @@
 python 是动态语言，解释型语言，运行速度较慢；在运行期间才做数据类型检查；语法简单，代码量少，类库丰富
 java、 c 是静态语言， 数据类型在编译前就需要明确
 
+### python 为什么不需要编译
+python 是解释性语言，程序不需要编译，在运行时才翻译成机器语言，每执行一次都要翻译一次，因此效率较低。
+python 源码不需要编译成二进制代码，它可以直接从源代码运行程序。当我们运行 python 文件程序的时候，python 解释器将源代码转换为字节码，然后再由 python 解释器来执行这些字节码。
+
+#### python 解释器
+python 解释器由一个编译器和一个虚拟机构成，编译器负责将源代码转换成字节码文件，而虚拟机负责执行字节码。
+所以，解释型语言其实也有编译过程，只不过这个编译过程并不是直接生成目标代码，而是中间代码（字节码），然后再通过虚拟机来逐行解释执行字节码。
+
 ### python2 和 python3 区别
 1. print
 2. 默认编码： python2 是 ASCII，python3 是 UTF-8
@@ -70,6 +79,9 @@ java、 c 是静态语言， 数据类型在编译前就需要明确
 10. long 类型： python2 的整型有 int 和长整型 long； python3 中整合了二者，只有 int 类型
 
 将 python2 转为 python3 兼容的： `from __future__ imports xxx`
+
+### IDLE
+IDLE 是 python 整体化的开发和学习环境，装好 python，IDLE 就自动装好。其实在 cmd 中输出 python 进入 python 运行环境基本一致，但又高亮、自动缩进、方法提示等功能。
 
 ### python参数传递机制
 python 中一切皆对象，任何变量都是对象的引用，python 中参数传递都是**“传对象引用”**的方式，相当于传值和传引用的结合。若收到是可变对象的引用，就能修改对象的原始值，相当于“传引用”； 若收到是不可变对象，就不能直接修改原始对象，相当于“传值”。
@@ -101,79 +113,50 @@ python中主要存在四种命名方式：
 
 不可变类型有： number(int、float、bool、complex)、 string、 tuple
 
-python 对 int 和较短的 string 进行了缓存，无论声明多少个值相同的变量，实际上都是指向同一个内存地址； 但两个值相同的 float 的内存地址不同。   
-比如 x = 10 和 y = 10， 查看二者的内存地址会发现，id(x) == id(y)； 但若 x += 1 后，内存地址会改变。
+##### number
+python3 中对 int 和较短的 string 进行了缓存，无论声明多少个值相同的变量，实际上都是指向同一个内存地址
 
-值相同的元组的地址可能不同，元组的本质是只读的列表
+整数： 相同值的正整数和 0 的 id 都相同，相同值的负整数，-1 到 -5 相同，-6 之后不同
+浮点数： 正浮点数都相同，负浮点数都不同，+0.0 和 -0.0 不同
+虚数： 实部和虚部都存在的话，id 不同； 只有虚部的话 id 相同
+字符串： 值相同的话 id 相同
+元组： 空元组的 id 相同，非空的话 id 不同
+列表，字典，集合： 无论什么情况，空或非空，id 标识都不同
+
+**数据驻留小数据池**
+在不同模块里，部分数据驻留小数据池中，python3 提前在内存中创建了 [-5,256] 范围的整数, 不同模块的两个变量,在此范围具有相同的值 id 相同。如果超出了这个范围，每次运行 id 都会变化。
+
+小数据池针对： int、string、bool、空元祖()、None 关键字
+
+目的： 节省内存空间，提升代码效率
+
+如果在同一代码块下，则采用同一代码块下的换缓存机制。
+如果是不同代码块，则采用小数据池的驻留机制。
+
+### str
+#### 字符串与字节串
+python3 中只有 str 这种数据类型可以保存文本信息，str 是字符串，是 unicode，没有前缀。  
+python3 中新增 bytes 类型表示字节串（二进制数据），需要加前缀 b， by = b'china'，只能用字节作为序列值，用 [0, 256] 的整数表示。
+```python
+by = b'china'
+print(list(by)) # [99, 104, 105, 110, 97]
+```
+
+文本用 str 表示，但将数据保存到文本或在网络编程中必须是二进制数据，因此字符串和字节串会进行一个转换。
+- str.encode(encoding='xxx') 实现 str->bytes
+- bytes.decode(encoding='xxx') 实现 bytes->str
 
 ##### tuple
 Python 中的 tuple 结构为 “不可变序列”，用小括号表示。为了区别数学中表示优先级的小括号，当 tuple 中只含一个元素时，需要在元素后加上逗号。即 (1, )， 如果是 (1) 会被判定为 int 型
+
+值相同的元组的地址可能不同，元组的本质是只读的列表
 
 #### 可变数据类型
 变量所指的内存地址处的值是可以改变的，值的变化不会引起新建对象，地址不会改变。
 
 有 list、 set 和 dict， 比如对 a = [1, 2, 3] 进行 append 或 pop， a 的地址不会改变，但若有一个 b = [1, 2, 3] ，a 和 b 的地址是不同的； 若 c = b，此时 b c 的地址相同
 
-### 字符串
-#### 1. python str 类型
-python 中的 str 类型不能修改，但可以通过切片操作来实现插入、删除和修改操作。  
-如 a = '12045'，需要把 '0' 修改为 '3'
-```python
-a = a[:2] + '3' + a[3:]
-```
-
-#### 2. join()
-str.join(sequence)用于将序列中的元素以指定的字符连接生成一个新的字符串。经常见到''.join()将列表字典等转化为字符串。  
-```python
-str = "-";
-seq = ("a", "b", "c") # 字符串序列
-print(str.join(seq)) # a-b-c
-```
-
-#### 3. python 判断字符属于数字、字母还是空格：  
-```python
-c.isdigit() # 数字
-c.isalpha() # 字母
-c.isalnum() # 数字和字母
-c.isspace() # 空格
-```
-
-#### 4. python strip()
-str.strip(c) 用于移除字符串首尾指定的字符，不指定 c 则默认为空格或换行符，只要首尾包含有 c 的序列就删除，不管具体的顺序。  
-str.lstrip(c) 移除左端指定字符。  
-str.rstrip(c) 移除末端指定字符。
-
-#### 5. python split()
-str.split(str="", num=string.count(str))
-分隔符默认为所有空字符，包括空格，换行\n ，制表符 \t;  num 为分割次数
-
-#### 6. str与bytes
-python3 中新增 bytes 类型 by = b'china'; 
-- str.encode() 实现 str->bytes
-- bytes.decode() 实现 bytes->str
-
 ### 列表
-#### 1. list 和 set
-判断值是否在 set 中的速度比 list 快的多，因此 set 用到 hash 时间复杂度为 O(1)， 而 list 时间复杂度 O(n)  
-因此可以将 list 转为 set 来提高查询效率
-
-#### 2. extend 和 append  
-```python
-list.append(object) # 向列表中添加一个对象 object, 整体打包添加进去
-list.extend(sequence) # 把一个序列 seq 的内容添加到列表中
-```
-```python
-a = [1, 2, 3]
-b = [4, 5, 6]
-a.append(b) # a = [1, 2, 3, [4, 5, 6]]
-a.extend(b) # a = [1, 2, 3, 4, 5, 6]
-```
-
-#### 3. List index()
-```python
-list.index(obj) # 用于从列表中找出某个值第一个匹配项的索引位置，没有找到对象则抛出异常。
-```
-
 #### 4. sort()和sorted()
 [sort()和sorted的区别](https://www.cnblogs.com/jonm/p/8281228.html)
 - 内置函数 sort()
@@ -199,16 +182,12 @@ nums.sort(key=cmp_to_key(lambda a, b: a - b)) # nums = [1, 2, 3, 4]
 nums = sorted(nums, cmp) # 按从大到小的顺序排序
 
 def cmp(x, y):
-	if x > y:
-		return -1
-	if x < y:
-		return 1
-	return 0
+    if x > y:
+        return -1
+    if x < y:
+        return 1
+    return 0
 ```
-
-#### 5. 反转
-反转List: list.reverse()  
-反转字符串: str[::-1]
 
 ### 字典
 在 python2 中，字典是无序的，若要保持有序，需要用 OrderedDict
@@ -223,7 +202,7 @@ d = OrderedDict()
 遍历 dict 中每一个元素的 key 和 value
 ```python
 for key, value in dict.items():
-	print(key, value)
+    print(key, value)
 ```
 
 ## python 运算
@@ -232,7 +211,15 @@ for key, value in dict.items():
 python3 中的除法，`/` 总是返回浮点数，`//` 返回整除结果，且是向下取整。  
 python2.6 之前的版本，除法只有 `/`，对于整数运算会舍弃小数部分，对于浮点数运算会保留小数。
 
-需要注意的是：`//` 得到的是整除的结果，并不一定是整数，这取决于分子分母的数据类型。
+需要注意的是：`//` 得到的是整除的结果，并不一定是整数，这取决于分子分母的数据类型。 `//` 叫做地板除，不保留浮点数的尾数
+```python
+a = 5 // 2 # 2
+b = 5 / 3 # 1.6666666666666667
+c = 5 % 2 # 1
+d = 4.5 // 2 # 2.0
+e = 4.5 / 2 # 2.25
+f = 4.5 % 2 # 0.5
+```
 
 #### 负数除法
 由于 python3 的除法是向下取整，比如 -4//3 = -2
@@ -240,12 +227,9 @@ python2.6 之前的版本，除法只有 `/`，对于整数运算会舍弃小数
 但我们通常的计算中是**向零取整**，比如 -4//3 = -1，如果想要在 python3 中得到这个结果，需要 int(-4/3)
 
 ```python
->>> int(-4/3)
--1
->>> -4//3
--2
->>> -4/3
--1.3333333333333333
+a = int(-4/3) # 1
+b = -4//3 # -2
+c = -4/3 # -1.3333333333333333
 ```
 
 ### 取模
@@ -264,15 +248,15 @@ python2.x 中以下三个函数都支持
 python3.x 中：
 - input(): 整合 raw_input()和input()，接收任意输入，将所有输入默认为字符串处理，并返回字符串类型。
 
-### 文件操作
+### 文件读写
 #### read
 用 with open 方法能够自动调用 close() 方法
 ```python
 with open('filename', 'r', encoding='utf-8') as f:
-	f.read() # 一次性读取文件内容，适用于文件较小的情况，过大文件内存不足
-	f.readline() # 每次读取一行内容
-	f.readlines() # 一次性读取文件内容并按行返回 list，很适用配置文件
-	for line in f: # 按行读取，使用大文件
+    f.read() # 一次性读取文件内容，适用于文件较小的情况，过大文件内存不足
+    f.readline() # 每次读取一行内容
+    f.readlines() # 一次性读取文件内容并按行返回 list，很适用配置文件
+    for line in f: # 按行读取，使用大文件
 ```
 - 读取二进制文件，如图片、视频等需要用 'rb' 模式
 - 读取非 ASCII 码的文本文件，如 gbk 编码，需要先用二进制模式 'rb' 打开，再用 f.read().decode('gbk')  解码；用 codecs 可以自动转换编码直接读出 unicode
@@ -285,6 +269,40 @@ fo = open('filename', 'r')
 fo.write(string)
 ```
 
+#### 文件读写模式
+模式|可做操作|若文件不存在|是否覆盖
+-|-|-|-
+r  | 只读    |   报错     | - 
+r+ | 可读可写 |   报错    | 是，要注意 r+ 从行首开始覆盖，有多长就覆盖多长，原来的后面还会存在
+w  | 只写    |    创建    | 是
+w+ | 可读可写 |   创建    | 是
+a  | 只写    |    创建    | 否，行尾追加写
+a+ | 可读可写 |   创建    | 否，行尾追加写
+
+如果是 b(rb, r+b, wb, w+b, ab, a+b) 表示以二进制形式打开文件
+在 python3 中，如果只是 r，则 read() 返回的是 str； 如果是 rb，read() 返回的是 bytes
+
+如果是 rt，会自动识别 windows 平台的换行符，将 \r\n 转换成 \n。  
+因为文本文件中的回车在不同操作系统中所用的字符表示不同。  
+Windows: \r\n ； Linux/Unix: \n ； Mac OS: \r
+
+如果要先写后读，w+ 和 a+ 需要用 seek(0,0) 将光标移到行首，否则读不出来
+```python
+with open('demo.txt', 'a+') as fw:
+    fw.write('a')
+    fw.seek(0,0)
+    print(fw.read())
+```
+
+#### seek()
+seek() 方法用于移动文件读取指针到指定位置。
+
+`fileObject.seek(offset[, whence])`
+offset： 开始的偏移量，也就是代表需要移动偏移的字节数
+whence： 可选，默认值为 0。给 offset参 数一个定义，表示要从哪个位置开始偏移；0 代表从文件开头开始算起， 1 代表从当前位置开始算起，2 代表从文件末尾算起。
+return： 成功返回新的文件位置， 失败返回 -1
+
+#### 其他
 os.rename(cur_file_name, new_file_name) 重命名 cur
 os.remove(file_name) 删除文件
 
@@ -299,7 +317,7 @@ os.remove(file_name) 删除文件
 - os.walk() 实现文件、目录遍历器，返回三元组(root,dirs,files)
 ```python
 for root, dirs, files in os.walk(dir):
-	for file in files: # 遍历文件夹下的所有文件
+    for file in files: # 遍历文件夹下的所有文件
 ```
 
 - os.popen(cmd [, mode]) 用于从一个命令打开一个管道，运行 cmd 命令， mode 模式权限默认 'r'，也可以 'w'，可以用 read() 获取执行的输出
@@ -319,26 +337,10 @@ ord(c) 返回字符 c 对应的 ascii 数值。
 'A' 的 ascii 为 65， 'a' 的 ascii 为 97，小写字母比大写字母 **大 32**
 
 ## python初始化问题
-#### 一维数组初始化
-```python
-nums = [0 for i in range(n)]
-```
-
-#### 二维数组初始化
-初始化 m 行 n 列的二维数组, 以嵌套循环的方式
-```python
-nums = [[0 for j in range(n)] for i in range(m)] # 列在前，行在后
-```
 以 numpy 方式, 调用 zeros 方法
 ```python
 import numpy
 nums = numpy.zeros([m, n])
-```
-
-#### 无穷大和无穷小
-```python
-float('inf') #无穷大
--float('inf') #无穷小
 ```
 
 ## python数据规范化问题
@@ -348,8 +350,8 @@ float('%.6f' % a) 可以控制保留六位小数，但是如果后面都是 0 �
 ### Decimal
 ```python
 from decimal import Decimal
-
-Decimal(num).quantize(Decimal('0.000000')) # 四舍五入，保留六位小数，不管 num 是什么形式
+num = 1
+num = Decimal(num).quantize(Decimal('0.000000')) # 四舍五入，保留六位小数，不管 num 是什么形式
 ```
 
 ## python浅拷贝和深拷贝
@@ -455,13 +457,13 @@ res = pattern.findall(string)
 import functools
 
 def log(text):
-	def wrapper(func):
-		@functools.wraps(func)
-		def inner_wrapper(*args, **kw): 
-			print('%s %s()' %(text, func.__name__))
-			return func(*args, **kw) # 可以让其用于任何函数，无论参数形式如何
-		return inner_wrapper
-	return wrapper
+    def wrapper(func):
+        @functools.wraps(func)
+        def inner_wrapper(*args, **kw): 
+            print('%s %s()' %(text, func.__name__))
+            return func(*args, **kw) # 可以让其用于任何函数，无论参数形式如何
+        return inner_wrapper
+    return wrapper
 ```
 
 #### 闭包
@@ -471,10 +473,10 @@ def log(text):
 
 ```python
 def outer(a):
-	b = 10
-	def inner(x):
-		print(a * x +b) # a,b 是 outer 的临时变量
-	return inner
+    b = 10
+    def inner(x):
+        print(a * x +b) # a,b 是 outer 的临时变量
+    return inner
 
 demo = outer(1)
 demo(2) # 输出 1*2+10 = 12
@@ -486,14 +488,14 @@ demo(2) # 输出 1*2+10 = 12
 
 ```python
 def outer(a):
-	b = 10
-	c = [a]
-	def inner():
-		nonlocal b
-		b += 1 # 方法1
-		c[0] += 1 # 方法2
-		print(b, c[0])
-	return inner
+    b = 10
+    c = [a]
+    def inner():
+        nonlocal b
+        b += 1 # 方法1
+        c[0] += 1 # 方法2
+        print(b, c[0])
+    return inner
 
 demo = outer(1)
 demo() # 输出 11, 2
@@ -502,11 +504,11 @@ demo() # 输出 11, 2
 在使用闭包的过程中，一旦外函数被调用一次返回了内函数的引用，虽然每次调用内函数，是开启一个函数执行过后消亡，但是闭包变量实际上只有一份，每次开启内函数都在使用同一份闭包变量
 ```python
 def outer(a):
-	def inner(b):
-		nonlocal a
-		a += b
-		return a
-	return inner
+    def inner(b):
+        nonlocal a
+        a += b
+        return a
+    return inner
 
 demo = outer(1)
 demo(2) # 输出 1+2=3
@@ -532,7 +534,6 @@ Python 的 Iterator 对象表示的是一个数据流，Iterator 对象可以被
 
 for 循环的本质是不断调用 next()
 
-
 ## 函数式编程
 特点： 允许把函数本身作为参数传入另一个函数，还允许返回一个函数
 ### 高阶函数
@@ -548,9 +549,9 @@ reduce(function, iterable[, initializer]) 对参数序列中的元素进行累�
 ```python
 # 实现将字符串转整数
 def char2num(s):
-	return {'0':0, '1':1, ...}
+    return {'0':0, '1':1, ...}
 def str2int(s):
-	return reduce(lambda x,y: x*10+y, map(char2num, s))
+    return reduce(lambda x,y: x*10+y, map(char2num, s))
 ```
 
 #### 2. filter
@@ -602,12 +603,13 @@ try-finally 语句无论是否发生异常都将执行最后的代码。
 
 Python的异常也是class，所有的异常类型都继承自BaseException，
 
-Python中的raise 关键字用于引发一个异常， raise关键字后面是抛出是一个通用的异常类型(Exception)，一般来说抛出的异常越详细越， 主动抛出
+Python中的 raise 关键字用于引发一个异常， raise 关键字后面是抛出是一个通用的异常类型(Exception)，一般来说抛出的异常越详细越， 主动抛出
 
 
 ### python 编码
 python2 默认编码是 ASCII， python3 默认编码是 Unicode。
 
+下面是在 python2 中的！！！！
 Python 有两种不同的字符串数据类型： str 和 unicode，都是 basestring 的子类。
 
 对于同一个汉字 "好"， 用 str 表示和 unicode 表示是不同的。 用 str 表示时，对应的 UTF-8 编码是 "\xe5\xa5\xbd", 而 Unicode 表示对应的符号是 u'\u597d'，等同于 u'好'。
@@ -617,7 +619,7 @@ str 可以通过 decode 解码成 unicode 字符串。unicode 可以通过 encod
 > str --> decode --> unicode  
 unicode --> encode --> str
 
-### 面向对象
+### 面向对象编程
 面向对象的三个特征：封装、继承、多态
 #### 封装
 封装，即隐藏对象的属性和实现细节，仅对外公开接口，控制在程序中属性的读和修改的访问级别。
@@ -630,13 +632,13 @@ unicode --> encode --> str
 python 允许多继承，并且在子类中拥有父类所有的成员变量和方法，为了缓解代码中的冗余，子类在父类的基础上增加的成员变量可以如下修改。
 ```python
 class Person(object):
-	def __init__(self):
-		self.name = name
+    def __init__(self):
+        self.name = name
 
 class Child(Person):
-	def __init__(self):
-		Person.__init__(self, name, sex)
-		self.mother = mother
+    def __init__(self):
+        Person.__init__(self, name, sex)
+        self.mother = mother
 ```
 
 #### 多态
@@ -669,37 +671,50 @@ __new__是在实例创建之前被调用的，因为它的任务就是创建实�
 4. __new__是一个静态方法，而__init__是一个实例方法。
 ```
 
+#### @staticmethod 和 @classmethod
 #### self 和 cls 区别
-self 是实例方法定义，cls 主要用在类方法定义。
+一般来说，要使用某个类的方法，需要先实例化一个对象再调用方法。python 中有三种定义类方法：
+1. 实例方法，self 通常用作实例方法的第一参数，用来传递当前类对象的实例，调用含有 self 参数的方法必须要通过实例调用。
 
-一般来说，要使用某个类的方法，需要先实例化一个对象再调用方法。
-而使用@staticmethod或@classmethod，就可以不需要实例化，直接类名.方法名()来调用。
+2. @classmethod 类方法，第一个参数是表明自身类的 cls 参数，cls传递当前类对象， 那么就可以调用类的属性、方法，实例化对象等。 
+
+3. @staticmethod 申明了一个静态函数，参数不用绑定 self 或 cls
+
+使用 @staticmethod 或 @classmethod，就可以不需要实例化，直接类名.方法名()来调用，当然也可以通过实例调用。
 
 ```python
 class A(object):
-	@staticmethod
-	def foo1(name): # 静态函数，这种方法与类有某种关系但不需要使用到实例或者类来参与
-		print(name) # 既可以作为类的方法使用，也可以作为类的实例的方法使用
+    @staticmethod
+    def foo1(name): # 静态函数，这种方法与类有某种关系但不需要使用到实例或者类来参与
+        print(name) # 既可以作为类的方法使用，也可以作为类的实例的方法使用
 
-	def foo2(self, name):
-		print(name)
+    def foo2(self, name):
+        print(name)
 
-	@classmethod
-	def foo3(cls, name):
-		print(name)
+    @classmethod
+    def foo3(cls, name):
+        print(name)
 
 a = A()
 a.foo1('xyy')
 A.foo1('xyy')
 
 a.foo2('xyy')
-A.foo2('xyy') # 报错
+A.foo2('xyy') # 报错，TypeError: foo2() missing 1 required positional argument: 'name'
 
 a.foo3('xyy')
 A.foo3('xyy')
 ```
 
-@staticmethod 和 @classmethod 都可以直接类名.方法名()来调用
+区分方法类型后可读性更好，对方法所依赖的变量环境一目了然。
+
+适用场景：
+1. @staticmethod
+适用于定义不需要访问任何实例方法和属性，纯粹地通过传入参数并返回数据的功能性方法，可以节省实例化对象的开销成本。 
+其实这种方法放在类外面的模块层作为一个函数存在也可以，而放在类中，就仅为这个类服务。比如更改环境变量或者修改其他类的属性。
+
+2. @classmethod
+作为工厂方法创建实例对象，如内置模块 datetime.date 类中就有大量使用类方法作为工厂方法，以此来创建 date 对象。
 
 ### 其他
 #### 前导 r
@@ -709,8 +724,9 @@ python 中字符串的前导 r 代表**原始字符串标识符**，即字符串
 python 中复数表示为 real + image j，实部和虚部都是浮点数，虚部后缀可以是 j 或 J，方法 conjugate 返回复数的共轭复数。 python 不支持复数比较大小
 ```python
 a = 1 + 2j
-a.read // 1.0
-a.imag // 2.0
+a.real # 1.0
+a.imag # 2.0
+print(a.conjugate()) # 1-2j
 ```
 
 3. 系统变量 ```__name__``` 显示当前模块执行过程中的名字，单独执行这个模块时就是 ```__main__```； 当在另个一个模块导入这个模块时，那 ```__name__``` 是这个模块的名字。
@@ -755,3 +771,19 @@ str.index(str, beg=0, end=len(string))
 str.find(str, beg=0, end=len(string))
 list.index(n)
 ```
+
+## python 魔术方法
+python 中以两个下划线开头的方法，如 `__init__`、 `__new__`、 `__doc__` 等称为魔术方法，这在类或对象的某些事件发生后会自动执行。
+
+https://segmentfault.com/a/1190000007256392
+
+1. 构造和初始化
+`__new__` 用来创建类并返回这个类的实例，`__init__` 将传入的参数来初始化实例。
+
+`__del__` 在对象生命周期结束时会调用，也就是进行垃圾回收时，可以理解为“析构函数”
+
+
+2. 属性访问控制
+`__getattr__(self, name)`, `__setattr__(self, name, value)`, `__delattr__(self, name)`
+
+## python 垃圾回收机制

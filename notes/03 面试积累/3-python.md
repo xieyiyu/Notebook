@@ -31,34 +31,16 @@ fw.write(str(x)) # 写入的必须是 str 类型
 fw.close()
 ```
 
-3. 目录 A,遍历这个文件夹，找出所有 .txt 文件，异常情况考虑
-
-### python 的 is 和 == 的区别
-python 对象包括三个基本要素，身份标识 id、 数据类型 type、 值 value  
-is 和 == 都是用于用于对象的比较判断，但判断内容不相同。
-- is 同一性运算符，比较两个对象的 id 是否相同。 当 a 和 b 的值相同时，只有数值型和字符型，**并且在通用对象池中的情况下**， a is b 为 True； 而 tuple，list，dict，set 时，a is b 为 False。 对于浮点数，只有正浮点数值相等时 a is b 为 True
-- == 比较两个对象的值是否相同
-- id(object) 查看 object 所在的内存地址
-
-备注： 事实上 python 为了优化速度，使用了小整数对象池，避免为整数频繁申请和销毁内存空间。只有数值在 [-5,256] 之间时同一个数值的 id 才会相等，超过范围就是 Fasle。同理，字符串对象也有类似的缓冲池。
-
-### 正则表达式
-#### 1.python 中正则的 search 和 match 区别
-match() 在 string 的开始位置匹配，如果不匹配，返回 None，只有在 0 位置匹配成功才有返回  
-search() 扫描整个 string 查找匹配，全部没有返回 None
-
-### python2 和 python3 区别
-
 ### 数据结构相关
 1. 将｛'a':1,'b':2｝转为[('a','b'),(1,2)]
 ```python
-dict = {'a':1, 'b':2}
-keys = tuple([key for key in dict])
-vals = tuple([dict[k] for k in keys])
+dic = {'a':1, 'b':2}
+keys = tuple([key for key in dic])
+vals = tuple([dic[k] for k in keys])
 print([keys, vals])
 ```
 
-### python定时任务
+### python 定时任务
 1. 循环 + time.sleep()
 只能执行固定间隔时间的任务，如果是定时任务无法完成。 且 sleep 是阻塞函数，执行 sleep 的期间什么也不能做
 
@@ -89,7 +71,7 @@ profile.run("fun()")
 ```
 
 #### python 性能优化工具
-可以将关键 python 代码部分重写成 C 扩展模块，或者选用在性能上更为优化的解释器等，优化工具有 psyco，Pypy，Cython，Pyrex等
+可以将关键 python 代码部分重写成 C 扩展模块，或者选用在性能上更为优化的解释器等，优化工具有 psyco，Pypy，Cython，Pyrex 等
 
 Cython 代码与 python 不同，必须先编译，编译一般需要经过两个阶段，将 pyx 文件编译为 .c 文件，再将 .c 文件编译为 .so 文件。
 
@@ -116,33 +98,6 @@ Cython 代码与 python 不同，必须先编译，编译一般需要经过两�
 
 为什么不用全局变量？
 全局变量不能保证应用程序只有一个实例，且可能会有名称空间的干扰，如果有重名的可能会被覆盖，不能继承
-
-用 `__new__` 方法实现单例模式：
-
-```python
-class Singleton(object):
-    _instance = None
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = object.__new__(cls)
-        return cls._instance
-    def __init__(self):
-        pass
-
-s1 = Singleton()
-s2 = Singleton()
-print(id(s1) == id(s2)) # True,说明是同一个实例
-```
-
-但是当有多个线程同时去初始化对象时，就很可能同时判断 `_instance is None`，无法实现单例。这种情况下，需要用同步锁来解决问题。
-```python
-from synchronize import make_synchronized
-class Singleton(object):
-    instance = None
-    @make_synchronized # 用装饰器
-    def __new__(cls, *args, **kwargs):
-    	pass
-```
 
 #### python 常用模块
 1. re 正则表达式
