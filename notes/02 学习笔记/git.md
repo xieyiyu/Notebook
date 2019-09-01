@@ -46,7 +46,7 @@ git log --pretty=oneline 日志用一行显示
 git中，`HEAD` 表示当前版本，`HEAD^`表示上一个版本，`HEAD^^` 上上个，`HEAD~100`前 100 个版本
 ```
 git reset --hard HEAD^ 回退到上一个版本
-git reset -hard 版本号 回退到某个版本，版本号（commit id）可以只写前几位，如果要退回后面的版本，则找到版本号即可
+git reset -hard 版本号 回退到某个版本，版本号（commit id） 可以只写前几位，如果要退回后面的版本，则找到版本号即可
 git reflog 查看命令历史，可以确定要回退到未来哪个版本
 ```
 
