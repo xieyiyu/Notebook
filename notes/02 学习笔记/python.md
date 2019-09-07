@@ -10,8 +10,9 @@
     * [星号和双星号](#星号和双星号)
     * [命名方式](#命名方式)
 * [python 数据结构](#python-数据结构)
-    * [python 可变和不可变](#python-可变和不可变)
-    * [字符串](#字符串)
+    * [number](#number)
+    * [str](#str)
+    * [tuple](#tuple)
     * [列表](#列表)
     * [字典](#字典)
 * [python 运算（除法、取模）](#python-运算)
@@ -38,6 +39,7 @@
 * [面向对象编程](#面向对象编程)
 * [其他](#其他)
 * [python 魔术方法](#python-魔术方法)
+* [LEGB 规则](#legb-规则)
 <!-- GFM-TOC -->
 
 ## python 基础
@@ -107,13 +109,12 @@ python中主要存在四种命名方式：
 ```
 
 ## python数据结构
-### python 可变和不可变
-#### 不可变数据类型
+### 不可变数据类型
 变量所指的内存地址的值不可以改变，对其重新赋值其实是重新创建了一个不可变类型的对象，并将原来的变量重新指向新创建的对象（若没有其他变量引用原来的对象，会被回收）。
 
 不可变类型有： number(int、float、bool、complex)、 string、 tuple
 
-##### number
+#### number
 python3 中对 int 和较短的 string 进行了缓存，无论声明多少个值相同的变量，实际上都是指向同一个内存地址
 
 整数： 相同值的正整数和 0 的 id 都相同，相同值的负整数，-1 到 -5 相同，-6 之后不同
@@ -133,8 +134,8 @@ python3 中对 int 和较短的 string 进行了缓存，无论声明多少个�
 如果在同一代码块下，则采用同一代码块下的换缓存机制。
 如果是不同代码块，则采用小数据池的驻留机制。
 
-### str
-#### 字符串与字节串
+#### str
+##### 字符串与字节串
 python3 中只有 str 这种数据类型可以保存文本信息，str 是字符串，是 unicode，没有前缀。  
 python3 中新增 bytes 类型表示字节串（二进制数据），需要加前缀 b， by = b'china'，只能用字节作为序列值，用 [0, 256] 的整数表示。
 ```python
@@ -146,18 +147,36 @@ print(list(by)) # [99, 104, 105, 110, 97]
 - str.encode(encoding='xxx') 实现 str->bytes
 - bytes.decode(encoding='xxx') 实现 bytes->str
 
-##### tuple
+#### tuple
 Python 中的 tuple 结构为 “不可变序列”，用小括号表示。为了区别数学中表示优先级的小括号，当 tuple 中只含一个元素时，需要在元素后加上逗号。即 (1, )， 如果是 (1) 会被判定为 int 型
 
 值相同的元组的地址可能不同，元组的本质是只读的列表
 
-#### 可变数据类型
+##### zip 函数
+zip() ： 将可迭代的对象作为参数，将对象中对应的元素打包成一个个元组，python3 中返回 zip 对象，用 list() 将其转换成列表。
+
+若各个迭代器的元素个数不一致，则返回列表长度与最短的对象相同，利用 * 号操作符，可以将元组解压为列表。
+
+```python
+a = [1, 2, 3]
+b = [4, 5, 6]
+c = [7, 8, 9, 10, 11]
+
+print(zip(a, b)) # <zip object at 0x000002510A27AEC8>
+print(list(zip(a, b))) # [(1, 4), (2, 5), (3, 6)]
+print(list(zip(a, b, c))) # [(1, 4, 7), (2, 5, 8), (3, 6, 9)]
+
+z = zip(a, b, c)
+print(list(zip(*z))) # [(1, 2, 3), (4, 5, 6), (7, 8, 9)]
+```
+
+### 可变数据类型
 变量所指的内存地址处的值是可以改变的，值的变化不会引起新建对象，地址不会改变。
 
 有 list、 set 和 dict， 比如对 a = [1, 2, 3] 进行 append 或 pop， a 的地址不会改变，但若有一个 b = [1, 2, 3] ，a 和 b 的地址是不同的； 若 c = b，此时 b c 的地址相同
 
-### 列表
-#### 4. sort()和sorted()
+#### 列表
+##### 4. sort()和sorted()
 [sort()和sorted的区别](https://www.cnblogs.com/jonm/p/8281228.html)
 - 内置函数 sort()
 sort(fun，key，reverse=False)，可以对列表中的元素进行排序，会改变当前对象。
@@ -174,7 +193,7 @@ nums.sort(key=cmp_to_key(lambda a, b: a - b)) # nums = [1, 2, 3, 4]
 ```
 
 - 全局函数 sorted()
-与 sorted 参数一致，对所有可迭代的序列都是适用的，只会返回一个排序后的当前对象的副本，而不会改变当前对象。
+与 sort 参数一致，对所有可迭代的序列都是适用的，只会返回一个排序后的当前对象的副本，而不会改变当前对象。要注意 sorted 返回的是一个列表，不管输入是 set 还是 dict
 
 可以自定义比较函数，sorted()也是一个高阶函数，它可以接收一个比较函数来实现自定义排序，比较函数的定义是，传入两个待比较的元素 x, y，如果 x 应该排在 y 的前面，返回 -1，如果 x 应该排在 y 的后面，返回 1。如果 x 和 y 相等，返回 0。
 
@@ -189,7 +208,17 @@ def cmp(x, y):
     return 0
 ```
 
-### 字典
+##### 找出两个列表的相同元素和不同元素
+```python
+list1 = [1, 2, 3]; list2 = [3, 4, 5]
+set1, set2 = set(list1), set(list2)
+print(set1 & set2) # 交集，{3}
+print(set1 | set2) # 并集，{1, 2, 3, 4, 5}
+print(set1 ^ set2) # 异或，{{1, 2, 4, 5}}
+```
+注意： & | ^ 是用于集合操作，因此要把列表先转为 set
+
+#### 字典
 在 python2 中，字典是无序的，若要保持有序，需要用 OrderedDict
 ```python
 from collections import OrderedDict
@@ -198,11 +227,53 @@ d = OrderedDict()
 
 在 python3 中，字典是有序的
 
-#### dict.items()
-遍历 dict 中每一个元素的 key 和 value
+##### dict.items()
+dict.items() 将 dict 转化为可迭代对象，dict 变成了一个列表，将字典中的每对 key 和 value 转换成了元组。
+
 ```python
-for key, value in dict.items():
+dic = {'a':24, 'g':52, 'i':12, 'k':33}
+print(dic.keys()) # dict_keys(['a', 'g', 'i', 'k'])
+print(dic.values()) # dict_values([24, 52, 12, 33])
+print(dic.items()) # dict_items([('a', 24), ('g', 52), ('i', 12), ('k', 33)])
+
+for key, value in dic.items(): # 遍历每一对 key 和 value
     print(key, value)
+```
+
+##### 字典排序
+用 sorted 可以对字典进行按 key 或按 value 排序，注意排序之后都会变成列表
+```python
+dic = {'a':24, 'k':33, 'g':52, 'i':12}
+sorted(dic) # 默认按照 key 排序，结果为 ['a', 'g', 'i', 'k']
+sorted(dic.keys()) # 按照 key 排序，结果为 ['a', 'g', 'i', 'k']
+sorted(dic.values()) # 只会对 value 排序，结果为 [12, 24, 33, 52]
+sorted(dic.items()) # 默认用 key 排序，结果为 [('a', 24), ('g', 52), ('i', 12), ('k', 33)]
+
+# 按照 value 排序的正确做法
+sorted(dic.items(), key=lambda x:x[1]) # 指定用 value 排序，结果为 [('i', 12), ('a', 24), ('k', 33), ('g', 52)]
+```
+
+##### 字典推导式
+和列表生成式类似，字典也有推导式。推导式是从一个数据序列构建另一个新的数据序列的结构体。
+
+将 dict 中的 key 和 value 互换
+```python
+dic = {'a': 10, 'b': 34}
+dic = {v: k for k, v in dic.items()} # {10: 'a', 34: 'b'}
+```
+
+将字符串转化成字典
+```python
+str = "k:1|k1:2|k2:3|k3:4"
+dic = {k:v for item in str.split('|') for k, v in (item.split(':') ,)} # {'k': '1', 'k1': '2', 'k2': '3', 'k3': '4'}
+```
+
+##### 两个列表组成一个字典
+用 zip 函数将两个列表组合成一个 zip 对象，再用 dict 转成字典
+```python
+keys = ['a', 'b', 'c']
+values = [1, 2, 3]
+dic = dict(zip(keys, values)) # {'a': 1, 'b': 2, 'c': 3}
 ```
 
 ## python 运算
@@ -786,4 +857,14 @@ https://segmentfault.com/a/1190000007256392
 2. 属性访问控制
 `__getattr__(self, name)`, `__setattr__(self, name, value)`, `__delattr__(self, name)`
 
-## python 垃圾回收机制
+## LEGB 规则
+python 中变量的作用域可能是局部或全局，通过 LEGB 规则可以对变量名进行作用域解析，变量的搜索顺序为： Local -> Enclosed -> Global -> Built-in
+
+- Local 可能是在一个函数或者类方法内部。
+- Enclosed 可能是嵌套函数内，比如说 一个函数包裹在另一个函数内部。
+- Global 全局变量，代表的是执行脚本自身的最高层次。
+- Built-in 内置变量，是 Python 为自身保留的特殊名称。
+
+如果某个 name:object 映射在局部(local)命名空间中没有找到，接下来就会在闭包作用域(enclosed)进行搜索，如果闭包作用域也没有找到，Python 就会到全局(global)命名空间中进行查找，最后会在内建(built-in)命名空间搜索（注：如果一个名称在所有命名空间中都没有找到，就会产生一个 NameError）
+
+

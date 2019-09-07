@@ -20,6 +20,7 @@
 	* [grep](#grep)
 	* [awk](#awk)
 	* [sed](#sed)
+* [linux 正则表达式](#linux-正则表达式)
 * [进程管理](#进程管理)
 	* [查看进程](#查看进程)
 	* [进程分配](#进程分配)
@@ -553,6 +554,8 @@ ps aux | sort -rn -k4 | head -5
 ```
 
 top 查看系统整体负载， cpu、内存
+
+查询网络配置命令  /sbin/ifconfig
 
 ### 进程分配
 Linux 内核使用**位图**为进程分配 pid，数据结构为 pidmap-array。
