@@ -37,6 +37,11 @@ kill -9 pid # 再杀死
 暂停： 在 shell窗口 ctrl + z，显示 `[3]+  Stopped ...`
 恢复： fg %3
 
+8. 
+netstat： 显示网络状态
+ping： 测两台主机之间的连通性
+ifconnfig：功能是显示或设置网络设备
+
 ### vim
 1. 显示行号： 命令模式下输入 `:set nu`, 
    取消显示行号： `:set nonu`
