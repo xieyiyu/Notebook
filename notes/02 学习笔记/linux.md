@@ -590,7 +590,7 @@ ps aux | sort -rn -k4 | head -5
 
 top 查看系统整体负载， cpu、内存
 
-查询网络配置命令  /sbin/ifconfig
+查询网络配置命令  /sbin/ipconfig
 
 ### 进程分配
 Linux 内核使用**位图**为进程分配 pid，数据结构为 pidmap-array。

@@ -105,6 +105,12 @@ du -sh dirname/filename # 显示当前目录下的指定目录或文件的大小
 ls -l # 也可以查看目录或文件大小
 ```
 
+2. 递归列出一个目录下所有目录和文件
+```sh
+find $PWD | xargs ls -d # $PWD 当前路径，-d 是列出绝对路径
+find . | xargs ls -d 
+```
+
 ### 文本操作
 1. 一个文件夹内批量替换文本
 ```sh
