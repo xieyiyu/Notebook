@@ -15,7 +15,7 @@
 	* [linux](https://github.com/xieyiyu/Notebook/blob/master/notes/02%20学习笔记/linux.md)
 	* [shell&vim](https://github.com/xieyiyu/Notebook/blob/master/notes/02%20学习笔记/shell&vim.md)
 	* [git](https://github.com/xieyiyu/Notebook/blob/master/notes/02%20学习笔记/git.md)
-	* [Gensim和本体](https://github.com/xieyiyu/Notebook/blob/master/notes/02%20学习笔记/gensim和本体.md)
+	* [系统设计](https://github.com/xieyiyu/Notebook/blob/master/notes/02%20学习笔记/系统设计.md)
 * 面试准备
 	* [算法](https://github.com/xieyiyu/Notebook/blob/master/notes/03%20面试积累/1-算法.md)
 	* [数据结构](https://github.com/xieyiyu/Notebook/blob/master/notes/03%20面试积累/2-数据结构.md)
