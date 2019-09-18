@@ -13,8 +13,9 @@
     * [number](#number)
     * [str](#str)
     * [tuple](#tuple)
-    * [列表](#列表)
-    * [字典](#字典)
+    * [list](#list)
+    * [set](#set)
+    * [dict](#dict)
 * [python 运算（除法、取模）](#python-运算)
 * [IO 编程](#io-编程)
     * [读取键盘输入](#读取键盘输入)
@@ -175,7 +176,7 @@ print(list(zip(*z))) # [(1, 2, 3), (4, 5, 6), (7, 8, 9)]
 
 有 list、 set 和 dict， 比如对 a = [1, 2, 3] 进行 append 或 pop， a 的地址不会改变，但若有一个 b = [1, 2, 3] ，a 和 b 的地址是不同的； 若 c = b，此时 b c 的地址相同
 
-#### 列表
+#### list
 ##### 4. sort()和sorted()
 [sort()和sorted的区别](https://www.cnblogs.com/jonm/p/8281228.html)
 - 内置函数 sort()
@@ -218,7 +219,28 @@ print(set1 ^ set2) # 异或，{{1, 2, 4, 5}}
 ```
 注意： & | ^ 是用于集合操作，因此要把列表先转为 set
 
-#### 字典
+#### set
+集合 set 中的元素互不相同，没有重复元素，set 中的元素是无序的，比如 {1, 2, 3} 和 {3, 2, 1} 是同一个集合，创建一个空集合可以用 `s = set()`，将一个 list 转为 set 元素的顺序会打乱。
+
+set 和 dict 的底层实现方式类似，都是使用哈希，把 set 的实现方式叫做 Hash Set，dict 的实现叫 Hash Table。
+set 与 dict 的不同是，set 只存储 key，对于 set 查找元素的时间复杂度为 O(1)
+
+set 的去重是通过两个函数 `__hash__` 和 `__eq__` 结合实现的
+1. 当两个变量的哈希值不同时，就认为这两个变量是不同的
+2. 当两个变量哈希值相同时，调用 `__eq__` 方法，返回 True 则这两个变量是同一个，应该去除一个；返回 False 则不去重，因为哈希值相同的变量的值可能不同。
+
+set 中的元素和 dict 的 key 必须是可以 hash 的，不可变类型类型都是可 hash 的，比如 number(int, float, complex)、布尔型、字符串(str, bytes)、tuple、None；而可变类型 list、set、dict 都是不可哈希的。
+
+set 的 hash 寻址是二次散列和顺序寻址结合的,？？？
+
+##### set 常用方法
+1. s.add(elem)： 添加一个元素到 set 中，如果元素存在则什么都不做
+2. s.remove(elem)： 删除 set 中的一个元素，元素不存则报错 KeyError
+3. s.pop()： 删除并返回**任意**元素，空集报错 KeyError
+4. s.clear()： 删除所有元素
+set 不能修改元素，只能添加和删除元素，时间复杂度平均为 O(1), 最差的情况是 O(n)
+
+#### dict
 在 python2 中，字典是无序的，若要保持有序，需要用 OrderedDict
 ```python
 from collections import OrderedDict

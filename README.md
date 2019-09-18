@@ -10,6 +10,7 @@
 	* [其他](https://github.com/xieyiyu/Notebook/blob/master/notes/01%20算法与数据结构/其他.md)
 	* [SQL](https://github.com/xieyiyu/Notebook/blob/master/notes/01%20算法与数据结构/SQL.md)
 	* [剑指offer](https://github.com/xieyiyu/Notebook/blob/master/notes/01%20算法与数据结构/剑指offer.md)
+	* [算法复习](https://github.com/xieyiyu/Notebook/blob/master/notes/01%20算法与数据结构/算法秋招复习.md)
 * 学习笔记
 	* [python](https://github.com/xieyiyu/Notebook/blob/master/notes/02%20学习笔记/python.md)
 	* [linux](https://github.com/xieyiyu/Notebook/blob/master/notes/02%20学习笔记/linux.md)
@@ -25,5 +26,7 @@
 	* [计算机网络](https://github.com/xieyiyu/Notebook/blob/master/notes/03%20面试积累/6-计算机网络.md)
 	* [计算机基础](https://github.com/xieyiyu/Notebook/blob/master/notes/03%20面试积累/7-计算机基础.md)
 	* [测试理论](https://github.com/xieyiyu/Notebook/blob/master/notes/03%20面试积累/8-测试理论.md)
-	* [智力题](https://github.com/xieyiyu/Notebook/blob/master/notes/03%20面试积累/91-智力题.md)
+	* [测试设计](https://github.com/xieyiyu/Notebook/blob/master/notes/03%20面试积累/9-测试设计.md)
+	* [智力题](https://github.com/xieyiyu/Notebook/blob/master/notes/03%20面试积累/10-智力题.md)
 <!-- GFM-TOC -->
+
