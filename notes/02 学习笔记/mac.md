@@ -6,6 +6,15 @@ cmd + tab : 在打开的应用中切换到下一个最近使用的应用
 
 cmd + option + esc ： 强制退出
 
+
+#### mac 查看当前用户和用户组
+groups： 查看当前用户所属组（Note：用户所属组可能有多个）
+groups user_name： 查看指定用户所属组
+id -a user_name： 可以查到指定用户所属组更详细的信息
+whoami： 当前用户的用户
+
+切换 root 用户： sudo su
+
 ### chrome 快捷键
 切换标签： cmd + option + 左右键
 审查元素： cmd + option + i

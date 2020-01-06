@@ -152,3 +152,24 @@ hexo n <filename> 新建文章
 hexo s 启动服务器，在本地查看内容
 hexo g 生成静态页面
 hexo deploy 部署到网站
+
+
+### git 写错分支
+git stash                    //把暂存区内的修改存储起来
+git checkout dev             //切换到正确的分支
+git stash pop                //将存储的修改取出来
+
+如果已经commit了呢？
+git reset HEAD^              // 撤回到刚刚commit之前的状态
+
+### git 解决冲突
+git checkout 需要 merge 到的目标分支
+git pull;  拉取目标分支的最新代码
+git checkout 本地分支
+git merge
+
+此时合并目标分支时，会产生冲突，需要手动解决冲突，现在看出现冲突的文件，有目标分支和本地分支的两部分代码，需要选择保留的部分，解决冲突后，再重新 add、commit 和 push。
+如果提了 pr 的话，pr 中会自动检查冲突并更新最新的 push 结果。
+
+切记在 commit 之前先 git pull，拉最新分支，然后再 add commit push，否则会把别人的拉下来在本地且成为未提交文件
+若发生此情况，则撤回之前的 commit： git reset HEAD^
