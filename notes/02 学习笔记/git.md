@@ -160,7 +160,7 @@ git checkout dev             //切换到正确的分支
 git stash pop                //将存储的修改取出来
 
 如果已经commit了呢？
-git reset HEAD^              // 撤回到刚刚commit之前的状态
+git -- HEAD^              // 撤回到刚刚commit之前的状态
 
 ### git 解决冲突
 git checkout 需要 merge 到的目标分支
@@ -173,3 +173,11 @@ git merge
 
 切记在 commit 之前先 git pull，拉最新分支，然后再 add commit push，否则会把别人的拉下来在本地且成为未提交文件
 若发生此情况，则撤回之前的 commit： git reset HEAD^
+
+如果要回到之前的版本，先用 git log 查看 commit，在 git reset commit_name
+
+通过git reset –soft <版本号>重置至指定版本的提交，达到撤销提交的目的
+参数soft指的是：保留当前工作区，以便重新提交
+还可以选择参数hard，会撤销相应工作区的修改，一定要谨慎使用
+
+撤销： 通过git push origin master –force强制提交当前版本号，以达到撤销版本号的目的，必须添加参数force进行强制提交，否则会提交失败

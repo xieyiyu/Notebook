@@ -12,6 +12,7 @@
 * [python 数据结构](#python-数据结构)
     * [number](#number)
     * [str](#str)
+        *[字符串前缀](#字符串前缀)
     * [tuple](#tuple)
     * [list](#list)
     * [set](#set)
@@ -92,6 +93,11 @@ python 中一切皆对象，任何变量都是对象的引用，python 中参数
 - 值传递：存放实参变量的值，被调函数对形参的任何操作都是作为局部变量进行，不影响主调函数的实参变量的值。
 - 引用传递：存放实参变量的地址，被调函数对形参的任何操作都影响主调函数中的实参变量。
 
+### pip 与 pypi
+pip 是 Python 包管理工具，是easy_install的替代品，英文python  install packages ！
+
+PyPI(Python Package Index， python包索引)是 python 官方的第三方库的仓库，所有人都可以下载第三方库或上传自己开发的库到 PyPI。PyPI 推荐使用 pip 包管理器来下载第三方库。
+
 ## 变量
 ### 星号和双星号
 单个星号 * ：该位置接收任意多个非关键字参数，在函数中转化为**元组**(1,2,3,4)
@@ -147,6 +153,13 @@ print(list(by)) # [99, 104, 105, 110, 97]
 文本用 str 表示，但将数据保存到文本或在网络编程中必须是二进制数据，因此字符串和字节串会进行一个转换。
 - str.encode(encoding='xxx') 实现 str->bytes
 - bytes.decode(encoding='xxx') 实现 bytes->str
+
+##### 字符串前缀
+###### 字符串前缀 f
+格式化字符串常量（formatted string literals），是Python3.6新引入的一种字符串格式化方法，该方法源于PEP 498 – Literal String Interpolation，主要目的是使格式化字符串的操作更加简便。f-string在形式上是以 f 或 F 修饰符引领的字符串（f'xxx' 或 F'xxx'），以大括号 {} 标明被替换的字段；f-string在本质上并不是字符串常量，而是一个在运行时运算求值的表达式
+
+comedian = {'name': 'Eric Idle', 'age': 74}
+f"The comedian is {comedian['name']}, aged {comedian['age']}."
 
 #### tuple
 Python 中的 tuple 结构为 “不可变序列”，用小括号表示。为了区别数学中表示优先级的小括号，当 tuple 中只含一个元素时，需要在元素后加上逗号。即 (1, )， 如果是 (1) 会被判定为 int 型
@@ -261,6 +274,9 @@ print(dic.items()) # dict_items([('a', 24), ('g', 52), ('i', 12), ('k', 33)])
 for key, value in dic.items(): # 遍历每一对 key 和 value
     print(key, value)
 ```
+
+dict.setdefault(key, default=None) 与 dict.get(key, default=None) 相似，都是返回指定键的值，如果键存在 dict 中，则返回其值，否则返回设置的默认值。
+但不同的是，当键不存在于字典中，setdefault 会将其添加到 dict 中，并设置为默认值，而 get 不会。
 
 ##### 字典排序
 用 sorted 可以对字典进行按 key 或按 value 排序，注意排序之后都会变成列表
@@ -744,6 +760,70 @@ class Child(Person):
 #### 多继承
 MixIn的目的就是给一个类增加多个功能，这样，在设计类的时候，我们优先考虑通过多重继承来组合多个MixIn的功能，而不是设计多层次的复杂的继承关系。
 
+#####  super()
+super() 用于解决多重继承时父类的查找问题，用于调用父类(超类)的一个方法。
+在单继承中，直接使用父类类名 `parentClass.__init__(self)` 与 `super().__init__(self)` 一样，但使用 super() 可以避免父类的显式调用，如果父类名称修改，在子类中可以不进行修改。
+
+**养成好习惯：super 的第一个参数应该是当前类**
+
+super() 其实和父类没有实质性的关联
+比如有一个菱形继承关系
+```html
+  Base
+  /  \
+ /    \
+A      B
+ \    /
+  \  /
+   C
+```
+使用 super()
+```python
+class Base(object):
+    def __init__(self):
+        print("enter Base")
+        print("leave Base")
+
+class A(Base):
+    def __init__(self):
+        print("enter A")
+        super(A, self).__init__()
+        print("leave A")
+
+class B(Base):
+    def __init__(self):
+        print("enter B")
+        super(B, self).__init__()
+        print("leave B")
+
+class C(A, B):
+    def __init__(self):
+        print("enter C")
+        super(C, self).__init__()
+        print("leave C")
+
+C()
+```
+
+测试结果:
+```html
+enter C
+enter A
+enter B
+enter Base
+leave Base
+leave B
+leave A
+leave C
+```
+
+
+对定义的每个类，python 会计算出一个方法解析顺序（Method Resolution Order, MRO）列表，表示类继承的顺序。
+一个类的 MRO 列表就是合并所有父类的 MRO 列表，并遵循以下三条原则：
+1. 子类永远在父类前面
+2. 如果有多个父类，会根据它们在列表中的顺序被检查
+3. 如果对下一个类存在两个合法的选择，选择第一个父类
+
 #### 访问限制
 private：私有变量以 `__` 开头，只有内部能够访问，可以给类增加 get、set 方法
 特殊变量： `__xxx__`, 可以直接访问
@@ -878,6 +958,9 @@ https://segmentfault.com/a/1190000007256392
 
 2. 属性访问控制
 `__getattr__(self, name)`, `__setattr__(self, name, value)`, `__delattr__(self, name)`
+
+3. python 模块中的__all__，用于模块导入时限制，如：from module import *
+此时被导入模块若定义了__all__属性，则只有__all__内指定的属性、方法、类可被导入；若没定义，则导入模块内的所有公有属性，方法和类。
 
 ## LEGB 规则
 python 中变量的作用域可能是局部或全局，通过 LEGB 规则可以对变量名进行作用域解析，变量的搜索顺序为： Local -> Enclosed -> Global -> Built-in
