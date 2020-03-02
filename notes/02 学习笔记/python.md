@@ -158,8 +158,13 @@ print(list(by)) # [99, 104, 105, 110, 97]
 ###### 字符串前缀 f
 格式化字符串常量（formatted string literals），是Python3.6新引入的一种字符串格式化方法，该方法源于PEP 498 – Literal String Interpolation，主要目的是使格式化字符串的操作更加简便。f-string在形式上是以 f 或 F 修饰符引领的字符串（f'xxx' 或 F'xxx'），以大括号 {} 标明被替换的字段；f-string在本质上并不是字符串常量，而是一个在运行时运算求值的表达式
 
+```python
 comedian = {'name': 'Eric Idle', 'age': 74}
 f"The comedian is {comedian['name']}, aged {comedian['age']}."
+```
+
+###### 字符串前缀 r
+python 中字符串的前导 r 代表**原始字符串标识符**，即字符串中的特殊符号不会被转义，适用于正则表达式中繁杂的特殊符号表示。 如 r'\n' 会直接输出 \n
 
 #### tuple
 Python 中的 tuple 结构为 “不可变序列”，用小括号表示。为了区别数学中表示优先级的小括号，当 tuple 中只含一个元素时，需要在元素后加上逗号。即 (1, )， 如果是 (1) 会被判定为 int 型
@@ -890,9 +895,6 @@ A.foo3('xyy')
 作为工厂方法创建实例对象，如内置模块 datetime.date 类中就有大量使用类方法作为工厂方法，以此来创建 date 对象。
 
 ### 其他
-#### 前导 r
-python 中字符串的前导 r 代表**原始字符串标识符**，即字符串中的特殊符号不会被转义，适用于正则表达式中繁杂的特殊符号表示。 如 r'\n' 会直接输出 \n
-
 #### 复数
 python 中复数表示为 real + image j，实部和虚部都是浮点数，虚部后缀可以是 j 或 J，方法 conjugate 返回复数的共轭复数。 python 不支持复数比较大小
 ```python

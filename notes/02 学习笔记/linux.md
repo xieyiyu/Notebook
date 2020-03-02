@@ -4,6 +4,7 @@
 * [文件系统](#文件系统)
 * [文件操作](#文件操作)
 	* [文件与目录基本操作](#文件与目录基本操作)
+		* [cd](#cd)
 		* [ln](#ln)
 		* [find](#find)
 		* [tar](#tar)
@@ -81,6 +82,9 @@ mkfs.ext4 /dev/sda3
 
 ## 文件操作
 ### 文件与目录基本操作
+#### cd
+cd - ： 返回上一次所在的目录
+
 #### ls
 ```html
 $ ls [-alrtAFR] file|dir
@@ -692,8 +696,12 @@ $ mount /dev/hdc6 /mnt/hdc6
 ### linux 快捷操作
 ~ ： 显示目录
 ctrl+a ： 光标移到行首； ctrl+e ： 光标移到行尾
-ctrl+d ： 删除光标位置的字符
 
+#### 删除
+ctrl + d : 删除光标位置的字符
+ctrl + u : 删除光标左边的一行命令
+ctrl + k : 删除至行尾
+ 
 两次tab键 ： 显示自动补全列表
 history：显示历史命令； history | grep /usr/bin ： 显示包含/usr/bin的历史命令
 
