@@ -180,4 +180,8 @@ git merge
 参数soft指的是：保留当前工作区，以便重新提交
 还可以选择参数hard，会撤销相应工作区的修改，一定要谨慎使用
 
-撤销： 通过git push origin master –force强制提交当前版本号，以达到撤销版本号的目的，必须添加参数force进行强制提交，否则会提交失败
+撤销： 通过git push origin master –force强制提交当前版本号，以达到撤销版本号的目的，
+
+
+.461 - - [INFO] com.sankuai.meituan.zcm.box.base.thrift.core.MagicBoxLogService-5-thread-32 MagicBoxLogServiceImpl #XMDT#{__traceId__=3090503734284882843}#XMDT# reportLog request:{"activeId":"1234","logContent":"test"}
+2020-02-24 16:34:17.461 - - [DEBUG] com.sankuai.meituan.zcm.box.base.thrift.core.MagicBoxLogService-5-thread-32 AbstractCollector #XMDT#{__traceId__=3090503734284882843}#XMDT# Collect Span Span(traceId:3090503734284882843, spanId:0, spanName:MagicBoxLogService.reportLog, localAppKey:Endpoint{appkey='com.sankuai.zc.open.boxreportserver', host='10.25.93.80', port=12003}, remoteAppKey:Endpoint{appkey='com.sankuai.zc.qa.pyrig', host='', port=0}, start:1582533257460, end:1582533257461, type:SERVER, status:SUCCESS, debug:true, force:false, uploadAlone:false, infraName:mtthrift, version:1.8.7, packageSize:27, kvAnnotations:null, localContext:{}, remoteContext:{signature=, auth-appkey=com.sankuai.zc.qa.pyrig}, Context:{})

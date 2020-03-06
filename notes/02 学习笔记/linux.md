@@ -695,12 +695,15 @@ $ mount /dev/hdc6 /mnt/hdc6
 ## 其他
 ### linux 快捷操作
 ~ ： 显示目录
-ctrl+a ： 光标移到行首； ctrl+e ： 光标移到行尾
+#### 移动
+ctrl + a : 光标移到行首; ctrl + e : 光标移到行尾
+
 
 #### 删除
 ctrl + d : 删除光标位置的字符
 ctrl + u : 删除光标左边的一行命令
 ctrl + k : 删除至行尾
+ctrl + w : 向前删除单词，如果处于单词的中间，则删除光标之前的该单词的字符
  
 两次tab键 ： 显示自动补全列表
 history：显示历史命令； history | grep /usr/bin ： 显示包含/usr/bin的历史命令
@@ -742,5 +745,3 @@ find . -name '.txt' -delete
 ### 管道
 管道是一种通信机制，用于进程间的通信，是将前一个进程的输出 stdout 作为下一个进程的输入 stdin。  
 管道只能处理标准输出 standard output，对标准错误输出会忽略
-
-
