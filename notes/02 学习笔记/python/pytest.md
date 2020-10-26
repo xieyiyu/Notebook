@@ -4,7 +4,7 @@ pytest 会查找 test 开头或结尾的 module(py 文件), Test 开头的 class
 pytest 是在 pluggy 基础上构建的，pluggy 是 pytest 插件管理和 hook 调用的核心，pluggy 的插件能够扩展和自定义 pytest 的功能。
 
 ## pytest.fixture
-fixture 是 pytest 特有的功能，通过 pytest.fixture 标识定义在函数 A 前面，那么在编写测试函数 B 时，可以讲函数 A 的返回值作为测试函数 B 的传入参数。
+fixture 是 pytest 特有的功能，通过 pytest.fixture 标识定义在函数 A 前面，那么在编写测试函数 B 时，可以将函数 A 的返回值作为测试函数 B 的传入参数。
 
 通过 @pytest.fixture 装饰器可以注册一个 fixture。对每个参数名，如果已经声明定义 fixture，会自动创建一个实例并传入该测试函数。
 

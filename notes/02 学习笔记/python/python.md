@@ -724,6 +724,17 @@ Python的异常也是class，所有的异常类型都继承自BaseException，
 
 Python中的 raise 关键字用于引发一个异常， raise 关键字后面是抛出是一个通用的异常类型(Exception)，一般来说抛出的异常越详细越， 主动抛出
 
+```python
+try:
+    fh = open("testfile", "w")
+    fh.write("这是一个测试文件，用于测试异常!!")
+except IOError:
+    print "Error: 没有找到文件或读取文件失败"
+else:
+    print "内容写入文件成功"
+    fh.close()
+```
+
 
 ### python 编码
 python2 默认编码是 ASCII， python3 默认编码是 Unicode。
@@ -977,3 +988,11 @@ python 中变量的作用域可能是局部或全局，通过 LEGB 规则可以�
 如果某个 name:object 映射在局部(local)命名空间中没有找到，接下来就会在闭包作用域(enclosed)进行搜索，如果闭包作用域也没有找到，Python 就会到全局(global)命名空间中进行查找，最后会在内建(built-in)命名空间搜索（注：如果一个名称在所有命名空间中都没有找到，就会产生一个 NameError）
 
 
+
+
+## 学习
+all：如果all(x)参数x对象的所有元素不为0、''、False或者x为空对象，则返回True，否则返回False
+any：如果any(x)参数x对象中，有一个元素部位0、''、False，则返回True，如果全部元素都为0、''、False，则返回 False
+```python
+assert all((key, secret)) or not any((key, secret)), "key and secret must both exists or both not exists"
+```

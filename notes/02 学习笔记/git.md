@@ -160,15 +160,17 @@ git checkout dev             //切换到正确的分支
 git stash pop                //将存储的修改取出来
 
 如果已经commit了呢？
-git -- HEAD^              // 撤回到刚刚commit之前的状态
+git reset -- HEAD^              // 撤回到刚刚commit之前的状态
 
 ### git 解决冲突
-git checkout 需要 merge 到的目标分支
+#### git merge 将master分支合并到dev分支冲突
+git checkout master，需要 merge 到的目标分支
 git pull;  拉取目标分支的最新代码
-git checkout 本地分支
+git checkout dev，切换到本地分支
 git merge
 
 此时合并目标分支时，会产生冲突，需要手动解决冲突，现在看出现冲突的文件，有目标分支和本地分支的两部分代码，需要选择保留的部分，解决冲突后，再重新 add、commit 和 push。
+
 如果提了 pr 的话，pr 中会自动检查冲突并更新最新的 push 结果。
 
 切记在 commit 之前先 git pull，拉最新分支，然后再 add commit push，否则会把别人的拉下来在本地且成为未提交文件
@@ -182,6 +184,29 @@ git merge
 
 撤销： 通过git push origin master –force强制提交当前版本号，以达到撤销版本号的目的，
 
+### git reset
+git reset 是 git 中的重置命令，用来撤销某次提交 commit。
+用法：
+git reset --soft HEAD^  回复到上一次 commit 状态，也可以直接将 HEAD^ 替换成 commitID
 
-.461 - - [INFO] com.sankuai.meituan.zcm.box.base.thrift.core.MagicBoxLogService-5-thread-32 MagicBoxLogServiceImpl #XMDT#{__traceId__=3090503734284882843}#XMDT# reportLog request:{"activeId":"1234","logContent":"test"}
-2020-02-24 16:34:17.461 - - [DEBUG] com.sankuai.meituan.zcm.box.base.thrift.core.MagicBoxLogService-5-thread-32 AbstractCollector #XMDT#{__traceId__=3090503734284882843}#XMDT# Collect Span Span(traceId:3090503734284882843, spanId:0, spanName:MagicBoxLogService.reportLog, localAppKey:Endpoint{appkey='com.sankuai.zc.open.boxreportserver', host='10.25.93.80', port=12003}, remoteAppKey:Endpoint{appkey='com.sankuai.zc.qa.pyrig', host='', port=0}, start:1582533257460, end:1582533257461, type:SERVER, status:SUCCESS, debug:true, force:false, uploadAlone:false, infraName:mtthrift, version:1.8.7, packageSize:27, kvAnnotations:null, localContext:{}, remoteContext:{signature=, auth-appkey=com.sankuai.zc.qa.pyrig}, Context:{})
+参数：
+1. --mixed  默认参数
+不删除工作空间改动代码，撤销 commit，并且撤销 git add . 操作 
+
+2. --soft  
+不删除工作空间改动代码，撤销 commit，不撤销 git add . 
+ 
+3. --hard
+删除工作空间改动代码，撤销commit，撤销g it add . 
+
+注意：如果只是注释写错，指向修改注释，可以用 git commit --amend，通过 vim 修改注释
+
+### 将主分支 merge 到自己的分支
+1. 切换到主干 $ git checkout master
+2. 更新主干代码 $ git pull origin master
+3. 切换回分支 $ git checkout dev
+4. 执行合并操作 $ git merge master
+
+5. 取消合并 $ git merge --abort
+6. 从远端拉取分支 $ git remote prune origin
+

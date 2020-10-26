@@ -745,3 +745,17 @@ find . -name '.txt' -delete
 ### 管道
 管道是一种通信机制，用于进程间的通信，是将前一个进程的输出 stdout 作为下一个进程的输入 stdin。  
 管道只能处理标准输出 standard output，对标准错误输出会忽略
+
+
+@Override
+public void checkConcurrent(long orderId, long poiId, int ticketType) throws BizException {
+	String lockKey = genLockKey(orderId, poiId, ticketType);
+	String methodName = "createTicket";
+	String key = CommonConstant.APPKEY + methodName + lockKey;
+	int expire = tairCache.expireLock(key, CommonConstant.LOCK_SECONDS);
+
+	if (expire < 0) {
+		LOGGER.warn("verify lock exist: {}", key);
+		throw new BizException(ErrorCode.WOS_LOCK_FAIL);
+	}
+}
