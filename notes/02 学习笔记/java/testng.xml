@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!-- suite 有以下属性：
+    name:suite 名称，测试报告中展现
+    verbose: 在控制台中如何输出，该设置不影响测试报告
+    allow-return-values: 如果设置为 false，被@Test注解且有return的方法被忽略执行
+    annotations:如果为"javadoc", 则使用javadoc注解，否则使用jdk注解
+    configfailurepolicy:字典：continue,skip，如果@Before*方法失败，TestNG是否应该继续执行套件中的其余测试，默认为skip
+    data-provider-thread-count:并发执行data-provider的线程数，默认大小为10
+    group-by-instances:默认情况下，依赖方法按类分组。例如，如果方法b()依赖于方法a()，并且您有几个包含这些方法的类实例(因为数据提供者的工厂)，
+    那么调用顺序将为：signIn("us"),signIn("uk"),signOut("us"),,signOut("uk")。group-by-instances设置为true的话，调用顺序将为：signIn("us"),signOut("us"),signIn("uk"),signOut("uk")
+    guice-stage:创建父注入器的stage
+    junit:是否以junit模式运行
+    object-factory:用于实现IObjectFactory的类，实例化测试对象
+    parallel:是否多线程并发运行测试，默认为false，字典：classes,methods,instances,tests,true,false
+    parent-module:用于创建所有guice注入器的父注入器的模块
+    preserve-order:默认情况下，TestNG将按照在XML文件配置的顺序运行测试。如果希望以不可预知的顺序运行文件中列出的类和方法，可将preserve-order属性设置为false
+    skipfailedinvocationcounts:是否跳过失败的调用
+    thread-count:使用并行模式，要使用的线程池的大小。
+    time-out:为具体执行单元设定一个超时时间，方法(parallel="methods")或测试(parallel="tests")
+-->
+<suite name="Suite" verbose="1">
+    <!-- 一个suite可以包含多个test,test有以下属性：
+    name:这个测试的名称(将出现在报告中)
+    annotations:同suite套件属性
+    allow-return-values:同suite套件属性
+    verbose:同suite套件属性
+    enabled:启用/禁用当前测试的标志。默认值:true
+    group-by-instances:同suite套件属性
+    junit:同suite套件属性
+    parallel:同suite套件属性
+    preserve-order:同suite套件属性
+    skipfailedinvocationcounts:同suite套件属性
+    thread-count:同suite套件属性
+    time-out:同suite套件属性
+    -->
+    <test name="test">
+        <!--指定执行包-->
+        <packages>
+            <!--包名称-->
+            <package name="com">
+            </package>
+        </packages>
+    </test>
+
+    <!--testng.xml中只能设置一个<suite>标签，可通过<suite-files >标签实现多个测试集设置。-->
+    <suite-files>
+        <suite-file path="testNG.xml"/>
+        <suite-file path="testNG.xml"/>
+    </suite-files>
+
+    <!--设置监听器，后续文章详解-->
+    <listeners>
+        <listener class-name="TestNGHelloWorld1"/>
+    </listeners>
+
+    <!--方法拦截器，后续文章详解-->
+    <method-selectors>
+        <method-selector>
+            <selector-class name="TestNGHelloWorld1"/>
+        </method-selector>
+    </method-selectors>
+
+    <!--方法拦截器，后续文章详解-->
+    <method-selectors>
+        <method-selector>
+            <script language="java"/>
+        </method-selector>
+    </method-selectors>
+
+    <test name="TestNG1">
+        <groups>
+            <!--组中组，即test4包含了test1和test3两个组-->
+            <define name="test4">
+                <include name="test1"/>
+                <include name="test3"/>
+            </define>
+
+            <!--运行test4组，不运行test2组-->
+            <run>
+                <include name="test4"/>
+                <exclude name="test2"/>
+            </run>
+
+            <!--test3组依赖于test1,test2组，多个依赖用空格隔开-->
+            <dependencies>
+                <group name="test3" depends-on="test1 test2"/>
+            </dependencies>
+        </groups>
+
+        <!--类-->
+        <classes>
+            <class name="TestNGHelloWorld1"/>
+        </classes>
+    </test> <!-- TestNG -->
+
+    <test name="TestNG2">
+        <!--入参，分别为参数名和参数值-->
+        <parameter name="str" value="Test1"/>
+
+        <classes>
+            <class name="TestNGHelloWorld1">
+                <!--类中的方法-->
+                <methods>
+                    <!--执行该方法-->
+                    <include name="helloWorldTest1"/>
+                    <!--不执行该方法-->
+                    <exclude name="helloWorldTest2"/>
+                </methods>
+            </class>
+        </classes>
+
+    </test>
+</suite> 

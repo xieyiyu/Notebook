@@ -110,3 +110,14 @@ public class WosItemLine {
 6. @Slf4j: 用作日志输出，
 如果不想每次都写private  final Logger logger = LoggerFactory.getLogger(当前类名.class); 可以用注解@Slf4j
 添加@Sl4j注解后，可以使用 log.info 打印日志
+
+7. @Builder：建筑者模式，是现在比较推崇的一种构建值对象的方式。
+1. 创建一个名为ThisClassBuilder的内部静态类，并具有和实体类形同的属性（称为构建器）。
+2. 在构建器中：对于目标类中的所有的属性和未初始化的final字段，都会在构建器中创建对应属性。
+3. 在构建器中：创建一个无参的default构造函数。
+4. 在构建器中：对于实体类中的每个参数，都会对应创建类似于setter的方法，只不过方法名与该参数名相同。 并且返回值是构建器本身（便于链式调用）。
+5. 在构建器中：一个build()方法，调用此方法，就会根据设置的值进行创建实体对象。
+6. 在构建器中：同时也会生成一个toString()方法。
+7. 在实体类中：会创建一个builder()方法，它的目的是用来创建构建器。
+
+参考：https://km.sankuai.com/page/419441176
